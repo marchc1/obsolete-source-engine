@@ -286,12 +286,24 @@ private:
 
 //-----------------------------------------------------------------------------
 
-JOB_INTERFACE IThreadPool *CreateThreadPool()
+JOB_INTERFACE IThreadPool *
+#ifdef BUILD_GMOD
+V_CreateThreadPool
+#else
+CreateThreadPool
+#endif
+()
 {
 	return new CThreadPool;
 }
 
-JOB_INTERFACE void DestroyThreadPool( IThreadPool *pPool )
+JOB_INTERFACE void
+#ifdef BUILD_GMOD
+V_DestroyThreadPool
+#else
+DestroyThreadPool
+#endif
+( IThreadPool *pPool )
 {
 	delete pPool;
 }
@@ -426,7 +438,9 @@ private:
 
 				case TPM_SUSPEND:
 					Reply( true );
+					#ifndef BUILD_GMOD
 					SuspendCooperative();
+					#endif
 					break;
 
 				case TPM_RUNFUNCTOR:
@@ -573,10 +587,12 @@ int CThreadPool::SuspendExecution()
 
 		// Because worker must signal before suspending, we could reach
 		// here with the thread not actually suspended
+#ifndef BUILD_GMOD
 		for ( i = 0; i < m_Threads.Count(); i++ )
 		{
 			m_Threads[i]->BWaitForThreadSuspendCooperative();
 		}
+#endif
 	}
 
 	return m_nSuspend++;
@@ -591,10 +607,12 @@ int CThreadPool::ResumeExecution()
 	int result = m_nSuspend--;
 	if (m_nSuspend == 0 )
 	{
+#ifndef BUILD_GMOD
 		for ( int i = 0; i < m_Threads.Count(); i++ )
 		{
 			m_Threads[i]->ResumeCooperative();
 		}
+#endif
 	}
 	return result;
 }
@@ -918,6 +936,9 @@ int CThreadPool::AbortAll()
 
 bool CThreadPool::Start( const ThreadPoolStartParams_t &startParams, const char *pszName )
 {
+	if (true) // ToDo: Fix m_Threads[iThread]->Start( nStackSize ); shitting the bed
+		return false;
+
 	int nThreads = startParams.nThreads;
 
 	m_bExecOnThreadPoolThreadsOnly = startParams.bExecOnThreadPoolThreadsOnly;
@@ -1007,9 +1028,9 @@ bool CThreadPool::Start( const ThreadPoolStartParams_t &startParams, const char 
 		m_Threads[iThread] = new CJobThread( this, iThread );
 		m_IdleEvents[iThread] = &m_Threads[iThread]->GetIdleEvent();
 		m_Threads[iThread]->SetName( CFmtStr( "%s%d", pszName, iThread ) );
-		m_Threads[iThread]->Start( nStackSize );
+		m_Threads[iThread]->Start( nStackSize ); // Crash
 		m_Threads[iThread]->GetIdleEvent().Wait();
-#ifdef WIN32
+#if defined(WIN32) && !defined(BUILD_GMOD)
 		ThreadSetPriority( (ThreadHandle_t)m_Threads[iThread]->GetThreadHandle(), priority );
 #endif
 	}
@@ -1047,7 +1068,10 @@ void CThreadPool::Distribute( bool bDistribute, int *pAffinityTable )
 							iProc = ( iProc + 1 ) % nHwThreadsPer;
 						}
 					}
+
+#ifndef BUILD_GMOD
 					SetThreadIdealProcessor( (ThreadHandle_t)m_Threads[i]->GetThreadHandle(), iProc );
+#endif
 				}
 #else
 				// no affinity table, distribution is cycled across all available
@@ -1074,7 +1098,7 @@ void CThreadPool::Distribute( bool bDistribute, int *pAffinityTable )
 				// distribution is from affinity table
 				for ( int i = 0; i < m_Threads.Count(); i++ )
 				{
-#ifdef WIN32
+#if defined(WIN32) && !defined(BUILD_GMOD)
 					ThreadSetAffinity( (ThreadHandle_t)m_Threads[i]->GetThreadHandle(), pAffinityTable[i] );
 #endif
 				}
@@ -1089,7 +1113,9 @@ void CThreadPool::Distribute( bool bDistribute, int *pAffinityTable )
 		{
 			for ( int i = 0; i < m_Threads.Count(); i++ )
 			{
+#ifndef BUILD_GMOD
 				ThreadSetAffinity( (ThreadHandle_t)m_Threads[i]->GetThreadHandle(), dwProcessAffinity );
+#endif
 			}
 		}
 #endif

@@ -1267,7 +1267,7 @@ static void DumpPMC( CVProfNode *pNode, bool &bPrintHeader, uint64 L2thresh = 1,
 #endif
 
 //-------------------------------------
-
+#ifndef BUILD_GMOD
 void CVProfile::SetOutputStream( StreamOut_t outputStream )
 {
 	if ( outputStream != NULL )
@@ -1275,6 +1275,7 @@ void CVProfile::SetOutputStream( StreamOut_t outputStream )
 	else
 		m_pOutputStream = Msg;
 }
+#endif
 
 //-------------------------------------
 
@@ -1635,12 +1636,20 @@ void CVProfile::HideBudgetGroup( int budgetGroupID, bool bHide )
 	}
 }
 
+#ifdef BUILD_GMOD
+int64 *CVProfile::FindOrCreateCounter( const tchar *pName, CounterGroup_t eCounterGroup )
+#else
 int *CVProfile::FindOrCreateCounter( const tchar *pName, CounterGroup_t eCounterGroup )
+#endif
 {	
 	Assert( m_NumCounters+1 < MAXCOUNTERS );
 	if ( m_NumCounters + 1 >= MAXCOUNTERS || !InTargetThread() )
 	{
+#ifdef BUILD_GMOD
+		static int64 dummy;
+#else
 		static int dummy;
+#endif
 		return &dummy;
 	}
 	int i;
@@ -1684,13 +1693,17 @@ const tchar *CVProfile::GetCounterName( int index ) const
 	return m_CounterNames[index];
 }
 
+#ifdef BUILD_GMOD
+int64 CVProfile::GetCounterValue( int index ) const
+#else
 int CVProfile::GetCounterValue( int index ) const
+#endif
 {
 	Assert( index >= 0 && index < m_NumCounters );
 	return m_Counters[index];
 }
 
-const tchar *CVProfile::GetCounterNameAndValue( int index, int &val ) const
+const tchar *CVProfile::GetCounterNameAndValue( int index, long long &val ) const
 {
 	Assert( index >= 0 && index < m_NumCounters );
 	val = m_Counters[index];

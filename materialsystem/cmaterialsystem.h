@@ -105,8 +105,9 @@ private:
 
 	void									ThreadRelease( );
 	void									ThreadAcquire( bool bForce = false );
-
+#ifndef BUILD_GMOD
 	bool									HasShaderAPI() const;
+#endif
 
 public:
 	virtual void							SetThreadMode( MaterialThreadMode_t nextThreadMode, int nServiceThread );
@@ -484,9 +485,10 @@ public:
 
 	virtual void				AsyncFindTexture( const char* pFilename, const char *pTextureGroupName, IAsyncTextureOperationReceiver* pRecipient, void* pExtraArgs, bool bComplain = true, int nAdditionalCreationFlags = 0 ) OVERRIDE;
 	virtual ITexture*			CreateNamedTextureFromBitsEx( const char* pName, const char *pTextureGroupName, int w, int h, int mips, ImageFormat fmt, int srcBufferSize, byte* srcBits, int nFlags ) OVERRIDE;
-
+#ifndef BUILD_GMOD
 	virtual bool				AddTextureCompositorTemplate( const char* pName, KeyValues* pTmplDesc, int nTexCompositeTemplateFlags = 0 ) OVERRIDE;
 	virtual bool				VerifyTextureCompositorTemplates() OVERRIDE;
+#endif
 
 
 

@@ -1229,6 +1229,7 @@ void CBaseGameStats_Driver::ResetData()
 	pKV->SetInt( "NumCores", cpu.m_nPhysicalProcessors );
 	
 	// Capture memory stats as well.
+#ifndef BUILD_GMOD
 	MemoryInformation memInfo;
 	if ( GetMemoryInformation( &memInfo ) )
 	{
@@ -1237,6 +1238,7 @@ void CBaseGameStats_Driver::ResetData()
 		pKV->SetInt( "VirtualRamMbTotal",      memInfo.m_nVirtualRamMbTotal );
 		pKV->SetInt( "VirtualRamMbAvailable",  memInfo.m_nVirtualRamMbAvailable );
 	}
+#endif
 			
 	MaterialAdapterInfo_t gpu;
 	materials->GetDisplayAdapterInfo( materials->GetCurrentAdapter(), gpu );

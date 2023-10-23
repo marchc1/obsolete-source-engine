@@ -296,6 +296,7 @@ const tchar *Plat_GetCommandLine()
 #endif
 }
 
+#ifndef BUILD_GMOD
 bool GetMemoryInformation( MemoryInformation *pOutMemoryInfo )
 {
 	if ( !pOutMemoryInfo ) 
@@ -322,6 +323,7 @@ bool GetMemoryInformation( MemoryInformation *pOutMemoryInfo )
 
 	return true;
 }
+#endif
 
 
 const char *Plat_GetCommandLineA()
@@ -342,9 +344,12 @@ int Plat_GetWatchdogTime( void )
 {
 	return 0;
 }
+
+#ifndef BUILD_GMOD
 void Plat_SetWatchdogHandlerFunction( Plat_WatchDogHandlerFunction_t function )
 {
 }
+#endif
 
 bool Is64BitOS()
 {

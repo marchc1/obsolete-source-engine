@@ -3,6 +3,8 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
+#define BUILD_GMOD
+
 #if defined(__x86_64__) || defined(_WIN64)
 #define PLATFORM_64BITS 1
 #endif
@@ -1140,7 +1142,9 @@ struct MemoryInformation
 };
 
 // Returns true if the passed in MemoryInformation structure was filled out, otherwise false.
+#ifndef BUILD_GMOD
 PLATFORM_INTERFACE bool GetMemoryInformation( MemoryInformation *pOutMemoryInfo );
+#endif
 
 PLATFORM_INTERFACE float GetCPUUsage();
 
@@ -1548,13 +1552,14 @@ private:
 // Plat_EndWatchdogTimer more than once or when there is no active watchdog is fine. Only does anything
 // under linux right now. It should be possible to implement this functionality in windows via a
 // thread, if desired.
+#ifndef BUILD_GMOD
 PLATFORM_INTERFACE void Plat_BeginWatchdogTimer( int nSecs );
 PLATFORM_INTERFACE void Plat_EndWatchdogTimer( void );
 PLATFORM_INTERFACE int Plat_GetWatchdogTime( void );
 
 typedef void (*Plat_WatchDogHandlerFunction_t)(void);
 PLATFORM_INTERFACE void Plat_SetWatchdogHandlerFunction( Plat_WatchDogHandlerFunction_t function );
-
+#endif
 
 //-----------------------------------------------------------------------------
 

@@ -560,7 +560,9 @@ public:
 	typedef void ( __cdecl *StreamOut_t )( const char* pszFormat, ... );
 	// Set the output function used for all vprof reports. Call this with NULL
 	// to set it to the default output function.
+#ifndef BUILD_GMOD
 	void SetOutputStream( StreamOut_t outputStream );
+#endif
 	void OutputReport( int type = VPRT_FULL, const tchar *pszStartNode = NULL, int budgetGroupID = -1 );
 
 	const tchar *GetBudgetGroupName( int budgetGroupID );
@@ -576,14 +578,22 @@ public:
 	void HideBudgetGroup( int budgetGroupID, bool bHide = true );
 	void HideBudgetGroup( const char *pszName, bool bHide = true ) { HideBudgetGroup( BudgetGroupNameToBudgetGroupID( pszName), bHide ); }
 
+#ifdef BUILD_GMOD
+	int64 *FindOrCreateCounter( const tchar *pName, CounterGroup_t eCounterGroup=COUNTER_GROUP_DEFAULT  );
+#else
 	int *FindOrCreateCounter( const tchar *pName, CounterGroup_t eCounterGroup=COUNTER_GROUP_DEFAULT  );
+#endif
 	void ResetCounters( CounterGroup_t eCounterGroup );
 	
 	int GetNumCounters( void ) const;
 	
 	const tchar *GetCounterName( int index ) const;
+#ifdef BUILD_GMOD
+	int64 GetCounterValue( int index ) const;
+#else
 	int GetCounterValue( int index ) const;
-	const tchar *GetCounterNameAndValue( int index, int &val ) const;
+#endif
+	const tchar *GetCounterNameAndValue( int index, long long &val ) const;
 	CounterGroup_t GetCounterGroup( int index ) const;
 
 	// Performance monitoring events.
@@ -651,7 +661,11 @@ protected:
 	bool		m_bPMEInit;
 	bool		m_bPMEEnabled;
 
+#ifdef BUILD_GMOD
+	int64 m_Counters[MAXCOUNTERS];
+#else
 	int m_Counters[MAXCOUNTERS];
+#endif
 	char m_CounterGroups[MAXCOUNTERS]; // (These are CounterGroup_t's).
 	tchar *m_CounterNames[MAXCOUNTERS];
 	int m_NumCounters;
@@ -1313,7 +1327,11 @@ public:
 		*m_pCounter += val; 
 	}
 private:
+#ifdef BUILD_GMOD
+	int64 *m_pCounter;
+#else
 	int *m_pCounter;
+#endif
 };
 
 #endif

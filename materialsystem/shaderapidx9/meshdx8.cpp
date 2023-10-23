@@ -129,8 +129,13 @@ protected:
 
 #ifdef VPROF_ENABLED
 	int m_nVProfFrame;
+#ifdef BUILD_GMOD
+	int64	*m_pFrameCounter;
+	int64	*m_pGlobalCounter;
+#else
 	int	*m_pFrameCounter;
 	int	*m_pGlobalCounter;
+#endif
 #endif
 
 #ifdef _DEBUG

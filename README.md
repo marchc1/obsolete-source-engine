@@ -1,3 +1,18 @@
+The goal of this branch is to be able to create our own dlls that are compatible with gmod.
+
+List of currently working dlls:
+- datacache
+- icudt (IDK what it even does xd)
+- icudt42 (IDK what it even does xd)
+- vstdlist (onyl with `-noasync`)
+
+List of broken dlls:
+- launcher
+- engine
+- vgui2
+- ServerBrowser
+- vguimatsurface
+
 # Source engine
 
 ![CI](https://github.com/Source-Authors/obsolete-source-engine/actions/workflows/build.yml/badge.svg?branch=master)
@@ -13,6 +28,3 @@
 * Run `creategameprojects_debug.bat` from Developer command prompt.
 * Open `hl2.sln`
 * Build
-
-If you found a bug, please file it at
-https://github.com/Source-Authors/obsolete-source-engine/issues.

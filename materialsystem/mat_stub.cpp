@@ -1068,6 +1068,7 @@ public:
 		}
 	}
 
+#ifndef BUILD_GMOD
 	virtual void				SuspendTextureStreaming( )
 	{
 		if ( m_pRealMaterialSystem )
@@ -1079,6 +1080,7 @@ public:
 		if ( m_pRealMaterialSystem )
 			m_pRealMaterialSystem->ResumeTextureStreaming();
 	}
+#endif
 
 	// uncache all materials. .  good for forcing reload of materials.
 	virtual void				UncacheAllMaterials( )
@@ -2352,6 +2354,7 @@ public:
 		return NULL;
 	}
 
+#ifndef BUILD_GMOD
 	virtual bool				AddTextureCompositorTemplate( const char* pName, KeyValues* pTmplDesc, int nTexCompositeTemplateFlags ) OVERRIDE
 	{
 		return false;
@@ -2366,6 +2369,7 @@ public:
 	{
 		return true;
 	}
+#endif
 };
 
 

@@ -21,6 +21,7 @@
 #include "pch_tier0.h"
 #include "tier0/cpumonitoring.h"
 
+#ifndef BUILD_GMOD
 #ifdef PLATFORM_WINDOWS_PC32
 #include "tier0/threadtools.h"
 #define NOMINMAX
@@ -395,4 +396,5 @@ PLATFORM_INTERFACE void SetCPUMonitoringInterval( unsigned nDelayMilliseconds )
 	NOTE_UNUSED( nDelayMilliseconds );
 }
 
+#endif
 #endif
