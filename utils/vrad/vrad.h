@@ -29,7 +29,12 @@
 #include "UtlHash.h"
 #include "utlvector.h"
 #include "iincremental.h"
+
+#ifdef EMBREE
+#include "embree4/rtcore.h"
+#else
 #include "raytrace.h"
+#endif
 
 
 #ifdef _WIN32
@@ -176,8 +181,6 @@ struct LightingValue_t
 		m_vecLighting.Init( x, y, z );
 		m_flDirectSunAmount = 0.0;
 	}
-
-
 };
 
 
@@ -300,7 +303,13 @@ extern bool IsModelTextureShadowsForced( const char *pModelName );
 #define TRACE_ID_SKY           0x01000000  // sky face ray blocker
 #define TRACE_ID_OPAQUE        0x02000000  // everyday light blocking face
 #define TRACE_ID_STATICPROP    0x04000000  // static prop - lower bits are prop ID
+
+#ifdef EMBREE
+RTCDevice g_device = nullptr;
+RTCScene g_scene = nullptr;
+#else
 extern RayTracingEnvironment g_RtEnv;
+#endif
 
 #include "mpivrad.h"
 
