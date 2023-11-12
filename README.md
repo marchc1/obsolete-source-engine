@@ -1,10 +1,13 @@
 The goal of this branch is to be able to create our own dlls that are compatible with gmod.
 
 List of currently working dlls:
-- datacache
-- icudt (IDK what it even does xd)
-- icudt42 (IDK what it even does xd)
-- vstdlist (onyl with `-noasync`)
+- datacache.dll
+- icudt.dll (IDK what it even does xd)
+- icudt42.dll (IDK what it even does xd)
+- vstdlist.dll (only with `-noasync`)
+- vvis_dll.dll (50% faster than Gmod's version. Compile it in Release for the Performance)
+- vvis.exe
+- vrad.exe
 
 List of broken dlls:
 - launcher
