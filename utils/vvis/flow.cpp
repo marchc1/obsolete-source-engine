@@ -201,12 +201,23 @@ winding_t	*ChopWinding (winding_t *in, pstack_t *stack, plane_t *split)
 		dot = dists[i] / (dists[i]-dists[i+1]);
 		for (j=0 ; j<3 ; j++)
 		{	// avoid round off error when possible
-			if (split->normal[j] == 1)
+			switch ((int)split->normal[j])
+			{
+				case 1:
+					mid[j] = split->dist;
+					break;
+				case -1:
+					mid[j] = -split->dist;
+					break;
+				default:
+					mid[j] = p1[j] + dot*(p2[j]-p1[j]);
+			}
+			/*if (split->normal[j] == 1)
 				mid[j] = split->dist;
 			else if (split->normal[j] == -1)
 				mid[j] = -split->dist;
 			else
-				mid[j] = p1[j] + dot*(p2[j]-p1[j]);
+				mid[j] = p1[j] + dot*(p2[j]-p1[j]);*/
 		}
 			
 		VectorCopy (mid, neww->points[neww->numpoints]);
@@ -249,9 +260,10 @@ winding_t	*ClipToSeperators (winding_t *source, winding_t *pass, winding_t *targ
 	int			counts[3];
 	bool		fliptest;
 	Vector point, j_point;
+	int points = source->numpoints;
 
 // check all combinations	
-	for (i=0 ; i<source->numpoints ; i++)
+	for (i=0 ; i<source->numpoints ; ++i)
 	{
 		l = (i+1)%source->numpoints;
 		point = source->points[i];
@@ -260,7 +272,7 @@ winding_t	*ClipToSeperators (winding_t *source, winding_t *pass, winding_t *targ
 	// fing a vertex of pass that makes a plane that puts all of the
 	// vertexes of pass on the front side and all of the vertexes of
 	// source on the back side
-		for (j=0 ; j<pass->numpoints ; j++)
+		for (j=0 ; j<pass->numpoints ; ++j)
 		{
 			j_point = pass->points[j];
 			VectorSubtract (j_point, point, v2);
@@ -269,7 +281,7 @@ winding_t	*ClipToSeperators (winding_t *source, winding_t *pass, winding_t *targ
 			plane.normal[1] = v1[2]*v2[0] - v1[0]*v2[2];
 			plane.normal[2] = v1[0]*v2[1] - v1[1]*v2[0];
 			
-		// if points don't make a valid plane, skip it
+			// if points don't make a valid plane, skip it
 
 			length = plane.normal[0] * plane.normal[0]
 			+ plane.normal[1] * plane.normal[1]
@@ -292,7 +304,7 @@ winding_t	*ClipToSeperators (winding_t *source, winding_t *pass, winding_t *targ
 		//
 #if 1
 			fliptest = false;
-			for (k=0 ; k<source->numpoints ; k++)
+			for (k=0 ; k<source->numpoints ; ++k)
 			{
 				if (k == i || k == l)
 					continue;
@@ -329,7 +341,7 @@ winding_t	*ClipToSeperators (winding_t *source, winding_t *pass, winding_t *targ
 		// this is the seperating plane
 		//
 			counts[0] = counts[1] = counts[2] = 0;
-			for (k=0 ; k<pass->numpoints ; k++)
+			for (k=0 ; k<pass->numpoints ; ++k)
 			{
 				if (k==j)
 					continue;
@@ -490,7 +502,7 @@ void RecursiveLeafFlow (int leafnum, threaddata_t *thread, pstack_t *prevstack)
 	plane_t		backplane;
 	leaf_t 		*leaf;
 	int			i, j;
-	long		*test, *might, *vis, more, *mightsee;
+	long		*test, *might, *vis, more, *mightsee, might_val;
 	int			pnum;
 	byte		*b_mightsee, *portalvis;
 
@@ -545,8 +557,9 @@ void RecursiveLeafFlow (int leafnum, threaddata_t *thread, pstack_t *prevstack)
 		more = 0;
 		for (j=0 ; j<portallongs ; j++)
 		{
-			might[j] = (mightsee)[j] & test[j];
-			more |= (might[j] & ~vis[j]);
+			might_val = (mightsee)[j] & test[j];
+			might[j] = might_val;
+			more |= (might_val & ~vis[j]);
 		}
 		
 		if ( !more && CheckBit( portalvis, pnum ) )
@@ -890,5 +903,3 @@ void BetterPortalVis (int portalnum)
 	p->nummightsee = CountBits (p->portalvis, g_numportals*2);
 	c_vis += p->nummightsee;
 }
-
-
