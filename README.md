@@ -5,7 +5,7 @@ List of currently working dlls:
 - icudt.dll (IDK what it even does xd)
 - icudt42.dll (IDK what it even does xd)
 - vstdlist.dll (only with `-noasync`)
-- vvis_dll.dll (50% faster than Gmod's version. Compile it in Release for the Performance)
+- vvis_dll.dll (~40% faster than Gmod's version. Compile it in Release for the Performance)
 - vvis.exe
 - vrad.exe
 
