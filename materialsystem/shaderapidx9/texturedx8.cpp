@@ -392,9 +392,9 @@ void DestroyD3DTexture( IDirect3DBaseTexture* pD3DTex )
 #endif
 
 #if !defined( _X360 )
-		CMatRenderContextPtr pRenderContext( materials );
+		/*CMatRenderContextPtr pRenderContext( materials ); // ToDo: VTable of CMatRenderContextPtr is shit?
 		ICallQueue *pCallQueue;
-		if ( ( pCallQueue = pRenderContext->GetCallQueue() ) != NULL )
+		if ( ( pCallQueue = pRenderContext->GetCallQueue() ) != NULL)
 		{
 			pCallQueue->QueueCall( ReleaseD3DTexture, pD3DTex );
 		}
@@ -402,6 +402,7 @@ void DestroyD3DTexture( IDirect3DBaseTexture* pD3DTex )
 		{
 			ReleaseD3DTexture( pD3DTex );
 		}
+		*/
 #else
 		g_TextureHeap.FreeTexture( pD3DTex );
 #endif
@@ -1363,11 +1364,15 @@ void LoadTextureFromVTF( TextureLoadInfo_t &info, IVTFTexture* pVTF, int iVTFFra
 	// Get the clamped resolutions from the VTF, then apply any clamping we've done from the higher level code.
 	// (For example, we chop off the bottom of the mipmap pyramid at 32x32--that is reflected in iMipCount, so 
 	// honor that here).
+#ifdef BUILD_GMOD
+	int finest = iMipCount - 1, coarsest = iMipCount - 1;
+#else
 	int finest = 0, coarsest = 0;
 	pVTF->GetMipmapRange( &finest, &coarsest );
 	finest = Min( finest, iMipCount - 1 );
 	coarsest = Min( coarsest, iMipCount - 1 );
 	Assert( finest <= coarsest && coarsest < iMipCount );
+#endif
 
 	{
 		tmZone( TELEMETRY_LEVEL0, TMZF_NONE, "%s - BlitTextureBits", __FUNCTION__ );
