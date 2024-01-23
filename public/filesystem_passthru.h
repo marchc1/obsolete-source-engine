@@ -122,7 +122,9 @@ public:
 	virtual void			FindClose( FileFindHandle_t handle )												{ m_pFileSystemPassThru->FindClose( handle ); }
 	virtual const char		*GetLocalPath( const char *pFileName, OUT_Z_CAP(maxLenInChars) char *pDest, int maxLenInChars )	{ return m_pFileSystemPassThru->GetLocalPath( pFileName, pDest, maxLenInChars ); }
 	virtual bool			FullPathToRelativePath( const char *pFullpath, OUT_Z_CAP(maxLenInChars) char *pDest, int maxLenInChars )		{ return m_pFileSystemPassThru->FullPathToRelativePath( pFullpath, pDest, maxLenInChars ); }
+#ifndef BUILD_GMOD
 	virtual bool			GetCaseCorrectFullPath_Ptr( const char *pFullPath, OUT_Z_CAP(maxLenInChars) char *pDest, int maxLenInChars ) { return m_pFileSystemPassThru->GetCaseCorrectFullPath_Ptr( pFullPath, pDest, maxLenInChars ); }
+#endif
 	virtual bool			GetCurrentDirectory( char* pDirectory, int maxlen )									{ return m_pFileSystemPassThru->GetCurrentDirectory( pDirectory, maxlen ); }
 	virtual void			PrintOpenedFiles( void )															{ m_pFileSystemPassThru->PrintOpenedFiles(); }
 	virtual void			PrintSearchPaths( void )															{ m_pFileSystemPassThru->PrintSearchPaths(); }
@@ -248,6 +250,20 @@ public:
 	virtual void			NotifyFileUnloaded( const char *pszFilename, const char *pPathId ) OVERRIDE
 		{ m_pFileSystemPassThru->NotifyFileUnloaded( pszFilename, pPathId ); }
 
+#ifdef BUILD_GMOD
+	virtual void RemoveSearchPathsByGroup( int group ) OVERRIDE { m_pFileSystemPassThru->RemoveSearchPathsByGroup( group ); }
+	virtual void SetGet( IGet *get ) OVERRIDE { m_pFileSystemPassThru->SetGet( get ); }
+	virtual Addon::FileSystem *Addons( ) OVERRIDE { return m_pFileSystemPassThru->Addons( ); }
+	virtual Gamemode::System *Gamemodes( ) OVERRIDE { return m_pFileSystemPassThru->Gamemodes( ); }
+	virtual GameDepot::System *Games( ) OVERRIDE { return m_pFileSystemPassThru->Games( ); }
+	virtual LegacyAddons::System *LegacyAddons( ) OVERRIDE { return m_pFileSystemPassThru->LegacyAddons( ); }
+	virtual CLanguage *Language( ) OVERRIDE { return m_pFileSystemPassThru->Language( ); }
+	virtual void DoFilesystemRefresh( ) OVERRIDE { m_pFileSystemPassThru->DoFilesystemRefresh( ); }
+	virtual int LastFilesystemRefresh( ) OVERRIDE { return m_pFileSystemPassThru->LastFilesystemRefresh( ); }
+	virtual void AddVPKFileFromPath( const char *a, const char *b, unsigned int c ) OVERRIDE { m_pFileSystemPassThru->AddVPKFileFromPath( a, b, c ); }
+	virtual void GMOD_SetupDefaultPaths( const char *a, const char *b ) OVERRIDE { m_pFileSystemPassThru->GMOD_SetupDefaultPaths( a, b ); }
+	virtual void GMOD_FixPathCase( char *a, size_t b ) OVERRIDE { m_pFileSystemPassThru->GMOD_FixPathCase( a, b ); }
+#endif
 protected:
 	IFileSystem *m_pFileSystemPassThru;
 };

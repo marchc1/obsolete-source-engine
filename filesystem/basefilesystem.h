@@ -290,7 +290,9 @@ public:
 	// path info
 	virtual const char			*GetLocalPath( const char *pFileName, OUT_Z_CAP(maxLenInChars) char *pDest, int maxLenInChars );
 	virtual bool				FullPathToRelativePath( const char *pFullpath, OUT_Z_CAP(maxLenInChars) char *pDest, int maxLenInChars );
+#ifndef BUILD_GMOD
 	virtual bool				GetCaseCorrectFullPath_Ptr( const char *pFullPath, OUT_Z_CAP(maxLenInChars) char *pDest, int maxLenInChars );
+#endif
 
 	// removes a file from disk
 	virtual void				RemoveFile( char const* pRelativePath, const char *pathID );

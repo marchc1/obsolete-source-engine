@@ -551,7 +551,7 @@ FILE *CBaseFileSystem::Trace_FOpen( const char *filenameT, const char *options, 
 	char filename[MAX_PATH];
 
 	FixUpPath ( filenameT, filename, sizeof( filename ) );
-
+	Msg("File: %s\n", filename);
 	FILE *fp = FS_fopen( filename, options, flags, size );
 
 	if ( fp )
@@ -1311,22 +1311,22 @@ void CBaseFileSystem::PrintSearchPaths( void )
 		const char *pszType = "";
 		if ( pSearchPath->GetPackFile() && pSearchPath->GetPackFile()->m_bIsMapPath )
 		{
-			pszType = "(map)";
+			pszType = " (map)";
 		}
 		else if ( pSearchPath->GetPackFile()  )
 		{
-			pszType = "(pack) ";
+			pszType = " (pack)";
 			pszPack = pSearchPath->GetPackFile()->m_ZipName;
 		}
 		#ifdef SUPPORT_PACKED_STORE
 			else if ( pSearchPath->GetPackedStore()  )
 			{
-				pszType = "(VPK)";
+				pszType = " (VPK)";
 				pszPack = pSearchPath->GetPackedStore()->FullPathName();
 			}
 		#endif
 
-		Msg( "\"%s\" \"%s\" %s%s\n", pSearchPath->GetPathString(), (const char *)pSearchPath->GetPathIDString(), pszType, pszPack );
+		Msg( "\"%s\" \"%s\" %s%s\n", pSearchPath->GetPathString(), (const char *)pSearchPath->GetPathIDString(), pszPack, pszType );
 	}
 
 	if ( IsX360() && m_ExcludePaths.Count() )
@@ -4293,6 +4293,8 @@ const char *CBaseFileSystem::RelativePathToFullPath( const char *pFileName, cons
 		*pPathType = PATH_IS_NORMAL;
 	}
 
+	Msg("RelativePathToFullPath called %s %s\n", pFileName, pPathID);
+
 	// Convert filename to lowercase.  All files in the
 	// game logical filesystem must be accessed by lowercase name
 	char szLowercaseFilename[ MAX_PATH ];
@@ -4492,6 +4494,7 @@ bool CBaseFileSystem::FullPathToRelativePath( const char *pFullPath, OUT_Z_CAP(m
 //-----------------------------------------------------------------------------
 // Returns true on successfully retrieve case-sensitive full path, otherwise false
 //-----------------------------------------------------------------------------
+#ifndef BUILD_GMOD
 bool CBaseFileSystem::GetCaseCorrectFullPath_Ptr( const char *pFullPath, OUT_Z_CAP(maxLenInChars) char *pDest, int maxLenInChars )
 {
 	CHECK_DOUBLE_SLASHES( pFullPath );
@@ -4555,6 +4558,7 @@ bool CBaseFileSystem::GetCaseCorrectFullPath_Ptr( const char *pFullPath, OUT_Z_C
 	return bResult;
 #endif // _WIN32
 }
+#endif
 
 
 
