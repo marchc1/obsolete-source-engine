@@ -1307,6 +1307,7 @@ public:
 	static void Sleep( unsigned duration );
 
 protected:
+#ifndef BUILD_GMOD // These exist in OSX
 	// Optional pre-run call, with ability to fail-create. Note Init()
 	// is forced synchronous with Start()
 	virtual bool Init();
@@ -1317,6 +1318,7 @@ protected:
 
 	// Called when the thread is about to exit, by the about-to-exit thread.
 	virtual void OnExit();
+#endif
 
 	// Called after OnExit when a thread finishes or is killed. Not virtual because no inherited classes
 	// override it and we don't want to change the vtable from the published SDK version.
