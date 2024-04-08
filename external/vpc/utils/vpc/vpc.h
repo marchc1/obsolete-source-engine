@@ -3,6 +3,10 @@
 #ifndef VPC_VPC_H_
 #define VPC_VPC_H_
 
+#ifndef _WIN32 // Workaround to fix vpc for Linux. Look later into it why tier1/strtools fail (inside tier1/fmtstr.h).
+#define Q_snprintf V_snprintf
+#endif
+
 #include "tier1/utlstring.h"
 #include "tier1/utlrbtree.h"
 #include "tier1/utlvector.h"
