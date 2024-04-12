@@ -2589,7 +2589,7 @@ void CVideoMode_MaterialSystem::ChangeDisplaySettingsToFullscreen( int nWidth, i
         dm.dmFields |= DM_DISPLAYFREQUENCY;
     }
 
-#if defined(IS_WINDOWS_PC)
+#if defined(IS_WINDOWS_PC) && !defined(BUILD_GMOD)
 	DEVMODE dmCurrent;
 	if ( EnumDisplaySettings( materials->GetDisplayDeviceName(), ENUM_CURRENT_SETTINGS, &dmCurrent ) &&
 		 dmCurrent.dmBitsPerPel == dm.dmBitsPerPel &&
@@ -2609,7 +2609,9 @@ void CVideoMode_MaterialSystem::ChangeDisplaySettingsToFullscreen( int nWidth, i
 	m_nLastCDSBPP = nBPP;
 	m_nLastCDSFreq = freq;
 
+#ifndef BUILD_GMOD
     ChangeDisplaySettingsEx( materials->GetDisplayDeviceName(),  &dm, NULL, CDS_FULLSCREEN, NULL );
+#endif
 #elif defined( USE_SDL )
 	g_pLauncherMgr->SetWindowFullScreen( true, nWidth, nHeight );
 #else
