@@ -1,16 +1,29 @@
 The goal of this branch is to be able to create our own dlls that are compatible with gmod.
 
+List of dlls that are worked on:
+- `filesystem_stdio.dll`
+Progress:  
+- [x] Implementing basic Gmod functions  
+- [x] Implement Language System  
+- [x] Implement Gamemode System  
+- [ ] Implement GameDepot System
+- [ ] Implement Addon System
+- - [x] Implement GetSubscriptions  
+- - [ ] Implement `cfg/addonnomount.txt` (BUG: Crashes when Saved)  
+- - [ ] Implement Addon Mounting  
+- - [ ] Implement Addon Download  
+
 List of currently working dlls:
-- datacache.dll
-- shaderapidx9.dll (Needs further testing)
-- icudt.dll (IDK what it even does xd)
-- icudt42.dll (IDK what it even does xd)
-- unicode.dll
-- vstdlist.dll (only with `-noasync`)
-- vvis_dll.dll (~40% faster than Gmod's version. Compile it in Release for the Performance benefit)
-- vvis.exe
-- vrad.exe
-- vphysics.dll (Also, fixes ShouldCollide breaking the physics engine)
+- `datacache.dll`
+- `shaderapidx9.dll` (Needs further testing)
+- `icudt.dll` (IDK what it even does xd)
+- `icudt42.dll` (IDK what it even does xd)
+- `unicode.dll`
+- `vstdlist.dll` (only with `-noasync`)
+- `vvis_dll.dll` (~40% faster than Gmod's version. Compile it in Release for the Performance benefit)
+- `vvis.exe`
+- `vrad.exe`
+- `vphysics.dll` (Also, fixes ShouldCollide breaking the physics engine)
 
 List of broken dlls:
 - launcher
