@@ -8861,9 +8861,11 @@ void CShaderAPIDx8::CopyRenderTargetToScratchTexture( ShaderAPITextureHandle_t s
 	dstSurf->Release();
 }
 
+#ifdef BUILD_GMOD
 void CShaderAPIDx8::GMOD_ForceFilterMode(bool, int)
 {
 }
+#endif
 
 //-------------------------------------------------------------------------
 // Allows locking and unlocking of very specific surface types. pOutBits and pOutPitch will not be touched if 
@@ -9084,9 +9086,11 @@ void CShaderAPIDx8::CopyTextureToTexture( ShaderAPITextureHandle_t srcTex, Shade
 }
 #endif
 
+#ifdef BUILD_GMOD
 void CShaderAPIDx8::GMOD_SamplerBorderClamp(Sampler_t)
 {
 }
+#endif
 
 void CShaderAPIDx8::CopyRenderTargetToTexture( ShaderAPITextureHandle_t textureHandle )
 {
