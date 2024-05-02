@@ -821,7 +821,7 @@ void CSteam3Server::NotifyClientDisconnect( CBaseClient *client )
 	// directly to the SourceTV port.
 	if ( client->m_SteamID.GetEAccountType() == k_EAccountTypeAnonGameServer )
 	{
-		SteamGameServer()->SendUserDisconnect( client->m_SteamID );
+		SteamGameServer()->SendUserDisconnect_DEPRECATED( client->m_SteamID );
 
 		// Clear the steam ID, as it was a dummy one that should not be used again
 		client->m_SteamID = CSteamID();
@@ -939,7 +939,7 @@ void CSteam3Server::SendUpdatedServerDetails()
 			if ( cl->m_SteamID.IsValid() )
 			{
 				Assert( cl->m_SteamID.BAnonGameServerAccount() );
-				SteamGameServer()->SendUserDisconnect( cl->m_SteamID );
+				SteamGameServer()->SendUserDisconnect_DEPRECATED( cl->m_SteamID );
 				cl->m_SteamID = CSteamID();
 			}
 		}
@@ -1023,7 +1023,7 @@ void Heartbeat_f()
 
 	if( Steam3Server().SteamGameServer() )
 	{
-		Steam3Server().SteamGameServer()->ForceHeartbeat();
+		Steam3Server().SteamGameServer()->ForceMasterServerHeartbeat_DEPRECATED();
 	}
 }
 

@@ -128,7 +128,7 @@ void CBenchmarkResults::Upload()
 #ifndef SWDS
 	if ( !m_szFilename[0] || !Steam3Client().SteamUtils() )
 		return;
-	uint32 cserIP = 0;
+	/*uint32 cserIP = 0;
 	uint16 cserPort = 0;
 	while ( cserIP == 0 )
 	{
@@ -148,7 +148,7 @@ void CBenchmarkResults::Upload()
 		UploadData( netadr_CserIP.ToString(), "benchmark", kv );
 	}
 
-	kv->deleteThis();
+	kv->deleteThis();*/
 #endif
 }
 

@@ -188,9 +188,9 @@ public:
 	virtual unsigned GetCurrentAdapter() const;
 	virtual void EnableNonInteractiveMode( MaterialNonInteractiveMode_t mode, ShaderNonInteractiveInfo_t *pInfo = NULL );
 	virtual void RefreshFrontBufferNonInteractive();
-#ifndef BUILD_GMOD
+//#ifndef BUILD_GMOD // We still need it.
 	virtual char *GetDisplayDeviceName() OVERRIDE; 
-#endif
+//#endif
 
 	// Alternative method for ib/vs
 	// NOTE: If this works, remove GetDynamicVertexBuffer/IndexBuffer

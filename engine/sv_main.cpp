@@ -1686,7 +1686,7 @@ void CGameServer::SetHibernating( bool bHibernating )
 		Steam3Server().SendUpdatedServerDetails();
 		if ( Steam3Server().SteamGameServer() )
 		{
-			Steam3Server().SteamGameServer()->ForceHeartbeat();
+			Steam3Server().SteamGameServer()->ForceMasterServerHeartbeat_DEPRECATED();
 		}
 	}
 }
@@ -2272,7 +2272,7 @@ bool SV_ActivateServer()
 	Steam3Server().SendUpdatedServerDetails();
 	if ( Steam3Server().SteamGameServer() )
 	{
-		Steam3Server().SteamGameServer()->ForceHeartbeat();
+		Steam3Server().SteamGameServer()->ForceMasterServerHeartbeat_DEPRECATED();
 	}
 
 	COM_TimestampedLog( "SV_ActivateServer(finished)" );
