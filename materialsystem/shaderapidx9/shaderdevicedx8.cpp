@@ -1846,7 +1846,6 @@ unsigned CShaderDeviceDx8::GetCurrentAdapter() const
 //-----------------------------------------------------------------------------
 // Returns the current adapter in use
 //-----------------------------------------------------------------------------
-#ifndef BUILD_GMOD
 char *CShaderDeviceDx8::GetDisplayDeviceName() 
 {
 	if( m_sDisplayDeviceName.IsEmpty() )
@@ -1865,7 +1864,6 @@ char *CShaderDeviceDx8::GetDisplayDeviceName()
 	}
 	return m_sDisplayDeviceName.Get();
 }
-#endif
 
 //-----------------------------------------------------------------------------
 // Use this to spew information about the 3D layer 
