@@ -478,12 +478,10 @@ void CMaterialSystem::SetShaderAPI( char const *pShaderAPIDLL )
 //-----------------------------------------------------------------------------
 // Checks we using shader.
 //-----------------------------------------------------------------------------
-#ifndef BUILD_GMOD
 bool CMaterialSystem::HasShaderAPI() const
 {
 	return m_ShaderAPIFactory != nullptr;
 }
-#endif
 	
 
 //-----------------------------------------------------------------------------
@@ -842,12 +840,11 @@ unsigned CMaterialSystem::GetCurrentAdapter() const
 //-----------------------------------------------------------------------------
 // Returns the device name for the current adapter
 //-----------------------------------------------------------------------------
-//#ifndef BUILD_GMOD
 char *CMaterialSystem::GetDisplayDeviceName() const 
 {
 	return g_pShaderDevice->GetDisplayDeviceName();
 }
-//#endif
+
 
 //-----------------------------------------------------------------------------
 // 
@@ -4489,7 +4486,6 @@ ITexture *CMaterialSystem::CreateNamedTextureFromBitsEx( const char* pName, cons
 	return tex;
 }
 
-#ifndef BUILD_GMOD
 bool CMaterialSystem::AddTextureCompositorTemplate( const char* pName, KeyValues* pTmplDesc, int /* nTexCompositeTemplateFlags */ )
 {
 	// Flags are currently unused, but added for futureproofing.
@@ -4500,7 +4496,6 @@ bool CMaterialSystem::VerifyTextureCompositorTemplates()
 {
 	return TextureManager()->VerifyTextureCompositorTemplates();
 }
-#endif
 
 
 void CMaterialSystem::BeginRenderTargetAllocation( void )
@@ -4714,9 +4709,7 @@ MaterialLock_t CMaterialSystem::Lock()
 		}
 	}
 
-#ifndef BUILD_GMOD
 	g_pShaderAPI->ShaderLock();
-#endif
 
 	if ( do_report )
 	{
@@ -4748,10 +4741,7 @@ void CMaterialSystem::Unlock( MaterialLock_t hMaterialLock )
 
 	IMatRenderContextInternal *pRenderContext = (IMatRenderContextInternal *)hMaterialLock;
 	m_pRenderContext.Set( pRenderContext );
-
-#ifndef BUILD_GMOD
 	g_pShaderAPI->ShaderUnlock();
-#endif
 
 #ifdef MAT_QUEUE_MODE_PROFILE
 	if ( m_ThreadMode == MATERIAL_QUEUED_SINGLE_THREADED )
@@ -4760,7 +4750,7 @@ void CMaterialSystem::Unlock( MaterialLock_t hMaterialLock )
 	}
 	else 
 #endif
-	if ( m_ThreadMode == MATERIAL_QUEUED_THREADED )
+		if ( m_ThreadMode == MATERIAL_QUEUED_THREADED )
 	{
 		if ( pRenderContext->GetCallQueueInternal() )
 		{
