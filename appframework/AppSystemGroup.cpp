@@ -176,7 +176,6 @@ void CAppSystemGroup::ReportStartupFailure( int nErrorStage, int nSysIndex )
 	}
 		 
 	// Walk the dictionary
-	__debugbreak();
 	Warning( "System (%s) failed during stage %s\n", pszSystemName, pszStageDesc );
 }
 

@@ -133,8 +133,7 @@ const char * WINAPI GetDllVersion( void );
 #pragma comment( lib, "delayimp" )
 
 #pragma comment ( lib, "../../dx10sdk/lib/x86/d3dx10" )
-#include "../../dx9sdk/include/d3dx9.h"
-#include <d3d10shader.h>
+#include "../../dx10sdk/include/d3dx10.h"
 
 typedef D3D10_SHADER_MACRO D3DXMACRO;
 typedef LPD3D10INCLUDE LPD3DXINCLUDE;

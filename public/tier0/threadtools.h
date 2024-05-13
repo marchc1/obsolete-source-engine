@@ -755,7 +755,7 @@ public:
 #endif
 	void Unlock() volatile
 	{
-#if defined(_DEBUG) && !defined(BUILD_GMOD)
+#ifdef _DEBUG
 		if ( m_ownerID != ThreadGetCurrentId() )
 			DebuggerBreak();
 
@@ -1237,11 +1237,11 @@ public:
 	// is no longer alive.
 	bool Join( unsigned timeout = TT_INFINITE );
 
-#if defined(_WIN32) && !defined(BUILD_GMOD)
+#ifdef _WIN32
 	// Access the thread handle directly
 	HANDLE GetThreadHandle();
 	uint GetThreadId();
-#elif defined( LINUX ) || defined(BUILD_GMOD)
+#elif defined( LINUX )
 	uint GetThreadId();
 #endif
 
@@ -1262,7 +1262,6 @@ public:
 	// Set the priority
 	bool SetPriority( int );
 
-#ifndef BUILD_GMOD
 	// Request a thread to suspend, this must ONLY be called from the thread itself, not the main thread
 	// This suspend variant causes the thread in question to suspend at a known point in its execution
 	// which means you don't risk the global deadlocks/hangs potentially caused by the raw Suspend() call
@@ -1273,7 +1272,6 @@ public:
 
 	// wait for a thread to execute its SuspendCooperative call 
 	void BWaitForThreadSuspendCooperative();
-#endif
 
 #ifndef LINUX
 	// forcefully Suspend a thread
@@ -1307,7 +1305,7 @@ public:
 	static void Sleep( unsigned duration );
 
 protected:
-#ifndef BUILD_GMOD // These exist in OSX
+
 	// Optional pre-run call, with ability to fail-create. Note Init()
 	// is forced synchronous with Start()
 	virtual bool Init();
@@ -1318,7 +1316,6 @@ protected:
 
 	// Called when the thread is about to exit, by the about-to-exit thread.
 	virtual void OnExit();
-#endif
 
 	// Called after OnExit when a thread finishes or is killed. Not virtual because no inherited classes
 	// override it and we don't want to change the vtable from the published SDK version.
@@ -1366,7 +1363,11 @@ private:
 #elif defined(POSIX)
 	pthread_t m_threadId;
 #endif
+	MSVC_BEGIN_WARNING_OVERRIDE_SCOPE()
+  // DLL export looks safe.
+	MSVC_DISABLE_WARNING(4251)
 	CInterlockedInt m_nSuspendCount;
+	MSVC_END_WARNING_OVERRIDE_SCOPE()
 	CThreadEvent m_SuspendEvent;
 	CThreadEvent m_SuspendEventSignal;
 	int		m_result;

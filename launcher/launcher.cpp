@@ -82,11 +82,7 @@ int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uTy
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-#ifdef BUILD_GMOD
-#define DEFAULT_HL2_GAMEDIR	"garrysmod"
-#else
 #define DEFAULT_HL2_GAMEDIR	"hl2"
-#endif
 
 #if defined( USE_SDL )
 extern void* CreateSDLMgr();
@@ -602,13 +598,11 @@ bool CSourceAppSystemGroup::Create()
 
 
 	// This will be NULL for games that don't support VR. That's ok. Just don't load the DLL
-#ifndef BUILD_GMOD
 	AppModule_t sourceVRModule = LoadModule( "sourcevr" DLL_EXT_STRING );
 	if( sourceVRModule != APP_MODULE_INVALID )
 	{
 		AddSystem( sourceVRModule, SOURCE_VIRTUAL_REALITY_INTERFACE_VERSION );
 	}
-#endif
 
 	// pull in our filesystem dll to pull the queued loader from it, we need to do it this way due to the 
 	// steam/stdio split for our steam filesystem
@@ -675,13 +669,11 @@ bool CSourceAppSystemGroup::Create()
 	}
 	pMaterialSystem->SetShaderAPI( pDLLName );
 	// dimhotepus: Detect missed shader API.
-#ifndef BUILD_GMOD
 	if ( !pMaterialSystem->HasShaderAPI() )
 	{
 		Error("Please check game installed correctly.\n\n"
 			"Unable to set shader API %s. Looks like required components are missed or broken.", pDLLName );
 	}
-#endif
 
 	double elapsed = Plat_FloatTime() - st;
 	COM_TimestampedLog( "CSourceAppSystemGroup::Create:  Took %.4f secs to load libraries and get factories.", (float)elapsed );
@@ -1042,7 +1034,6 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
 	// Hook the debug output stuff.
 	SpewOutputFunc( LauncherDefaultSpewFunc );
 
-#ifndef BUILD_GMOD
 	if ( !IsWindows10OrGreater() )
 	{
 		Error( "Sorry, Windows 10+ required to run the game." );
@@ -1057,7 +1048,6 @@ DLL_EXPORT int LauncherMain( int argc, char **argv )
 		Warning( "Unable to set Windows timer resolution to %lld ms. Will use default one.",
 			(long long)newTimerResolution.count() );
 	}
-#endif
 
 	// dimhotepus: Remove Plat_VerifyHardwareKeyPrompt call as it is empty.
 
