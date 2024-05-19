@@ -31,6 +31,8 @@ class IClientEntity;
 class CHudTexture;
 class CGameTrace;
 class C_BaseEntity;
+class C_BaseAnimating;
+class CPhysCollide;
 
 struct Ray_t;
 struct client_textmessage_t;
@@ -177,5 +179,13 @@ int UTIL_GetMapKeyCount( const char *pszCustomKey );
 
 // Returns true if the user has loaded any maps, false otherwise.
 bool UTIL_HasLoadedAnyMap();
+
+// SetModelScale being clientside broken fix
+// Returns the given CPhysCollide for the given model index and scale. If not found it will create it.
+CPhysCollide* UTIL_GetScaledPhysCollide( C_BaseAnimating *ent, int modelIndex, float scale );
+
+// Frees the given CPhysCollide if the internal reference count reaches 0.
+// NOTE: Only supports CPhysCollide created by UTIL_GetScaledPhysCollide!
+void UTIL_RemoveScaledPhysCollide( CPhysCollide *physCollide );
 
 #endif // !UTIL_H
