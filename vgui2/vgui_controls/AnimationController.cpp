@@ -329,7 +329,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 
 		// get the open brace or a conditional
 		pMem = ParseFile(pMem, token, NULL);
-		if ( Q_stristr( token, "[$" ) )
+		if ( Q_stristr( token, "[$" ) || Q_stristr( token, "[!$" ) )
 		{
 			bAccepted = EvaluateConditional( token );
 
@@ -654,7 +654,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 			
 			// Look ahead one token for a conditional
 			char *peek = ParseFile(pMem, token, NULL);
-			if ( Q_stristr( token, "[$" ) )
+			if ( Q_stristr( token, "[$" ) || Q_stristr( token, "[!$" ) )
 			{
 				if ( !EvaluateConditional( token ) )
 				{
