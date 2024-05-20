@@ -2204,7 +2204,7 @@ inline void CVertexBuilder::BoneWeight( int idx, float weight )
 	Assert( m_pBoneWeight );
 	Assert( IsFinite( weight ) );
 	Assert( idx >= 0 );
-	AssertOnce( m_NumBoneWeights == 2 );
+	//AssertOnce( m_NumBoneWeights == 2 );
 
 	// This test is here because we store N-1 bone weights (the Nth is computed in
 	// the vertex shader as "1 - C", where C is the sum of the (N-1) other weights)

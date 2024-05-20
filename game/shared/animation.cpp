@@ -316,7 +316,7 @@ int CStudioHdr::CActivityToSequenceMapping::SelectWeightedSequence( CStudioHdr *
 	}
 	else
 	{
-		randomValue = RandomInt( 0, weighttotal - 1 );
+		randomValue = weighttotal > 0 ? RandomInt( 0, weighttotal - 1 ) : 0;
 	}
 
 	// chug through the entries in the list (they are sequential therefore cache-coherent)
