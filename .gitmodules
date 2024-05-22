@@ -34,3 +34,6 @@
 	path = ivp
 	url = https://github.com/RaphaelIT7/source-physics.git
 	branch = "gmod"
+[submodule "gmod-audio"]
+	path = gmod-audio
+	url = https://github.com/RaphaelIT7/gmod-audio
