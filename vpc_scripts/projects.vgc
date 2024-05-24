@@ -1438,3 +1438,8 @@ $Project "bootil"
 {
 	"bootil\bootil.vpc"
 }
+
+$Project "menusystem"
+{
+	"menusystem\menusystem.vpc"
+}
