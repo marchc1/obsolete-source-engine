@@ -57,6 +57,7 @@ $Group "ShaderCompile"
 	"vmpi"
 	"vstdlib"
 	"coroutine_osx"
+	"bootil"
 }
 
 $Group "physics"
@@ -115,6 +116,7 @@ $Group "console"
 	"vstdlib"
 	"vtf"
 	"coroutine_osx"
+	"bootil"
 }
 
 $Group "game"
@@ -196,6 +198,7 @@ $Group "game"
 	"vtf"
 	"coroutine_osx"
 	"gmod-audio"
+	"bootil"
 }
 
 $Group "everything"
@@ -459,6 +462,7 @@ $Group "everything"
 //	"vs_python2.5"
 //	"vslib_python2.5"
 	"gmod-audio"
+	"bootil"
 }
 
 $Group "dedicated"
@@ -501,6 +505,7 @@ $Group "dedicated"
 	"vpklib"
 	"vstdlib"
 	"vtf"
+	"bootil"
 }
 
 // A dummy group so that we can include the dedicated project by itself.
@@ -584,6 +589,7 @@ $Group "port"
 	"video_quicktime"
 	"video_webm"
 	"video_services"
+	"bootil"
 }
 
 // Abbreviated version of the 'everything' group for Source licensees
@@ -762,6 +768,7 @@ $Group "sourcelicensee"
 	"vvis_dll"
 	"vvis_launcher"
 	"gmod-audio"
+	"bootil"
 }
 
 // All projects required to build the console version
@@ -804,6 +811,7 @@ $Group "licensee_console"
 	"vstdlib"
 	"vtf"
 	"coroutine_osx"
+	"bootil"
 }
 
 $Group "dmxtools"
