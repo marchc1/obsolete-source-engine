@@ -611,7 +611,9 @@ CON_COMMAND( status, "Display map and connection status." )
 
 	if ( ( g_iServerGameDLLVersion >= 10 ) && serverGameDLL )
 	{
+#ifndef BUILD_GMOD
 		serverGameDLL->Status( print );
+#endif
 	}
 
 	// Early exit for this server.
@@ -701,6 +703,7 @@ void Host_Map_Helper( const CCommand &args, bool bEditmode, bool bBackground, bo
 	}
 
 	const char *pszReason = NULL;
+#ifndef BUILD_GMOD
 	if ( ( g_iServerGameDLLVersion >= 10 ) && !serverGameDLL->IsManualMapChangeOkay( &pszReason ) )
 	{
 		if ( pszReason && pszReason[0] )
@@ -709,6 +712,7 @@ void Host_Map_Helper( const CCommand &args, bool bEditmode, bool bBackground, bo
 		}
 		return;
 	}
+#endif
 
 	char szMapName[ MAX_QPATH ] = { 0 };
 	V_strncpy( szMapName, args[ 1 ], sizeof( szMapName ) );
@@ -942,6 +946,7 @@ void Host_Changelevel_f( const CCommand &args )
 	}
 
 	const char *pszReason = NULL;
+#ifndef BUILD_GMOD
 	if ( ( g_iServerGameDLLVersion >= 10 ) && !serverGameDLL->IsManualMapChangeOkay( &pszReason ) )
 	{
 		if ( pszReason && pszReason[0] )
@@ -950,6 +955,7 @@ void Host_Changelevel_f( const CCommand &args )
 		}
 		return;
 	}
+#endif
 
 	HostState_ChangeLevelMP( szName, args[2] );
 }

@@ -57,12 +57,22 @@ public:
 
 	// Notify that the player is spawned
 	virtual void			ClientSpawned( edict_t *pPlayer ) OVERRIDE;
+
+#ifdef BUILD_GMOD
+	virtual void			GMOD_ReceiveClientMessage( int unknown, edict_t* pPlayer, bf_read* msg, int unknown2 ) OVERRIDE;
+	virtual void			GMOD_ClientConnected( int userID ) OVERRIDE;
+	virtual void 			GMOD_SentClientStringTables( int userID ) OVERRIDE;
+#endif
 };
 
 
 class CServerGameDLL : public IServerGameDLL
 {
 public:
+#ifdef BUILD_GMOD
+	virtual void			PreInit(CreateInterfaceFn fn, IGet*) OVERRIDE;
+#endif
+
 	virtual bool			DLLInit(CreateInterfaceFn engineFactory, CreateInterfaceFn physicsFactory, 
 										CreateInterfaceFn fileSystemFactory, CGlobalVars *pGlobals) OVERRIDE;
 	virtual void			DLLShutdown( void ) OVERRIDE;
@@ -138,6 +148,7 @@ public:
 	virtual const char *GetServerBrowserMapOverride() OVERRIDE;
 	virtual const char *GetServerBrowserGameData() OVERRIDE;
 
+#ifndef BUILD_GMOD
 	// Called to add output to the status command
 	virtual void 			Status( void (*print) (const char *fmt, ...) ) OVERRIDE;
 
@@ -152,6 +163,18 @@ public:
 
 	// Called to see if the game server is okay with a manual changelevel or map command
 	virtual bool			IsManualMapChangeOkay( const char **pszReason ) OVERRIDE;
+#else
+	virtual bool GMOD_CheckPassword(
+		unsigned long long steamID64,
+		const char *ipAddress,
+		const char *serverPassword,
+		const char *clientPassword,
+		const char *name,
+		char *rejectionMessage,
+		unsigned int rejectionMessageLen ) OVERRIDE;
+	virtual void GMOD_ClientSignOnStateChanged( int userID, int oldState, int newState ) OVERRIDE;
+	virtual void GMOD_OnAllSoundsStoppedSV() OVERRIDE;
+#endif
 
 private:
 
