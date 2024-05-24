@@ -121,6 +121,8 @@ $Group "console"
 	"bootil"
 	"menusystem"
 	"resources"
+	"lua-shared"
+	"lua-shared-lib"
 }
 
 $Group "game"
@@ -208,6 +210,8 @@ $Group "game"
 	"bootil"
 	"menusystem"
 	"resources"
+	"lua-shared"
+	"lua-shared-lib"
 }
 
 $Group "everything"
@@ -470,6 +474,8 @@ $Group "everything"
 	"bootil"
 	"menusystem"
 	"resources"
+	"lua-shared"
+	"lua-shared-lib"
 }
 
 $Group "dedicated"
@@ -513,6 +519,8 @@ $Group "dedicated"
 	"vstdlib"
 	"vtf"
 	"bootil"
+	"lua-shared"
+	"lua-shared-lib"
 }
 
 // A dummy group so that we can include the dedicated project by itself.
@@ -599,6 +607,8 @@ $Group "port"
 	"bootil"
 	"menusystem"
 	"resources"
+	"lua-shared"
+	"lua-shared-lib"
 }
 
 // Abbreviated version of the 'everything' group for Source licensees
@@ -775,6 +785,8 @@ $Group "sourcelicensee"
 	"bootil"
 	"menusystem"
 	"resources"
+	"lua-shared"
+	"lua-shared-lib"
 }
 
 // All projects required to build the console version
@@ -820,6 +832,8 @@ $Group "licensee_console"
 	"bootil"
 	"menusystem"
 	"resources"
+	"lua-shared"
+	"lua-shared-lib"
 }
 
 $Group "dmxtools"
