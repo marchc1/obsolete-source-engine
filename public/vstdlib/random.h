@@ -57,11 +57,11 @@ private:
 	int m_iy;
 	int m_iv[NTAB];
 
-	MSVC_BEGIN_WARNING_OVERRIDE_SCOPE()
+	//MSVC_BEGIN_WARNING_OVERRIDE_SCOPE()
 	// DLL export looks safe.
-	MSVC_DISABLE_WARNING(4251)
+	//MSVC_DISABLE_WARNING(4251)
 	CThreadFastMutex m_mutex;
-  MSVC_END_WARNING_OVERRIDE_SCOPE()
+  //MSVC_END_WARNING_OVERRIDE_SCOPE()
 };
 
 
@@ -86,11 +86,11 @@ private:
 	bool	m_bHaveValue;
 	float	m_flRandomValue;
 
-	MSVC_BEGIN_WARNING_OVERRIDE_SCOPE()
+	//MSVC_BEGIN_WARNING_OVERRIDE_SCOPE()
 	// DLL export looks safe. 
-	MSVC_DISABLE_WARNING(4251)
+	//MSVC_DISABLE_WARNING(4251)
 	CThreadFastMutex m_mutex;
-	MSVC_END_WARNING_OVERRIDE_SCOPE()
+	//MSVC_END_WARNING_OVERRIDE_SCOPE()
 };
 
 //-----------------------------------------------------------------------------
