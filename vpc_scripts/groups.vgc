@@ -120,7 +120,6 @@ $Group "console"
 	"menusystem"
 	"resources"
 	"lua-shared"
-	"lua-shared-lib"
 }
 
 $Group "game"
@@ -206,7 +205,6 @@ $Group "game"
 	"menusystem"
 	"resources"
 	"lua-shared"
-	"lua-shared-lib"
 }
 
 $Group "everything"
@@ -474,7 +472,6 @@ $Group "everything"
 	"menusystem"
 	"resources"
 	"lua-shared"
-	"lua-shared-lib"
 }
 
 $Group "dedicated"
@@ -790,7 +787,6 @@ $Group "sourcelicensee"
 	"menusystem"
 	"resources"
 	"lua-shared"
-	"lua-shared-lib"
 }
 
 // All projects required to build the console version
@@ -837,7 +833,6 @@ $Group "licensee_console"
 	"menusystem"
 	"resources"
 	"lua-shared"
-	"lua-shared-lib"
 }
 
 $Group "dmxtools"
