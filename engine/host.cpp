@@ -123,6 +123,7 @@
 #include "soundservice.h"
 #include "profile.h"
 #include "steam/isteamremotestorage.h"
+#include "Externals.h"
 #if defined( _X360 )
 #include "xbox/xbox_win32stubs.h"
 #include "audio_pch.h"
@@ -4101,6 +4102,11 @@ void Host_Init( bool bDedicated )
 	{
 		TRACEINIT( ReplaySystem_Init( bDedicated ), ReplaySystem_Shutdown() );
 	}
+#endif
+
+#ifdef BUILD_GMOD
+	get->Initialize( g_pFullFileSystem );
+	serverGameDLL->PreInit( g_AppSystemFactory, get ); // Does it return a bool? if so it should error when it fails.
 #endif
 
 	if ( !CommandLine()->FindParm( "-nogamedll" ) )
