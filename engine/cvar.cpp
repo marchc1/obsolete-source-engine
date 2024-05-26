@@ -378,7 +378,7 @@ bool CCvarUtilities::IsCommand( const CCommand &args )
 
 	if ( v->IsFlagSet( FCVAR_NOT_CONNECTED ) )
 	{
-#ifndef SWDS
+#if !defined(SWDS) && !defined(BUILD_GMOD)
 		// Connected to server?
 		if ( cl.IsConnected() )
 		{
@@ -510,7 +510,7 @@ bool CCvarUtilities::IsValidToggleCommand( const char *cmd )
 
 	if ( v->IsFlagSet( FCVAR_NOT_CONNECTED ) )
 	{
-#ifndef SWDS
+#if !defined(SWDS) && !defined(BUILD_GMOD)
 		// Connected to server?
 		if ( cl.IsConnected() )
 		{

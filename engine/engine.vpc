@@ -26,7 +26,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;.\;audio;audio\private;audio\public;$SRCDIR\vgui2\include;$SRCDIR\vgui2\controls"
+		$AdditionalIncludeDirectories	"$BASE;.\;audio;audio\private;audio\public;$SRCDIR\vgui2\include;$SRCDIR\vgui2\controls;$SRCDIR\GarrysMod"
 		$AdditionalIncludeDirectories	"$BASE;$LIBJPEGSRCDIR;$LIBJPEGSRC2DIR;$LIBJPEGOUTDIR"
 		$AdditionalIncludeDirectories	"$BASE;$ZLIBSRCDIR;$ZLIBSRC2DIR;$ZLIBOUTDIR"
 		$AdditionalIncludeDirectories	"$BASE;$SDL3SRCDIR;$SDL3SRCDIR\include"	[$SDL]
@@ -230,9 +230,14 @@ $Project "engine"
 		}
 	}
 
-	$Folder	"Source Files"
+	$Folder	"GarrysMod Files"
 	{
 		$File	"$SRCDIR\GarrysMod\CGet.cpp"
+		$File	"$SRCDIR\public\GarrysMod\IGet.h"
+	}
+
+	$Folder	"Source Files"
+	{
 		$File	"baseautocompletefilelist.cpp"
 		$File	"baseserver.cpp"
 		$File	"bitbuf_errorhandler.cpp"

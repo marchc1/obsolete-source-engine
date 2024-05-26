@@ -119,7 +119,7 @@ $Group "console"
 	"bootil"
 	"menusystem"
 	"resources"
-	"lua-shared"
+	"lua_shared"
 }
 
 $Group "game"
@@ -200,11 +200,11 @@ $Group "game"
 	"vstdlib"
 	"vtf"
 	"coroutine_osx"
-	"gmod-audio"
+	"gmod_audio"
 	"bootil"
 	"menusystem"
 	"resources"
-	"lua-shared"
+	"lua_shared"
 }
 
 $Group "everything"
@@ -467,11 +467,11 @@ $Group "everything"
 
 //	"vs_python2.5"
 //	"vslib_python2.5"
-	"gmod-audio"
+	"gmod_audio"
 	"bootil"
 	"menusystem"
 	"resources"
-	"lua-shared"
+	"lua_shared"
 }
 
 $Group "dedicated"
@@ -515,8 +515,7 @@ $Group "dedicated"
 	"vstdlib"
 	"vtf"
 	"bootil"
-	"lua-shared"
-	"lua-shared-lib"
+	"lua_shared"
 }
 
 // A dummy group so that we can include the dedicated project by itself.
@@ -603,8 +602,7 @@ $Group "port"
 	"bootil"
 	"menusystem"
 	"resources"
-	"lua-shared"
-	"lua-shared-lib"
+	"lua_shared"
 }
 
 // Abbreviated version of the 'everything' group for Source licensees
@@ -782,11 +780,11 @@ $Group "sourcelicensee"
 	"vtfscrew"
 	"vvis_dll"
 	"vvis_launcher"
-	"gmod-audio"
+	"gmod_audio"
 	"bootil"
 	"menusystem"
 	"resources"
-	"lua-shared"
+	"lua_shared"
 }
 
 // All projects required to build the console version
@@ -832,7 +830,7 @@ $Group "licensee_console"
 	"bootil"
 	"menusystem"
 	"resources"
-	"lua-shared"
+	"lua_shared"
 }
 
 $Group "dmxtools"
