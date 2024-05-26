@@ -691,7 +691,9 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	g_pGameSaveRestoreBlockSet->AddBlockHandler( GetEventQueueSaveRestoreBlockHandler() );
 	g_pGameSaveRestoreBlockSet->AddBlockHandler( GetAchievementSaveRestoreBlockHandler() );
 
+#ifdef BUILD_GMOD
 	igarrysmod->InitializeMod( appSystemFactory );
+#endif
 
 	// The string system must init first + shutdown last
 	IGameSystem::Add( GameStringSystem() );
@@ -763,9 +765,11 @@ void CServerGameDLL::PostInit()
 
 void CServerGameDLL::DLLShutdown( void )
 {
+#ifdef BUILD_GMOD
+	igarrysmod->Shutdown();
+#endif
 
 	// Due to dependencies, these are not autogamesystems
-	igarrysmod->Shutdown();
 	ModelSoundsCacheShutdown();
 
 	g_pGameSaveRestoreBlockSet->RemoveBlockHandler( GetAchievementSaveRestoreBlockHandler() );
@@ -983,7 +987,9 @@ bool CServerGameDLL::LevelInit( const char *pMapName, char const *pMapEntities, 
 		UpdateRichPresence();
 	}
 
+#ifdef BUILD_GMOD
 	igarrysmod->LevelInit( pMapName, pMapEntities, pOldLevel, pLandmarkName, loadGame, background );
+#endif
 
 	//Tony; parse custom manifest if exists!
 	ParseParticleEffectsMap( pMapName, false );
