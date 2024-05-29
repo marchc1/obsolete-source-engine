@@ -89,7 +89,11 @@ void ColorCorrectionLookup_t::AllocTexture()
 
 void ColorCorrectionLookup_t::ReleaseTexture()
 {
+#ifdef BUILD_GMOD
+	m_pColorCorrectionTexture->Release();
+#else
 	m_pColorCorrectionTexture->ReleaseMemory();
+#endif
 }
 
 void ColorCorrectionLookup_t::RestoreTexture()

@@ -2,7 +2,6 @@ The goal of this branch is to be able to create our own dlls that are compatible
 There is also the [gmod-improvements](https://github.com/RaphaelIT7/obsolete-source-engine/tree/gmod-improvements) branch, which will contain bug fixes or improvements.
 
 List of dlls that are worked on:
-- `shaderapidx9.dll` (Everything was reverted.)
 - `vstdlist.dll` (Everything was reverted.)
 - `filesystem_stdio.dll` (Something broke and idk what)
 Progress:  
@@ -21,6 +20,7 @@ List of currently working dlls:
 - `datacache.dll`
 - `icudt.dll` (IDK what it even does xd)
 - `icudt42.dll` (IDK what it even does xd)
+- `shaderapidx9.dll` (Needs more testing but seems to work.)
 - `unicode.dll`
 - `vvis_dll.dll` (~40% faster than Gmod's version. Compile it in Release for the Performance benefit)
 - `vvis.exe`

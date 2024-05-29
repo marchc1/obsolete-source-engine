@@ -615,9 +615,14 @@ public:
 	void RestoreNonRenderTargetTextures( void );
 	void RestoreRenderTargets( void );
 
+#ifdef BUILD_GMOD
+	virtual bool GMOD_TextureExists( const char* );
+	virtual void GMOD_RestoreTexture( void );
+#else
 	// Suspend or resume texture streaming requests
-	void SuspendTextureStreaming( void );
-	void ResumeTextureStreaming( void );
+	virtual void SuspendTextureStreaming( void );
+	virtual void ResumeTextureStreaming( void );
+#endif
 
 	// delete any texture that has a refcount <= 0
 	void RemoveUnusedTextures( void );
@@ -634,7 +639,9 @@ public:
 	virtual ITextureInternal *IdentityLightWarp();
 	virtual ITextureInternal *ColorCorrectionTexture( int i );
 	virtual ITextureInternal *FullFrameDepthTexture();
+#ifndef BUILD_GMOD
 	virtual ITextureInternal *DebugLuxels2D();
+#endif
 
 
 	// Generates an error texture pattern
@@ -656,7 +663,9 @@ public:
 		unsigned int renderTargetFlags );
 
 	virtual bool HasPendingTextureDestroys() const;
+#ifndef BUILD_GMOD
 	virtual void MarkUnreferencedTextureForCleanup( ITextureInternal *pTexture );
+#endif
 	virtual void RemoveTexture( ITextureInternal *pTexture );
 	virtual void ReloadFilesInList( IFileList *pFilesToReload );
 
@@ -665,6 +674,9 @@ public:
 
 	virtual void ReleaseTempRenderTargetBits( void );
 
+#ifdef BUILD_GMOD
+	virtual void GMOD_UpdatePostAsync();
+#else
 	// Called once per frame by material system "somewhere."
 	virtual void Update();
 
@@ -694,13 +706,16 @@ public:
 	virtual bool VerifyTextureCompositorTemplates() OVERRIDE;
 
 	virtual CTextureCompositorTemplate* FindTextureCompositorTemplate( const char* pName ) OVERRIDE;
+#endif
 
 protected:
 	ITextureInternal *FindTexture( const char *textureName );
 	ITextureInternal *LoadTexture( const char *textureName, const char *pTextureGroupName, int nAdditionalCreationFlags = 0, bool bDownload = true );
 
+#ifndef BUILD_GMOD
 	void AsyncLoad( const AsyncLoadJob_t& job );
 	void AsyncReadTexture( AsyncReadJob_t* job );
+#endif
 
 	// Restores a single texture
 	void RestoreTexture( ITextureInternal* pTex );
@@ -711,8 +726,10 @@ protected:
 	void DumpTextureList( );
 #endif
 
+#ifndef BUILD_GMOD
 	void FindFilesToLoad( CUtlDict< int >* pOutFilesToLoad, const char* pFilename );
 	void ReadFilesToLoad( CUtlDict< int >* pOutFilesToLoad, const char* pFilename );
+#endif
 
 	CUtlDict< ITextureInternal *, unsigned short > m_TextureList;
 	CUtlDict< const char *, unsigned short > m_TextureAliases;
@@ -747,6 +764,7 @@ protected:
 	// Used to generate various error texture patterns when necessary
 	CCheckerboardTexture *m_pErrorRegen;
 
+#ifndef BUILD_GMOD
 	friend class AsyncLoader;
 	AsyncLoader* m_pAsyncLoader;
 
@@ -757,6 +775,7 @@ protected:
 	uint m_nAsyncReadThread;
 
 	int m_iSuspendTextureStreaming;
+#endif
 };
 
 
@@ -943,7 +962,9 @@ struct AsyncReadJob_t
 				g_MaterialSystem.GetRenderContextInternal()->AsyncUnmap( m_pSysmemTex );
 			}
 
+#ifndef BUILD_GMOD
 			assert_cast< CTextureManager* >( g_pTextureManager )->ReleaseReadbackTexture( m_pSysmemTex );
+#endif
 			m_pSysmemTex = NULL;
 		}
 
@@ -980,6 +1001,7 @@ bool IsJobCancelled( AsyncLoadJob_t* pJob )
 	return false;
 }
 
+#ifndef BUILD_GMOD
 //-----------------------------------------------------------------------------
 // Functions can be called from any thread, unless they are prefixed with a thread name. 
 class AsyncLoader
@@ -1090,8 +1112,10 @@ private:
 
 		Assert( pJob->m_pResultData );
 
+#ifndef BUILD_GMOD
 		if ( !pJob->m_pResultData->AsyncReadTextureFromFile( pScratchVTF, pJob->m_nAdditionalCreationFlags ) )
 			m_asyncScratchVTFs.PushItem( pScratchVTF );
+#endif
 
 		m_completedJobs.PushItem( pJob );
 	}
@@ -1418,6 +1442,7 @@ private:
 	CTSQueue< AsyncReadJob_t* > m_pendingJobs;
 	CTSQueue< AsyncReadJob_t* > m_completedJobs;
 };
+#endif
 
 //-----------------------------------------------------------------------------
 // Texture manager
@@ -1428,8 +1453,10 @@ CTextureManager::CTextureManager( void )
 , m_TextureExcludes( true )
 , m_PendingAsyncLoads( true ) 
 , m_textureStreamingRequests( DefLessFunc( ITextureInternal* ) )
+#ifndef BUILD_GMOD
 , m_nAsyncLoadThread( 0xFFFFFFFF )
 , m_nAsyncReadThread( 0xFFFFFFFF )
+#endif
 {
 	m_iNextTexID = 0;
   m_nFlags = 0;
@@ -1447,9 +1474,11 @@ CTextureManager::CTextureManager( void )
 	memset(&m_pColorCorrectionTextures, 0, sizeof(m_pColorCorrectionTextures));
 	m_pFullScreenDepthTexture = NULL;
 	m_pDebugLuxels2D = NULL;
+#ifndef BUILD_GMOD
 	m_pAsyncLoader = new AsyncLoader;
 	m_pAsyncReader = new AsyncReader;
 	m_iSuspendTextureStreaming = 0;
+#endif
 }
 
 
@@ -1471,7 +1500,9 @@ void CTextureManager::Init( int nFlags )
 	m_pErrorTexture = CreateProceduralTexture( "error", TEXTURE_GROUP_OTHER,
 		ERROR_TEXTURE_SIZE, ERROR_TEXTURE_SIZE, 1, IMAGE_FORMAT_BGRA8888, TEXTUREFLAGS_NOMIP | TEXTUREFLAGS_SINGLECOPY );
 	CreateCheckerboardTexture( m_pErrorTexture, 4, color, color2 );
+#ifndef BUILD_GMOD
 	m_pErrorTexture->SetErrorTexture( true );
+#endif
 
 	// Create a white texture
 	m_pWhiteTexture = CreateProceduralTexture( "white", TEXTURE_GROUP_OTHER,
@@ -1548,6 +1579,7 @@ void CTextureManager::Shutdown()
 	CleanupPossiblyUnreferencedTextures();
 
 	// Cool the texture cache first to drop all the refs back to 0 for the streamable things.
+#ifndef BUILD_GMOD
 	CoolTextureCache();
 
 	if ( m_pAsyncLoader )
@@ -1563,6 +1595,9 @@ void CTextureManager::Shutdown()
 		delete m_pAsyncReader;
 		m_pAsyncReader = NULL;
 	}
+#else
+	CleanupPossiblyUnreferencedTextures();
+#endif
 
 	FreeStandardRenderTargets();
 
@@ -1750,7 +1785,11 @@ void CTextureManager::ReleaseTextures( void )
 	for ( int i = m_TextureList.First(); i != m_TextureList.InvalidIndex(); i = m_TextureList.Next( i ) )
 	{
 		// Release the texture...
+#ifdef BUILD_GMOD
+		m_TextureList[i]->Release();
+#else
 		m_TextureList[i]->ReleaseMemory();
+#endif
 	}
 }
 
@@ -1966,11 +2005,12 @@ ITextureInternal *CTextureManager::FullFrameDepthTexture()
 	return m_pFullScreenDepthTexture;
 }
 
+#ifndef BUILD_GMOD
 ITextureInternal *CTextureManager::DebugLuxels2D()
 {
 	return m_pDebugLuxels2D;
 }
-
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -2285,6 +2325,7 @@ void CTextureManager::ResetTextureFilteringState( )
 	}
 }
 
+#ifndef BUILD_GMOD
 void CTextureManager::SuspendTextureStreaming( void )
 {
 	m_iSuspendTextureStreaming++;
@@ -2298,6 +2339,7 @@ void CTextureManager::ResumeTextureStreaming( void )
 		m_iSuspendTextureStreaming--;
 	}
 }
+#endif
 
 void CTextureManager::RemoveUnusedTextures( void )
 {
@@ -2323,11 +2365,13 @@ void CTextureManager::RemoveUnusedTextures( void )
 	}
 }
 
+#ifndef BUILD_GMOD
 void CTextureManager::MarkUnreferencedTextureForCleanup( ITextureInternal *pTexture )
 {
 	Assert( pTexture->GetReferenceCount() == 0 );
 	m_PossiblyUnreferencedTextures.PushItem( pTexture );
 }
+#endif
 
 void CTextureManager::RemoveTexture( ITextureInternal *pTexture )
 {
@@ -2413,7 +2457,11 @@ void CTextureManager::ReleaseTempRenderTargetBits( void )
 
 			if ( m_TextureList[i]->IsTempRenderTarget() )
 			{
+#ifdef BUILD_GMOD
+				m_TextureList[i]->Release();
+#else
 				m_TextureList[i]->ReleaseMemory();
+#endif
 			}
 		}
 	}
@@ -2474,6 +2522,7 @@ int CTextureManager::FindNext( int iIndex, ITextureInternal **pTexInternal )
 	return iIndex;
 }
 
+#ifndef BUILD_GMOD
 void CTextureManager::Update()
 {
 	tmZone( TELEMETRY_LEVEL0, TMZF_NONE, "%s", __FUNCTION__ );
@@ -2587,7 +2636,9 @@ void CTextureManager::CompleteAsyncLoad( AsyncLoadJob_t* pJob )
 	else
 	{
 		// If we didn't download, need to clean up the leftover file data that we loaded on the other thread
+#ifndef BUILD_GMOD
 		pJob->m_pResultData->AsyncCancelReadTexture();
+#endif
 	}
 
 	// Can't release the Recipient until after we tell the stragglers, because the recipient may be the only
@@ -2916,7 +2967,9 @@ void CTextureManager::UpdatePostAsync()
 
 		// Update the LOD bias to smoothly stream the texture in. We only need to do this on frames that
 		// we actually have been requested to draw--other frames it doesn't matter (see, because we're not drawing?) 
+#ifndef BUILD_GMOD
 		pRequest->UpdateLodBias();
+#endif
 		m_textureStreamingRequests.InsertOrReplace( pRequest, g_FrameNum );	
 	}
 
@@ -2933,8 +2986,10 @@ void CTextureManager::UpdatePostAsync()
 			// It's been awhile since we were asked to full res this texture, so let's evict 
 			// if it's still full res.
 			
+#ifndef BUILD_GMOD
 			if ( pTex->GetTargetResidence() == RESIDENT_FULL )
 				pTex->MakeResident( RESIDENT_PARTIAL );
+#endif
 
 			m_textureStreamingRequests.RemoveAt( i );
 		}
@@ -2949,11 +3004,13 @@ void CTextureManager::UpdatePostAsync()
 		{
 			ITextureInternal* pTex = m_textureStreamingRequests.Key( i );
 
+#ifndef BUILD_GMOD
 			if ( pTex->GetTargetResidence() == RESIDENT_FULL )
 				continue;
 
 			// TODO: What to do if this fails? Auto-reask next frame? 
 			pTex->MakeResident( RESIDENT_FULL );
+#endif
 		}
 	}
 
@@ -3032,12 +3089,14 @@ CTextureCompositorTemplate* CTextureManager::FindTextureCompositorTemplate( cons
 
 	return NULL;
 }
+#endif
 
 bool CTextureManager::HasPendingTextureDestroys() const
 {
 	return m_PossiblyUnreferencedTextures.Count() != 0;
 }
 
+#ifndef BUILD_GMOD
 void CTextureManager::CoolTextureCache()
 {
 	FOR_EACH_VEC( m_preloadedTextures, i )
@@ -3074,8 +3133,10 @@ void CTextureManager::EvictAllTextures()
 			continue;
 
 		// If the fine mipmaps are present
+#ifndef BUILD_GMOD
 		if ( ( ( pTex->GetFlags() & TEXTUREFLAGS_STREAMABLE ) != 0 ) && pTex->GetTargetResidence() == RESIDENT_FULL )
 			pTex->MakeResident( RESIDENT_PARTIAL );
+#endif
 	}
 }
 
@@ -3083,6 +3144,7 @@ CON_COMMAND( mat_evict_all, "Evict all fine mipmaps from the gpu" )
 {
 	TextureManager()->EvictAllTextures();
 }
+#endif
 
 // ------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------
@@ -3102,3 +3164,19 @@ static ImageFormat GetImageFormatRawReadback( ImageFormat fmt )
 	return fmt;
 }
 
+#ifdef BUILD_GMOD
+bool CTextureManager::GMOD_TextureExists( const char* name )
+{
+	return false;
+}
+
+void CTextureManager::GMOD_RestoreTexture()
+{
+
+}
+
+void CTextureManager::GMOD_UpdatePostAsync()
+{
+	CleanupPossiblyUnreferencedTextures();
+}
+#endif
