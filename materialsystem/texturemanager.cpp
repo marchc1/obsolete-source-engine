@@ -903,6 +903,7 @@ private:
 	volatile bool m_bSignalled;
 };
 
+#ifndef BUILD_GMOD
 struct AsyncReadJob_t 
 {
 	ITexture* m_pSrcRt;
@@ -1001,7 +1002,6 @@ bool IsJobCancelled( AsyncLoadJob_t* pJob )
 	return false;
 }
 
-#ifndef BUILD_GMOD
 //-----------------------------------------------------------------------------
 // Functions can be called from any thread, unless they are prefixed with a thread name. 
 class AsyncLoader
