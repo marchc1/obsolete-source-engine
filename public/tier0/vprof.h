@@ -31,7 +31,7 @@
 // Profiling instrumentation macros
 //
 
-#define MAXCOUNTERS 256
+#define MAXCOUNTERS 512
 
 
 #ifdef VPROF_ENABLED
@@ -117,6 +117,7 @@
 #define VPROF_BUDGETGROUP_ATTRIBUTES				_T("Attributes")
 #define VPROF_BUDGETGROUP_FINDATTRIBUTE				_T("FindAttribute")
 #define VPROF_BUDGETGROUP_FINDATTRIBUTEUNSAFE		_T("FindAttributeUnsafe")
+#define VPROF_BUDGETGROUP_GLUA						_T("GLUA")
 	
 #ifdef _X360
 // update flags
@@ -128,7 +129,7 @@
 //-------------------------------------
 
 #ifndef VPROF_LEVEL
-#define VPROF_LEVEL 0
+#define VPROF_LEVEL 4
 #endif
 
 //these macros exist to create VProf_<line number> variables. This is important because it avoids /analyze warnings about variable aliasing when VPROF's are nested within each other, and allows
