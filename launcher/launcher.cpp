@@ -83,7 +83,7 @@ int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uTy
 #include "tier0/memdbgon.h"
 
 #ifdef BUILD_GMOD
-#define DEFAULT_HL2_GAMEDIR	"garrysmod" // Changing the GAMEDIR breaks EVERYTHING.
+#define DEFAULT_HL2_GAMEDIR	"hl2" // Don't. "garrysmod" // Changing the GAMEDIR breaks EVERYTHING. Change gamebin in gameinfo.txt to garrysmod/bin for now.
 #else
 #define DEFAULT_HL2_GAMEDIR	"hl2"
 #endif
