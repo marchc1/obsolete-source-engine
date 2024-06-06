@@ -35,6 +35,10 @@ List of broken dlls:
 - ServerBrowser
 - vguimatsurface
 
+## NOTES
+Hammer could work but it wasn't tested.
+
+
 # Source engine
 
 ![CI](https://github.com/Source-Authors/obsolete-source-engine/actions/workflows/build.yml/badge.svg?branch=master)
@@ -48,5 +52,5 @@ List of broken dlls:
   | ----                        | ----  | ---- | ---- |
   | `HKLM\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\10.0\Projects\{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}` | `DefaultProjectExtension` | string | vcproj
 * Run `creategameprojects_debug.bat` from Developer command prompt.
-* Open `hl2.sln`
+* Open `gmod.sln`
 * Build
