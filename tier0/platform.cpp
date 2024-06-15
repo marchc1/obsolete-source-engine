@@ -332,6 +332,7 @@ const char *Plat_GetCommandLineA()
 //--------------------------------------------------------------------------------------------------
 // Watchdog timer
 //--------------------------------------------------------------------------------------------------
+#ifndef BUILD_GMOD
 void Plat_BeginWatchdogTimer( int nSecs )
 {
 }
@@ -342,9 +343,11 @@ int Plat_GetWatchdogTime( void )
 {
 	return 0;
 }
+
 void Plat_SetWatchdogHandlerFunction( Plat_WatchDogHandlerFunction_t function )
 {
 }
+#endif
 
 bool Is64BitOS()
 {

@@ -44,6 +44,7 @@ $Configuration
 
 		// Add VPK support
 		$PreprocessorDefinitions	"$BASE;SUPPORT_PACKED_STORE" [!$WIN64]
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\bootil\include"
 	}
 	$Linker
 	{
