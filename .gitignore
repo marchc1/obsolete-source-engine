@@ -424,3 +424,8 @@ gcsdk/generated_proto/
 # MSVC static analyzer results
 *.lastcodeanalysissucceeded
 enc_temp_folder/*
+
+# Others
+GarrysMod/Lua/temp
+*.exe
+*.pdb
