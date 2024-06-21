@@ -393,6 +393,10 @@ public:
 	bool						SetCompetitiveMode( bool bCompetitive );*/
 #endif
 
+#ifdef BUILD_GMOD // Need it for LC_ConVar -> GetFlags
+	int GetFlags() { return m_pParent->m_nFlags; }
+#endif
+
 private:
 	// Called by CCvar when the value of a var is changing.
 	virtual void				InternalSetValue(const char *value);
@@ -423,7 +427,9 @@ private:
 
 	// Used internally by OneTimeInit to initialize.
 	virtual void				Init();
+#ifndef BUILD_GMOD
 	int GetFlags() { return m_pParent->m_nFlags; }
+#endif
 private:
 
 	// This either points to "this" or it points to the original declaration of a ConVar.
