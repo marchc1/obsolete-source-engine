@@ -12,6 +12,9 @@
 #include "mathlib/vector.h"
 #include "tier0/dbg.h"
 #include "dt_utlvector_common.h"
+#ifdef BUILD_GMOD
+#include "GarrysMod/IGMODDataTable.h"
+#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -799,7 +802,32 @@ SendProp SendPropExclude(
 	return ret;
 }
 
+#ifdef BUILD_GMOD
+void SendProxy_GMODTableToGMODTable	( const SendProp *pProp, const void *pStruct, const void *pData, DVariant *pOut, int iElement, int objectID )
+{
+	pOut->m_pData = (void*)pData; // ToDo: Verify this later.
+}
 
+SendProp SendPropGMODTable(
+	const char *pVarName,
+	int offset
+	)
+{
+	SendProp ret;
+
+	ret.m_Type = DPT_GMODTable;
+	ret.m_pVarName = pVarName;
+	ret.SetOffset( offset );
+	ret.m_nBits = 0;
+	ret.SetFlags( 0 );
+	ret.m_fLowValue = 0;
+	ret.m_fHighValue = 0;
+	ret.m_fHighLowMul = 0;
+	ret.SetProxyFn( NULL );
+
+	return ret;
+}
+#endif
 
 // ---------------------------------------------------------------------- //
 // SendProp

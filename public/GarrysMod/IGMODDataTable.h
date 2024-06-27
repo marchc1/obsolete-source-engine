@@ -1,20 +1,20 @@
 #pragma once
 
-class CGMODVariant;
+#include "CGMODVariant.h"
 
-abstract_class IGMODDataTable
+class IGMODDataTable
 {
 public:
-	virtual void *GetKey( int ) = 0;
-	virtual void *GetValue( int ) = 0;
-	virtual void IncrementIterator( int& ) = 0;
-	virtual void *Get( int ) = 0; // Probably returns CGMODVariant
-	virtual void Set( int, CGMODVariant const& ) = 0;
-	virtual bool HasKey( int ) = 0;
-	virtual void *GetLocal( char const* ) = 0;
-	virtual void SetLocal( char const*, CGMODVariant const& ) = 0;
-	virtual void ClearLocal( char const* ) = 0;
+	virtual const char* GetKey( int ) const = 0;
+	virtual const CGMODVariant& GetValue( int ) const = 0;
+	virtual int IncrementIterator( int& ) const = 0; // Increment Iterator
+	virtual const CGMODVariant& Get( int ) const = 0; // Probably returns CGMODVariant
+	virtual void Set( int, const CGMODVariant& ) = 0;
+	virtual bool HasKey( int ) const = 0;
+	virtual const CGMODVariant& GetLocal( const char* ) const = 0;
+	virtual void SetLocal( const char*, const CGMODVariant& ) = 0;
+	virtual void ClearLocal( const char* ) = 0;
 	virtual void Clear() = 0;
-	virtual void Begin() = 0;
-	virtual void End() = 0;
+	virtual int Begin() const = 0; // Start Iterator
+	virtual void End() const = 0; // Stop Iterator
 };

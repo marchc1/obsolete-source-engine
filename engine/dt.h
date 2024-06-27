@@ -19,6 +19,9 @@
 #include "dt_encode.h"
 #include "utlmap.h"
 #include "tier1/bitbuf.h"
+#ifdef BUILD_GMOD
+#include "GarrysMod/IGMODDataTable.h"
+#endif
 
 
 class SendTable;
@@ -517,5 +520,92 @@ void SetupArrayProps_R( TableType *pTable )
 	}
 }
 
+#ifdef BUILD_GMOD
+typedef void* ( *FnGMODTableProxy )( void* pStruct, int pKey, const CGMODVariant& value );
+
+class CGMODDataTable : public IGMODDataTable
+{
+public:
+	struct Entry
+	{
+		int keyIndex;
+		const char* key;
+		const CGMODVariant& value;
+	};
+
+	virtual const char* GetKey( int index ) const;
+	virtual const CGMODVariant& GetValue( int index ) const;
+	virtual int IncrementIterator( int& index ) const;
+	virtual const CGMODVariant& Get( int index ) const;
+	virtual void Set( int index, const CGMODVariant& pValue );
+	virtual bool HasKey( int index ) const;
+	virtual const CGMODVariant& GetLocal( const char* pKey ) const;
+	virtual void SetLocal( const char* pKey, const CGMODVariant& pValue );
+	virtual void ClearLocal( const char* pKey );
+	virtual void Clear();
+	virtual int Begin() const; 
+	virtual void End() const;
+
+public:
+	CGMODDataTable( FnGMODTableProxy proxy ); // Created from CVEngineServer::GMOD_CreateDataTable and CEngineClient::GMOD_CreateDataTable
+	void WriteProps( bf_read *a, bf_write *b, int objectID );
+	static void Encode( void* pStruct, bf_write* bf );
+	void Decode( void* pStruct, bf_read* bf );
+	static void CopyFrom( void* idk, const void* idk2, CGMODDataTable* dt );
+	bool IsEmpty() const;
+	static int Compare( bf_read* p1, bf_read* p2, CGMODDataTable* dt, int targetTick );
+	static void Skip( bf_read* bf );
+
+private: // It could be that m_pVars and m_pLocalvars are swapped in GMod. Also I didn't verify m_pVars yet, so it may be different in GMod.
+	CUtlRBTree<CUtlMap<unsigned short, CGMODDataTable::Entry, unsigned short>::Node_t, unsigned short, CUtlMap<unsigned short, CGMODDataTable::Entry, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<unsigned short, CGMODDataTable::Entry, unsigned short>::Node_t, unsigned short>, unsigned short>> m_pVars;
+	CUtlRBTree<CUtlMap<char const*, CGMODVariant, unsigned short>::Node_t, unsigned short, CUtlMap<char const*, CGMODVariant, unsigned short>::CKeyLess, CUtlMemory<UtlRBTreeNode_t<CUtlMap<char const*, CGMODVariant, unsigned short>::Node_t, unsigned short>, unsigned short>> m_pLocalVars;
+	void* somevar1;
+	void* hopefullyourproxy;
+
+public:
+	static CThreadLocalInt<int> s_ReferenceTick;
+	static CThreadLocalInt<int> s_TargetTick;
+	static CThreadLocalInt<CGMODDataTable*> s_CurrentTable;
+};
+
+typedef struct
+{
+	
+	void			(*Write) ( bf_write* bf, const CGMODVariant& var );
+	void			(*Read) ( bf_read* bf, CGMODVariant& var );
+	void			(*Skip) ( bf_read* bf );
+	bool			(*Compare) ( bf_read* bf1, bf_read* bf2 );
+} VariantInfoType;
+
+// Wall of SHIT. Why did I do it like this again?
+extern void F_Write( bf_write* bf, const CGMODVariant& var );
+extern void F_Read( bf_read* bf, CGMODVariant& var );
+extern void F_Skip( bf_read* bf );
+extern bool F_Compare( bf_read* bf1, bf_read* bf2 );
+extern void I_Write( bf_write* bf, const CGMODVariant& var );
+extern void I_Read( bf_read* bf, CGMODVariant& var );
+extern void I_Skip( bf_read* bf );
+extern bool I_Compare( bf_read* bf1, bf_read* bf2 );
+extern void B_Write( bf_write* bf, const CGMODVariant& var );
+extern void B_Read( bf_read* bf, CGMODVariant& var );
+extern void B_Skip( bf_read* bf );
+extern bool B_Compare( bf_read* bf1, bf_read* bf2 );
+extern void V_Write( bf_write* bf, const CGMODVariant& var );
+extern void V_Read( bf_read* bf, CGMODVariant& var );
+extern void V_Skip( bf_read* bf );
+extern bool V_Compare( bf_read* bf1, bf_read* bf2 );
+extern void A_Write( bf_write* bf, const CGMODVariant& var );
+extern void A_Read( bf_read* bf, CGMODVariant& var );
+extern void A_Skip( bf_read* bf );
+extern bool A_Compare( bf_read* bf1, bf_read* bf2 );
+extern void E_Write( bf_write* bf, const CGMODVariant& var );
+extern void E_Read( bf_read* bf, CGMODVariant& var );
+extern void E_Skip( bf_read* bf );
+extern bool E_Compare( bf_read* bf1, bf_read* bf2 );
+extern void S_Write( bf_write* bf, const CGMODVariant& var );
+extern void S_Read( bf_read* bf, CGMODVariant& var );
+extern void S_Skip( bf_read* bf );
+extern bool S_Compare( bf_read* bf1, bf_read* bf2 );
+#endif
 
 #endif // DATATABLE_H

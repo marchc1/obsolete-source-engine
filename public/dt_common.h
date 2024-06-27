@@ -120,6 +120,10 @@ typedef enum
 	DPT_Int64,
 #endif
 
+#ifdef BUILD_GMOD
+	DPT_GMODTable,
+#endif
+
 	DPT_NUMSendPropTypes
 
 } SendPropType;
@@ -170,8 +174,13 @@ public:
 							Q_snprintf( text, sizeof(text), "DataTable" ); 
 							break;
 #ifdef SUPPORTS_INT64
-						case DPT_Int64:
+						case DPT_Int64 :
 							Q_snprintf( text, sizeof(text), "%I64d", m_Int64 );
+							break;
+#endif
+#ifdef BUILD_GMOD
+						case DPT_GMODTable :
+							Q_snprintf( text, sizeof(text), "GMODTable" ); 
 							break;
 #endif
 						default :
@@ -213,6 +222,5 @@ inline int NumBitsForCount( int nMaxElements )
 	}
 	return nBits;
 }
-
 
 #endif // DATATABLE_COMMON_H

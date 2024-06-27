@@ -1083,6 +1083,81 @@ const char* DataTable_GetTypeNameString()
 }
 
 
+#ifdef BUILD_GMOD
+// ---------------------------------------------------------------------------------------- //
+// GMODTable type abstraction.
+// ---------------------------------------------------------------------------------------- //
+
+void GMODTable_Encode( const unsigned char *pStruct, DVariant *pVar, const SendProp *pProp, bf_write *pOut, int objectID )
+{
+	// ToDo
+	// Error( "GMODTable_Encode: dt is null!" );
+	CGMODDataTable::Encode( (void*)pStruct, pOut ); // ToDo: Verify it. Is it really done like that?
+}
+
+void GMODTable_Decode( DecodeInfo *pInfo )
+{
+	if ( pInfo->m_pData )
+	{
+		CGMODDataTable::Decode( pInfo->m_pStruct, pInfo->m_pIn );
+	} else {
+		CGMODDataTable::Skip( pInfo->m_pIn );
+	}
+}
+
+
+int GMODTable_CompareDeltas( const SendProp *pProp, bf_read *p1, bf_read *p2 )
+{
+	CGMODDataTable* dt = CGMODDataTable::s_CurrentTable.Get();
+	int targetTick = CGMODDataTable::s_TargetTick.Get();
+	if ( !dt )
+		Error( "GMODTable_CompareDeltas: dt is null!" );
+
+	return CGMODDataTable::Compare( p1, p2, dt, targetTick );
+}
+
+
+void GMODTable_FastCopy( 
+	const SendProp *pSendProp, 
+	const RecvProp *pRecvProp, 
+	const unsigned char *pSendData, 
+	unsigned char *pRecvData, 
+	int objectID )
+{
+	// ToDo
+	//CGMODDataTable::FastCopy( );
+}
+
+const char* GMODTable_GetTypeNameString()
+{
+	return "DPT_GMODTable";
+}
+
+
+bool GMODTable_IsZero( const unsigned char *pStruct, DVariant *pVar, const SendProp *pProp )
+{
+	return true; // ToDo
+}
+
+
+void GMODTable_DecodeZero( DecodeInfo *pInfo )
+{
+	// Nothing
+}
+
+bool GMODTable_IsEncodedZero( const SendProp *pProp, bf_read *pIn )
+{
+	return true; // ToDo
+}
+
+void GMODTable_SkipProp( const SendProp *pProp, bf_read *pIn ) // Same code as GMODTable_IsEncodedZero
+{
+	// ToDo
+	CGMODDataTable::Skip( pIn );
+}
+#endif
+
+
 // ---------------------------------------------------------------------------------------- //
 // Int 64 property type abstraction.
 // ---------------------------------------------------------------------------------------- //
@@ -1348,6 +1423,7 @@ PropTypeFns g_PropTypeFns[DPT_NUMSendPropTypes] =
 		NULL,
 		NULL,
 	},
+
 #if 0 // We can't ship this since it changes the size of DTVariant to be 20 bytes instead of 16 and that breaks MODs!!!
 
 	// DPT_Quaternion
@@ -1379,4 +1455,18 @@ PropTypeFns g_PropTypeFns[DPT_NUMSendPropTypes] =
 	},
 #endif
 
+#ifdef BUILD_GMOD
+	// DPT_GMODTable
+	{
+		GMODTable_Encode,
+		GMODTable_Decode,
+		GMODTable_CompareDeltas,
+		GMODTable_FastCopy,
+		GMODTable_GetTypeNameString,
+		GMODTable_IsZero,
+		GMODTable_DecodeZero,
+		GMODTable_IsEncodedZero,
+		GMODTable_SkipProp,
+	},
+#endif
 };

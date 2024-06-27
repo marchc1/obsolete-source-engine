@@ -804,5 +804,13 @@ SendProp SendPropExclude(
 	const char *pPropName		// Name of the property to exclude.
 	);
 
+#ifdef BUILD_GMOD
+void SendProxy_GMODTableToGMODTable	( const SendProp *pProp, const void *pStruct, const void *pData, DVariant *pOut, int iElement, int objectID );
+
+SendProp SendPropGMODTable(
+	const char *pVarName,
+	int offset
+	);
+#endif
 
 #endif // DATATABLE_SEND_H

@@ -49,6 +49,10 @@
 #include "replayserver.h"
 #include "replay/iserverengine.h"
 
+#ifdef BUILD_GMOD
+#include "dt.h"
+#endif
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -1630,7 +1634,7 @@ public:
 #ifdef BUILD_GMOD
 	virtual float *GMOD_SetTimeManipulator( float fScaleFramerate )
 	{
-		return &fScaleFramerate; // xd
+		return &fScaleFramerate; // xd ( Use g_fScaleFramerate. it's used inside Host_AccumulateTime )
 	}
 
 	virtual void GMOD_SendToClient( IRecipientFilter *filter, const void *data, int dataSize )
@@ -1653,13 +1657,13 @@ public:
 
 	virtual IGMODDataTable *GMOD_CreateDataTable()
 	{
-		// ToDo
-		return NULL;
+		return new CGMODDataTable(NULL);
 	}
 
 	virtual void GMOD_DestroyDataTable( IGMODDataTable *dataTable )
 	{
-		// ToDo
+		if ( dataTable )
+			delete dataTable;
 	}
 
 	virtual const char *GMOD_GetServerAddress() const
