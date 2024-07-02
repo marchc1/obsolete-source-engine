@@ -35,6 +35,13 @@ extern IFileSystem *filesystem;
 	static ConVar dispcoll_drawplane( "dispcoll_drawplane", "0" );
 #endif
 
+#ifdef BUILD_GMOD
+ConVar sv_slope_fix("sv_slope_fix", "1");
+ConVar sv_ramp_fix("sv_ramp_fix", "1");
+ConVar sv_ramp_initial_retrace_length("sv_ramp_initial_retrace_length", "0.2", 0,
+                                      "Amount of units used in offset for retraces", true, 0.2f, true, 5.f);
+ConVar sv_ramp_bumpcount("sv_ramp_bumpcount", "8", 0, "Helps with fixing surf/ramp bugs", true, 4, true, 16);
+#endif
 
 // tickcount currently isn't set during prediction, although gpGlobals->curtime and
 // gpGlobals->frametime are. We should probably set tickcount (to player->m_nTickBase),
@@ -81,6 +88,45 @@ bool g_bMovementOptimizations = true;
 #define	NUM_CROUCH_HINTS	3
 
 extern IGameMovement *g_pGameMovement;
+
+#ifdef BUILD_GMOD
+bool CGameMovement::IsValidMovementTrace(trace_t &tr)
+{
+    trace_t stuck;
+
+    // Apparently we can be stuck with pm.allsolid without having valid plane info ok..
+    if (tr.allsolid || tr.startsolid)
+    {
+        return false;
+    }
+
+    // Maybe we don't need this one
+    if (CloseEnough(tr.fraction, 0.0f, FLT_EPSILON))
+    {
+        return false;
+    }
+
+    if (CloseEnough(tr.fraction, 0.0f, FLT_EPSILON) &&
+        CloseEnough(tr.plane.normal, Vector(0.0f, 0.0f, 0.0f), FLT_EPSILON))
+    {
+        return false;
+    }
+
+    // Is the plane deformed or some stupid shit?
+    if (fabs(tr.plane.normal.x) > 1.0f || fabs(tr.plane.normal.y) > 1.0f || fabs(tr.plane.normal.z) > 1.0f)
+    {
+        return false;
+    }
+
+    TracePlayerBBox(tr.endpos, tr.endpos, PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT, stuck);
+    if (stuck.startsolid || !CloseEnough(stuck.fraction, 1.0f, FLT_EPSILON))
+    {
+        return false;
+    }
+
+    return true;
+}
+#endif
 
 #if defined( PLAYER_GETTING_STUCK_TESTING )
 
@@ -2566,34 +2612,203 @@ int CGameMovement::TryPlayerMove( Vector *pFirstDest, trace_t *pFirstTrace )
 	Vector		planes[MAX_CLIP_PLANES];
 	Vector		primal_velocity, original_velocity;
 	Vector      new_velocity;
+#ifdef BUILD_GMOD
+	Vector		fixed_origin;
+	Vector		valid_plane;
+	int			i, j, h;
+#else
 	int			i, j;
+#endif
 	trace_t	pm;
 	Vector		end;
 	float		time_left, allFraction;
 	int			blocked;		
+#ifdef BUILD_GMOD
+	bool		stuck_on_ramp;
+	bool		has_valid_plane;
 	
+	numbumps  = sv_ramp_bumpcount.GetInt();
+#else
 	numbumps  = 4;           // Bump up to four times
+#endif
 	
 	blocked   = 0;           // Assume not blocked
 	numplanes = 0;           //  and not sliding along any planes
 
+#ifdef BUILD_GMOD
+	stuck_on_ramp = false;
+	has_valid_plane = false;
+#endif
+
 	VectorCopy (mv->m_vecVelocity, original_velocity);  // Store original velocity
 	VectorCopy (mv->m_vecVelocity, primal_velocity);
+#ifdef BUILD_GMOD
+	VectorCopy(mv->GetAbsOrigin(), fixed_origin);
+#endif
 	
 	allFraction = 0;
 	time_left = gpGlobals->frametime;   // Total time for this movement operation.
 
 	new_velocity.Init();
+#ifdef BUILD_GMOD
+	valid_plane.Init();
+#endif
 
 	for (bumpcount=0 ; bumpcount < numbumps; bumpcount++)
 	{
 		if ( mv->m_vecVelocity.Length() == 0.0 )
 			break;
 
+#ifdef BUILD_GMOD
+		if (stuck_on_ramp && sv_ramp_fix.GetBool())
+		{
+			if (!has_valid_plane)
+			{
+				if (!CloseEnough(pm.plane.normal, Vector(0.0f, 0.0f, 0.0f), FLT_EPSILON) &&
+					valid_plane != pm.plane.normal)
+				{
+					valid_plane = pm.plane.normal;
+					has_valid_plane = true;
+				}
+				else
+				{
+					for (i = numplanes; i-- > 0;)
+					{
+						if (!CloseEnough(planes[i], Vector(0.0f, 0.0f, 0.0f), FLT_EPSILON) &&
+							fabs(planes[i].x) <= 1.0f && fabs(planes[i].y) <= 1.0f && fabs(planes[i].z) <= 1.0f &&
+							valid_plane != planes[i])
+						{
+							valid_plane = planes[i];
+							has_valid_plane = true;
+							break;
+						}
+					}
+				}
+			}
+
+			if (has_valid_plane)
+			{
+				if (valid_plane.z >= 0.7f && valid_plane.z <= 1.0f)
+				{
+					ClipVelocity(mv->m_vecVelocity, valid_plane, mv->m_vecVelocity, 1);
+					VectorCopy(mv->m_vecVelocity, original_velocity);
+				}
+				else
+				{
+					ClipVelocity(mv->m_vecVelocity, valid_plane, mv->m_vecVelocity,
+								 1.0f + sv_bounce.GetFloat() * (1.0f - player->m_surfaceFriction));
+					VectorCopy(mv->m_vecVelocity, original_velocity);
+				}
+			}
+			else // We were actually going to be stuck, lets try and find a valid plane..
+			{
+				// this way we know fixed_origin isn't going to be stuck
+				float offsets[] = {(bumpcount * 2) * -sv_ramp_initial_retrace_length.GetFloat(), 0.0f,
+								   (bumpcount * 2) * sv_ramp_initial_retrace_length.GetFloat()};
+				int valid_planes = 0;
+				valid_plane.Init(0.0f, 0.0f, 0.0f);
+
+				// we have 0 plane info, so lets increase our bbox and search in all 27 directions to get a valid plane!
+				for (i = 0; i < 3; ++i)
+				{
+					for (j = 0; j < 3; ++j)
+					{
+						for (h = 0; h < 3; ++h)
+						{
+							Vector offset = {offsets[i], offsets[j], offsets[h]};
+
+							Vector offset_mins = offset / 2.0f;
+							Vector offset_maxs = offset / 2.0f;
+
+							if (offset.x > 0.0f)
+								offset_mins.x /= 2.0f;
+							if (offset.y > 0.0f)
+								offset_mins.y /= 2.0f;
+							if (offset.z > 0.0f)
+								offset_mins.z /= 2.0f;
+
+							if (offset.x < 0.0f)
+								offset_maxs.x /= 2.0f;
+							if (offset.y < 0.0f)
+								offset_maxs.y /= 2.0f;
+							if (offset.z < 0.0f)
+								offset_maxs.z /= 2.0f;
+
+							Ray_t ray;
+							ray.Init(fixed_origin + offset, end - offset, GetPlayerMins() - offset_mins,
+									 GetPlayerMaxs() + offset_maxs);
+							UTIL_TraceRay(ray, PlayerSolidMask(), mv->m_nPlayerHandle.Get(),
+										  COLLISION_GROUP_PLAYER_MOVEMENT, &pm);
+
+							// Only use non deformed planes and planes with values where the start point is not from a
+							// solid
+							if (fabs(pm.plane.normal.x) <= 1.0f && fabs(pm.plane.normal.y) <= 1.0f &&
+								fabs(pm.plane.normal.z) <= 1.0f && pm.fraction > 0.0f && pm.fraction < 1.0f &&
+								!pm.startsolid)
+							{
+								valid_planes++;
+								valid_plane += pm.plane.normal;
+							}
+						}
+					}
+				}
+
+				if (valid_planes && !CloseEnough(valid_plane, Vector(0.0f, 0.0f, 0.0f), FLT_EPSILON))
+				{
+					has_valid_plane = true;
+					valid_plane.NormalizeInPlace();
+					continue;
+				}
+			}
+
+			if (has_valid_plane)
+			{
+				VectorMA(fixed_origin, sv_ramp_initial_retrace_length.GetFloat(), valid_plane, fixed_origin);
+			}
+			else
+			{
+				stuck_on_ramp = false;
+				continue;
+			}
+		}
+#endif
+
 		// Assume we can move all the way from the current origin to the
 		//  end point.
 		VectorMA( mv->GetAbsOrigin(), time_left, mv->m_vecVelocity, end );
 
+#ifdef BUILD_GMOD
+		if (pFirstDest && end == *pFirstDest)
+			pm = *pFirstTrace;
+		else
+		{
+#if defined(PLAYER_GETTING_STUCK_TESTING)
+			trace_t foo;
+			TracePlayerBBox(mv->GetAbsOrigin(), mv->GetAbsOrigin(), PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT,
+							foo);
+			if (foo.startsolid || foo.fraction != 1.0f)
+			{
+				Msg("bah\n");
+			}
+#endif
+			if (stuck_on_ramp && has_valid_plane && sv_ramp_fix.GetBool())
+			{
+				TracePlayerBBox(fixed_origin, end, PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT, pm);
+				pm.plane.normal = valid_plane;
+			}
+			else
+			{
+				TracePlayerBBox(mv->GetAbsOrigin(), end, PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT, pm);
+			}
+		}
+
+		if (bumpcount && sv_ramp_fix.GetBool() && player->GetGroundEntity() == nullptr && !IsValidMovementTrace(pm))
+		{
+			has_valid_plane = false;
+			stuck_on_ramp = true;
+			continue;
+		}
+#else
 		// See if we can make it from origin to end point.
 		if ( g_bMovementOptimizations )
 		{
@@ -2619,12 +2834,17 @@ int CGameMovement::TryPlayerMove( Vector *pFirstDest, trace_t *pFirstTrace )
 		}
 
 		allFraction += pm.fraction;
+#endif
 
 		// If we started in a solid object, or we were in solid space
 		//  the whole way, zero out our velocity and return that we
 		//  are blocked by floor and wall.
+#ifdef BUILD_GMOD
+		if (pm.allsolid && !sv_ramp_fix.GetBool())
+#else
 		if (pm.allsolid)
-		{	
+#endif
+		{
 			// entity is trapped in another solid
 			VectorCopy (vec3_origin, mv->m_vecVelocity);
 			return 4;
@@ -2633,6 +2853,56 @@ int CGameMovement::TryPlayerMove( Vector *pFirstDest, trace_t *pFirstTrace )
 		// If we moved some portion of the total distance, then
 		//  copy the end position into the pmove.origin and 
 		//  zero the plane counter.
+#ifdef BUILD_GMOD
+		if (pm.fraction > 0.0f)
+		{
+			if ((!bumpcount || player->GetGroundEntity() != nullptr || !sv_ramp_fix.GetBool()) && numbumps > 0 && pm.fraction == 1.0f)
+			{
+				// There's a precision issue with terrain tracing that can cause a swept box to successfully trace
+				// when the end position is stuck in the triangle.  Re-run the test with an unswept box to catch that
+				// case until the bug is fixed.
+				// If we detect getting stuck, don't allow the movement
+				trace_t stuck;
+				TracePlayerBBox(pm.endpos, pm.endpos, PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT, stuck);
+
+				if ((stuck.startsolid || stuck.fraction != 1.0f) && !bumpcount && sv_ramp_fix.GetBool())
+				{
+					has_valid_plane = false;
+					stuck_on_ramp = true;
+					continue;
+				}
+				else if (stuck.startsolid || stuck.fraction != 1.0f)
+				{
+					Msg("Player will become stuck!!! allfrac: %f pm: %i, %f, %f, %f vs stuck: %i, %f, %f\n",
+						allFraction, pm.startsolid, pm.fraction, pm.plane.normal.z, pm.fractionleftsolid,
+						stuck.startsolid, stuck.fraction, stuck.plane.normal.z);
+					VectorCopy(vec3_origin, mv->m_vecVelocity);
+					break;
+				}
+			}
+
+#if defined(PLAYER_GETTING_STUCK_TESTING)
+			trace_t foo;
+			TracePlayerBBox(pm.endpos, pm.endpos, PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT, foo);
+			if (foo.startsolid || foo.fraction != 1.0f)
+			{
+				Msg("Player will become stuck!!!\n");
+			}
+#endif
+			if (sv_ramp_fix.GetBool())
+			{
+				has_valid_plane = false;
+				stuck_on_ramp = false;
+			}
+
+			// actually covered some distance
+			VectorCopy(mv->m_vecVelocity, original_velocity);
+			mv->SetAbsOrigin(pm.endpos);
+			VectorCopy(mv->GetAbsOrigin(), fixed_origin);
+			allFraction += pm.fraction;
+			numplanes = 0;
+		}
+#else
 		if( pm.fraction > 0 )
 		{	
 			if ( numbumps > 0 && pm.fraction == 1 )
@@ -2664,10 +2934,15 @@ int CGameMovement::TryPlayerMove( Vector *pFirstDest, trace_t *pFirstTrace )
 			VectorCopy (mv->m_vecVelocity, original_velocity);
 			numplanes = 0;
 		}
+#endif
 
 		// If we covered the entire distance, we are done
 		//  and can return.
+#ifdef BUILD_GMOD
+		if (CloseEnough(pm.fraction, 1.0f, FLT_EPSILON))
+#else
 		if (pm.fraction == 1)
+#endif
 		{
 			 break;		// moved the entire distance
 		}

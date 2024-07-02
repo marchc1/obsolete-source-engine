@@ -250,6 +250,10 @@ protected:
 	// when we step on ground that's too steep, search to see if there's any ground nearby that isn't too steep
 	void			TryTouchGroundInQuadrants( const Vector& start, const Vector& end, unsigned int fMask, int collisionGroup, trace_t& pm );
 
+#ifdef BUILD_GMOD
+	// Validate tracerays
+    bool IsValidMovementTrace(trace_t &tr);
+#endif
 
 protected:
 
