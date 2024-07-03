@@ -435,3 +435,4 @@ GarrysMod/Lua/temp
 !lib/public/steam_api.def
 !lib/public/cryptlib.lib
 !lib/public/cryptlib.pdb
+!lib/public/FreeImage.lib
