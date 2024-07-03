@@ -429,3 +429,9 @@ enc_temp_folder/*
 GarrysMod/Lua/temp
 *.exe
 *.pdb
+
+!__dependencies/*.*
+!lib/public/steam_api.lib
+!lib/public/steam_api.def
+!lib/public/cryptlib.lib
+!lib/public/cryptlib.pdb
