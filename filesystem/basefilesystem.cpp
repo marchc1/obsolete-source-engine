@@ -4573,7 +4573,7 @@ const char *CBaseFileSystem::RelativePathToFullPath( const char *pFileName, cons
 		*pPathType = PATH_IS_NORMAL;
 	}
 
-	Msg("RelativePathToFullPath called %s %s\n", pFileName, pPathID);
+	//Msg("RelativePathToFullPath called %s %s\n", pFileName, pPathID);
 
 	// Convert filename to lowercase.  All files in the
 	// game logical filesystem must be accessed by lowercase name
