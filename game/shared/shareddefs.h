@@ -11,8 +11,6 @@
 #pragma once
 #endif
 
-#include "bittools.h"
-
 #define TICK_INTERVAL			(gpGlobals->interval_per_tick)
 
 
@@ -770,9 +768,6 @@ struct StepSimulationData
 	// The computed/interpolated network origin/angles to use
 	Vector		m_vecNetworkOrigin;
 	QAngle		m_angNetworkAngles;
-#ifdef BUILD_GMOD
-	int			m_networkCell[3];
-#endif
 };
 
 //-----------------------------------------------------------------------------
@@ -901,15 +896,6 @@ enum
 
 #define SPROP_COORD SPROP_COORD_MP
 
-#endif
-
-#ifdef BUILD_GMOD
-//-----------------------------------------------------------------------------
-// Cell origin values
-//-----------------------------------------------------------------------------
-#define CELL_COUNT( bits ) ( (MAX_COORD_INTEGER*2) / (1 << (bits)) ) // How many cells on an axis based on the bit size of the cell
-#define CELL_COUNT_BITS( bits ) MINIMUM_BITS_NEEDED( CELL_COUNT( bits ) ) // How many bits are necessary to respresent that cell
-#define CELL_BASEENTITY_ORIGIN_CELL_BITS 5 // default amount of entropy bits for base entity
 #endif
 
 // The player's method of starting / stopping commentary
