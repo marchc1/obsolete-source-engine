@@ -26,6 +26,8 @@ struct shadowcontrol_params_t
 {
 	shadowcontrol_params_t() 
 	{ 
+		targetPosition.set_to_zero(); 
+		targetRotation.set(0.0, 0.0, 0.0f); 
 		lastPosition.set_to_zero(); 
 		lastImpulse.set_to_zero();
 	}
