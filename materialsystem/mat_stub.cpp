@@ -1799,7 +1799,7 @@ public:
 		return 0;
 	}
 
-	virtual char *GetDisplayDeviceName() const OVERRIDE
+	virtual const char *GetDisplayDeviceName() const OVERRIDE
 	{
 		return "";
 	}
