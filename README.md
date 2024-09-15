@@ -4,6 +4,10 @@ There is also the [gmod-improvements](https://github.com/RaphaelIT7/obsolete-sou
 [![Build](https://github.com/Source-Authors/Obsoletium/actions/workflows/build.yml/badge.svg)](https://github.com/Source-Authors/Obsoletium/actions/workflows/build.yml)
 [![GitHub Repo Size in Bytes](https://img.shields.io/github/repo-size/Source-Authors/Obsoletium.svg)](https://github.com/Source-Authors/Obsoletium)
 
+# NOTE
+I just rebased this entire branch to have the 64x stuff :D  
+So stuff might be broken.  
+
 List of dlls that are worked on:
 - `vstdlist.dll` (Everything was reverted.)
 - `studiorender.dll` (Only works with `studio_queue_mode`, BUG: pCallQueue->QueueCall causes a crash! `QUEUE_STUDIORENDER_CALL`)
@@ -20,7 +24,7 @@ Progress:
 - - [ ] Implement Addon Mounting  
 - - [ ] Implement Addon Download  
 
-List of currently working dlls:
+List of currently (probably)working dlls:
 - `datacache.dll`
 - `icudt.dll` (IDK what it even does xd)
 - `icudt42.dll` (IDK what it even does xd)
@@ -37,7 +41,7 @@ List of currently working dlls:
 * [windows] Visual Studio 2022 with v143+ platform toolset.
 * Use `git clone --recurse-submodules`
 * Run `create_<GAME_NAME>_dev_<ARCH>.bat` from `Developer Command Prompt` (Use x64 version for x64 CPU arch). See directory tree for supported games.
-* Open `hl2_<ARCH>.sln`.
+* Open `<GAME_NAME>_<ARCH>.sln`.
 * Build.
 
 
