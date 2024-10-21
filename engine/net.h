@@ -157,6 +157,10 @@ void		NET_PrintChannelStatus( INetChannel * chan );
 
 void		NET_WriteStringCmd( const char * cmd, bf_write *buf );
 
+#ifdef BUILD_GMOD
+bool		NET_IsHostLocal( const char* pHostName );
+#endif
+
 // Address conversion
 bool		NET_StringToAdr ( const char *s, netadr_t *a);
 // Convert from host to network byte ordering
