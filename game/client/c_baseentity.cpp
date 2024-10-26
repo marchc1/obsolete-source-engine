@@ -581,7 +581,7 @@ void SpewInterpolatedVar( CInterpolatedVar< Vector > *pVar )
 	float prevtime = 0.0f;
 	while ( 1 )
 	{
-		float changetime;
+		double changetime;
 		Vector *pVal = pVar->GetHistoryValue( i, changetime );
 		if ( !pVal )
 			break;
@@ -608,7 +608,7 @@ void SpewInterpolatedVar( CInterpolatedVar< Vector > *pVar, float flNow, float f
 
 	while ( 1 )
 	{
-		float changetime;
+		double changetime;
 		Vector *pVal = pVar->GetHistoryValue( i, changetime );
 		if ( !pVal )
 			break;
@@ -631,7 +631,7 @@ void SpewInterpolatedVar( CInterpolatedVar< Vector > *pVar, float flNow, float f
 				bSpew = true;
 				int savei = i;
 				i = pVar->GetNext( i );
-				float oldtertime = 0.0f;
+				double oldtertime = 0.0f;
 				pVar->GetHistoryValue( i, oldtertime );
 
 				if ( changetime != oldtertime )
@@ -672,7 +672,7 @@ void SpewInterpolatedVar( CInterpolatedVar< float > *pVar )
 	CApparentVelocity<float> apparent(0.0f);
 	while ( 1 )
 	{
-		float changetime;
+		double changetime;
 		float *pVal = pVar->GetHistoryValue( i, changetime );
 		if ( !pVal )
 			break;
@@ -858,7 +858,7 @@ void C_BaseEntity::Interp_HierarchyUpdateInterpolationAmounts()
 	}
 }
 
-inline int C_BaseEntity::Interp_Interpolate( VarMapping_t *map, float currentTime )
+inline int C_BaseEntity::Interp_Interpolate( VarMapping_t *map, double currentTime )
 {
 	int bNoMoreChanges = 1;
 	if ( currentTime < map->m_lastInterpolationTime )
@@ -2010,7 +2010,7 @@ int C_BaseEntity::DrawModel( int flags )
 //-----------------------------------------------------------------------------
 // Purpose: Setup the bones for drawing
 //-----------------------------------------------------------------------------
-bool C_BaseEntity::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime )
+bool C_BaseEntity::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime )
 {
 	return true;
 }
@@ -2813,7 +2813,7 @@ void C_BaseEntity::OnLatchInterpolatedVariables( int flags )
 	}
 }
 
-int CBaseEntity::BaseInterpolatePart1( float &currentTime, Vector &oldOrigin, QAngle &oldAngles, Vector &oldVel, int &bNoMoreChanges )
+int CBaseEntity::BaseInterpolatePart1( double &currentTime, Vector &oldOrigin, QAngle &oldAngles, Vector &oldVel, int &bNoMoreChanges )
 {
 	// Don't mess with the world!!!
 	bNoMoreChanges = 1;
@@ -2889,7 +2889,7 @@ void C_BaseEntity::BaseInterpolatePart2( Vector &oldOrigin, QAngle &oldAngles, V
 // Purpose: Default interpolation for entities
 // Output : true means entity should be drawn, false means probably not
 //-----------------------------------------------------------------------------
-bool C_BaseEntity::Interpolate( float currentTime )
+bool C_BaseEntity::Interpolate( double currentTime )
 {
 	VPROF( "C_BaseEntity::Interpolate" );
 
@@ -3167,7 +3167,7 @@ C_BaseEntity *CBaseEntity::GetFollowedEntity()
 //-----------------------------------------------------------------------------
 // Default implementation for GetTextureAnimationStartTime
 //-----------------------------------------------------------------------------
-float C_BaseEntity::GetTextureAnimationStartTime()
+double C_BaseEntity::GetTextureAnimationStartTime()
 {
 	return m_flSpawnTime;
 }
@@ -3917,7 +3917,7 @@ bool C_BaseEntity::InLocalTeam( void )
 }
 
 
-void C_BaseEntity::SetNextClientThink( float nextThinkTime )
+void C_BaseEntity::SetNextClientThink( double nextThinkTime )
 {
 	Assert( GetClientHandle() != INVALID_CLIENTENTITY_HANDLE );
 	ClientThinkList()->SetNextClientThink( GetClientHandle(), nextThinkTime );
@@ -5887,7 +5887,7 @@ void C_BaseEntity::ResetLatched()
 // Output : float
 //-----------------------------------------------------------------------------
 
-static float AdjustInterpolationAmount( C_BaseEntity *pEntity, float baseInterpolation )
+static double AdjustInterpolationAmount( C_BaseEntity *pEntity, double baseInterpolation )
 {
 	if ( cl_interp_npcs.GetFloat() > 0 )
 	{
@@ -5910,7 +5910,7 @@ static float AdjustInterpolationAmount( C_BaseEntity *pEntity, float baseInterpo
 }
 
 //-------------------------------------
-float C_BaseEntity::GetInterpolationAmount( int flags )
+double C_BaseEntity::GetInterpolationAmount( int flags )
 {
 	// If single player server is "skipping ticks" everything needs to interpolate for a bit longer
 	int serverTickMultiple = 1;
@@ -5958,7 +5958,7 @@ float C_BaseEntity::GetInterpolationAmount( int flags )
 }
 
 
-float C_BaseEntity::GetLastChangeTime( int flags )
+double C_BaseEntity::GetLastChangeTime( int flags )
 {
 	if ( GetPredictable() || IsClientCreated() )
 	{

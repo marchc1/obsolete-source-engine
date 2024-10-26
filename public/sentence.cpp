@@ -1137,7 +1137,7 @@ intp CSentence::CountPhonemes( void )
 // Input  : time - 
 // Output : CWordTag
 //-----------------------------------------------------------------------------
-CWordTag *CSentence::EstimateBestWord( float time )
+CWordTag *CSentence::EstimateBestWord( double time )
 {
 #if PHONEME_EDITOR
 	CWordTag *bestWord = NULL;
@@ -1386,7 +1386,7 @@ void CSentence::Resort( void )
 // Input  : number - 
 // Output : CEmphasisSample
 //-----------------------------------------------------------------------------
-CEmphasisSample *CSentence::GetBoundedSample( int number, float endtime )
+CEmphasisSample *CSentence::GetBoundedSample( int number, double endtime )
 {
 	// Search for two samples which span time f
 	static CEmphasisSample nullstart;
@@ -1414,7 +1414,7 @@ CEmphasisSample *CSentence::GetBoundedSample( int number, float endtime )
 //			type - 
 // Output : float
 //-----------------------------------------------------------------------------
-float CSentence::GetIntensity( float time, float endtime )
+double CSentence::GetIntensity( double time, double endtime )
 {
 	float zeroValue = 0.5f;
 	
@@ -1491,11 +1491,11 @@ CEmphasisSample *CSentence::GetSample( int index )
 	return &m_EmphasisSamples[ index ];
 }
 
-void CSentence::GetEstimatedTimes( float& start, float &end )
+void CSentence::GetEstimatedTimes( double& start, double &end )
 {
 #if PHONEME_EDITOR
-	float beststart = 100000.0f;
-	float bestend = -100000.0f;
+	double beststart = 100000.0f;
+	double bestend = -100000.0f;
 
 	int c = m_Words.Count();
 	if ( !c )

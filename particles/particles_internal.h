@@ -32,7 +32,7 @@ struct CWorldCollideContextData
 
 	int m_nActivePlanes;
 	int m_nNumFixedPlanes;
-	float m_flLastUpdateTime;
+	double m_flLastUpdateTime;
 	Vector m_vecLastUpdateOrigin;
 	bool m_bPlaneActive[MAX_WORLD_PLANAR_CONSTRAINTS];
 

@@ -141,7 +141,7 @@ void CopySoundNameWithModifierToken( char *pchDest, const char *pchSource, int n
 // Purpose: 
 // Output : float
 //-----------------------------------------------------------------------------
-float CBasePlayer::GetTimeBase( void ) const
+double CBasePlayer::GetTimeBase( void ) const
 {
 	return m_nTickBase * TICK_INTERVAL;
 }

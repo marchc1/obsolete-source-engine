@@ -218,13 +218,13 @@ void C_BaseAnimatingOverlay::CheckForLayerChanges( CStudioHdr *hdr, float curren
 		m_iv_AnimOverlay[i].GetInterpolationInfo( currentTime, &iHead, &iPrev1, &iPrev2 );
 
 		// fake up previous cycle values.
-		float t0;
+		double t0;
 		C_AnimationLayer *pHead = m_iv_AnimOverlay[i].GetHistoryValue( iHead, t0 );
 		// reset previous
-		float t1;
+		double t1;
 		C_AnimationLayer *pPrev1 = m_iv_AnimOverlay[i].GetHistoryValue( iPrev1, t1 );
 		// reset previous previous
-		float t2;
+		double t2;
 		C_AnimationLayer *pPrev2 = m_iv_AnimOverlay[i].GetHistoryValue( iPrev2, t2 );
 
 		if ( pHead && pPrev1 && pHead->m_nSequence != pPrev1->m_nSequence )
@@ -381,13 +381,13 @@ void C_BaseAnimatingOverlay::AccumulateLayers( IBoneSetup &boneSetup, Vector pos
 						m_iv_AnimOverlay[i].GetInterpolationInfo( currentTime, &iHead, &iPrev1, &iPrev2 );
 
 						// fake up previous cycle values.
-						float t0;
+						double t0;
 						C_AnimationLayer *pHead = m_iv_AnimOverlay[i].GetHistoryValue( iHead, t0 );
 						// reset previous
-						float t1;
+						double t1;
 						C_AnimationLayer *pPrev1 = m_iv_AnimOverlay[i].GetHistoryValue( iPrev1, t1 );
 						// reset previous previous
-						float t2;
+						double t2;
 						C_AnimationLayer *pPrev2 = m_iv_AnimOverlay[i].GetHistoryValue( iPrev2, t2 );
 
 						if ( pHead && pPrev1 && pPrev2 )

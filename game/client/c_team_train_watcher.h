@@ -59,8 +59,8 @@ private:
 	CNetworkVar( int, m_iTrainSpeedLevel );
 	int m_iOldTrainSpeedLevel;
 
-	CNetworkVar( float, m_flRecedeTime );
-	float m_flOldRecedeTime;
+	CNetworkVar( double, m_flRecedeTime );
+	double m_flOldRecedeTime;
 
 	CNetworkVar( int, m_nNumCappers );
 	int m_nOldNumCappers;

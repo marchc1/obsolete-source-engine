@@ -757,7 +757,7 @@ int CBaseEntity::RegisterThinkContext( const char *szContext )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-BASEPTR	CBaseEntity::ThinkSet( BASEPTR func, float thinkTime, const char *szContext )
+BASEPTR	CBaseEntity::ThinkSet( BASEPTR func, double thinkTime, const char *szContext )
 {
 #if !defined( CLIENT_DLL )
 #ifdef _DEBUG
@@ -807,7 +807,7 @@ BASEPTR	CBaseEntity::ThinkSet( BASEPTR func, float thinkTime, const char *szCont
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CBaseEntity::SetNextThink( float thinkTime, const char *szContext )
+void CBaseEntity::SetNextThink( double thinkTime, const char *szContext )
 {
 	int thinkTick = ( thinkTime == TICK_NEVER_THINK ) ? TICK_NEVER_THINK : TIME_TO_TICKS( thinkTime );
 
@@ -845,7 +845,7 @@ void CBaseEntity::SetNextThink( float thinkTime, const char *szContext )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-float CBaseEntity::GetNextThink( const char *szContext )
+double CBaseEntity::GetNextThink( const char *szContext )
 {
 	// Are we currently in a think function with a context?
 	int iIndex = 0;
@@ -919,7 +919,7 @@ int	CBaseEntity::GetNextThinkTick( const char *szContext /*= NULL*/ )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-float CBaseEntity::GetLastThink( const char *szContext )
+double CBaseEntity::GetLastThink( const char *szContext )
 {
 	// Are we currently in a think function with a context?
 	int iIndex = 0;

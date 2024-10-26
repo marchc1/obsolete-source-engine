@@ -1430,7 +1430,7 @@ void C_BaseAnimating::GetPoseParameters( CStudioHdr *pStudioHdr, float poseParam
 }
 
 
-float C_BaseAnimating::ClampCycle( float flCycle, bool isLooping )
+double C_BaseAnimating::ClampCycle( double flCycle, bool isLooping )
 {
 	if (isLooping) 
 	{
@@ -2393,7 +2393,7 @@ void drawLine(const Vector& origin, const Vector& dest, int r, int g, int b, boo
 // Purpose: update latched IK contacts if they're in a moving reference frame.
 //-----------------------------------------------------------------------------
 
-void C_BaseAnimating::UpdateIKLocks( float currentTime )
+void C_BaseAnimating::UpdateIKLocks( double currentTime )
 {
 	if (!m_pIk) 
 		return;
@@ -2424,7 +2424,7 @@ void C_BaseAnimating::UpdateIKLocks( float currentTime )
 // Purpose: Find the ground or external attachment points needed by IK rules
 //-----------------------------------------------------------------------------
 
-void C_BaseAnimating::CalculateIKLocks( float currentTime )
+void C_BaseAnimating::CalculateIKLocks( double currentTime )
 {
 	if (!m_pIk) 
 		return;
@@ -2779,7 +2779,7 @@ void C_BaseAnimating::ThreadedBoneSetup()
 	g_PreviousBoneSetups.RemoveAll();
 }
 
-bool C_BaseAnimating::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime )
+bool C_BaseAnimating::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime )
 {
 	VPROF_BUDGET( "C_BaseAnimating::SetupBones", VPROF_BUDGETGROUP_CLIENT_ANIMATION );
 
@@ -4438,7 +4438,7 @@ void C_BaseAnimating::ResetLatched( void )
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
 
-bool C_BaseAnimating::Interpolate( float flCurrentTime )
+bool C_BaseAnimating::Interpolate( double flCurrentTime )
 {
 	// ragdolls don't need interpolation
 	if ( m_pRagdoll )

@@ -313,7 +313,7 @@ public:
 
 	virtual void			SetAnimation( PLAYER_ANIM playerAnim );
 
-	float					GetTimeBase( void ) const;
+	double					GetTimeBase( void ) const;
 	float					GetFinalPredictedTime() const;
 
 	bool					IsInVGuiInputMode() const;
@@ -387,7 +387,7 @@ public:
 	virtual void			OnAchievementAchieved( int iAchievement ) {}
 	
 	bool					ShouldAnnounceAchievement( void ){ return m_flNextAchievementAnnounceTime < gpGlobals->curtime; }
-	void					SetNextAchievementAnnounceTime( float flTime ){ m_flNextAchievementAnnounceTime = flTime; }
+	void					SetNextAchievementAnnounceTime( double flTime ){ m_flNextAchievementAnnounceTime = flTime; }
 
 #if defined USES_ECON_ITEMS
 	// Wearables

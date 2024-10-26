@@ -152,7 +152,7 @@ public:
 	virtual int					DrawModel( int flags );
 	virtual void				ComputeFxBlend( );
 	virtual int					GetFxBlend( );
-	virtual bool				SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime );
+	virtual bool				SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime );
 	virtual void				SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights );
 	virtual bool				UsesFlexDelayedWeights() { return false; }
 	virtual void				DoAnimationEvents( void );
@@ -647,7 +647,7 @@ ClientRenderHandle_t& CDetailModel::RenderHandle()
 //-----------------------------------------------------------------------------
 // Render setup
 //-----------------------------------------------------------------------------
-bool CDetailModel::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime )
+bool CDetailModel::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime )
 {
 	if (!m_pModel)
 		return false;

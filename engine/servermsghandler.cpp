@@ -298,9 +298,9 @@ bool CClientState::ProcessTick( NET_Tick *msg )
 
 	// Use the server tick while reading network data (used for interpolation samples, etc).
 	g_ClientGlobalVariables.tickcount = tick;	
-	g_ClientGlobalVariables.curtime = tick * host_state.interval_per_tick;
+	g_ClientGlobalVariables.curtime = m_flLastServerTickTime;
 	g_ClientGlobalVariables.frametime = (tick - oldtickcount) * host_state.interval_per_tick;	// We used to call GetFrameTime() here, but 'insimulation' is always
-																								// true so we have this code right in here to keep it simple.
+																							// true so we have this code right in here to keep it simple.
 
 	return true;
 }

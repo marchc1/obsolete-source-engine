@@ -570,9 +570,9 @@ public:
 	CNetworkVar( int, m_nViewModelIndex );
 
 	// Weapon firing
-	CNetworkVar( float, m_flNextPrimaryAttack );						// soonest time ItemPostFrame will call PrimaryAttack
-	CNetworkVar( float, m_flNextSecondaryAttack );					// soonest time ItemPostFrame will call SecondaryAttack
-	CNetworkVar( float, m_flTimeWeaponIdle );							// soonest time ItemPostFrame will call WeaponIdle
+	CNetworkVar( double, m_flNextPrimaryAttack );						// soonest time ItemPostFrame will call PrimaryAttack
+	CNetworkVar( double, m_flNextSecondaryAttack );						// soonest time ItemPostFrame will call SecondaryAttack
+	CNetworkVar( double, m_flTimeWeaponIdle );							// soonest time ItemPostFrame will call WeaponIdle
 	// Weapon state
 	bool					m_bInReload;			// Are we in the middle of a reload;
 	bool					m_bFireOnEmpty;			// True when the gun is empty and the player is still holding down the attack key(s)
@@ -581,7 +581,7 @@ public:
 	CNetworkVar( int, m_iViewModelIndex );
 	CNetworkVar( int, m_iWorldModelIndex );
 	// Sounds
-	float					m_flNextEmptySoundTime;				// delay on empty sound playing
+	double					m_flNextEmptySoundTime;				// delay on empty sound playing
 
 	Activity				GetIdealActivity( void ) { return m_IdealActivity; }
 	int						GetIdealSequence( void ) { return m_nIdealSequence; }
@@ -644,8 +644,8 @@ private:
 	int						m_iReloadHudHintCount;		// How many times has this weapon displayed its reload HUD hint?
 	bool					m_bAltFireHudHintDisplayed;	// Have we displayed an alt-fire HUD hint since this weapon was deployed?
 	bool					m_bReloadHudHintDisplayed;	// Have we displayed a reload HUD hint since this weapon was deployed?
-	float					m_flHudHintPollTime;	// When to poll the weapon again for whether it should display a hud hint.
-	float					m_flHudHintMinDisplayTime; // if the hint is squelched before this, reset my counter so we'll display it again.
+	double					m_flHudHintPollTime;	// When to poll the weapon again for whether it should display a hud hint.
+	double					m_flHudHintMinDisplayTime; // if the hint is squelched before this, reset my counter so we'll display it again.
 	
 	// Server only
 #if !defined( CLIENT_DLL )

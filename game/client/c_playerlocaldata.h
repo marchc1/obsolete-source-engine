@@ -46,9 +46,9 @@ public:
 	bool					m_bDucked;
 	bool					m_bDucking;
 	bool					m_bInDuckJump;
-	float					m_flDucktime;
-	float					m_flDuckJumpTime;
-	float					m_flJumpTime;
+	double					m_flDucktime;
+	double					m_flDuckJumpTime;
+	double					m_flJumpTime;
 	int						m_nStepside;
 	float					m_flFallVelocity;
 	int						m_nOldButtons;

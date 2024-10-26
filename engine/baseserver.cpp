@@ -1577,7 +1577,7 @@ bool CBaseServer::CheckPassword( netadr_t &adr, const char *password, const char
 	return false; // all test failed
 }
 
-float CBaseServer::GetTime() const
+double CBaseServer::GetTime() const
 {
 	return m_nTickCount * m_flTickInterval;
 }

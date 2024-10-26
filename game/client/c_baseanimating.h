@@ -109,7 +109,7 @@ public:
 
 	bool UsesPowerOfTwoFrameBufferTexture( void ) override;
 
-	bool	Interpolate( float currentTime ) override;
+	bool	Interpolate( double currentTime ) override;
 	void	Simulate() override;	
 	void	Release() override;	
 
@@ -136,16 +136,16 @@ public:
 	bool HitboxToWorldTransforms( matrix3x4_t *pHitboxToWorld[MAXSTUDIOBONES] );
 
 	// base model functionality
-	float		  ClampCycle( float cycle, bool isLooping );
+	double		  ClampCycle( double cycle, bool isLooping );
 	virtual void GetPoseParameters( CStudioHdr *pStudioHdr, float poseParameter[MAXSTUDIOPOSEPARAM] );
 	virtual void BuildTransformations( CStudioHdr *pStudioHdr, Vector *pos, Quaternion q[], const matrix3x4_t& cameraTransform, int boneMask, CBoneBitList &boneComputed );
 	virtual void ApplyBoneMatrixTransform( matrix3x4_t& transform );
  	int	VPhysicsGetObjectList( IPhysicsObject **pList, int listMax ) override;
 
 	// model specific
-	bool SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime ) override;
-	virtual void UpdateIKLocks( float currentTime );
-	virtual void CalculateIKLocks( float currentTime );
+	bool SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime ) override;
+	virtual void UpdateIKLocks( double currentTime );
+	virtual void CalculateIKLocks( double currentTime );
 	bool ShouldDraw() override;
 	void UpdateVisibility() override;
 	int DrawModel( int flags ) override;

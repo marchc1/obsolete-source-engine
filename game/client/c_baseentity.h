@@ -234,7 +234,7 @@ public:
 	void							Interp_SetupMappings( VarMapping_t *map );
 	
 	// Returns 1 if there are no more changes (ie: we could call RemoveFromInterpolationList).
-	int								Interp_Interpolate( VarMapping_t *map, float currentTime );
+	int								Interp_Interpolate( VarMapping_t *map, double currentTime );
 	
 	void							Interp_RestoreToLastNetworked( VarMapping_t *map );
 	void							Interp_UpdateInterpolationAmounts( VarMapping_t *map );
@@ -456,7 +456,7 @@ public:
 
 // IClientEntity implementation.
 public:
-	virtual bool					SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime );
+	virtual bool					SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime );
 	virtual void					SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights );
 	virtual bool					UsesFlexDelayedWeights() { return false; }
 	virtual void					DoAnimationEvents( void );
@@ -719,11 +719,11 @@ public:
 	void							Interp_Reset( VarMapping_t *map );
 	virtual void					ResetLatched();
 	
-	float							GetInterpolationAmount( int flags );
-	float							GetLastChangeTime( int flags );
+	double							GetInterpolationAmount( int flags );
+	double							GetLastChangeTime( int flags );
 
 	// Interpolate the position for rendering
-	virtual bool					Interpolate( float currentTime );
+	virtual bool					Interpolate( double currentTime );
 
 	// Did the object move so far that it shouldn't interpolate?
 	bool							Teleported( void );
@@ -741,12 +741,12 @@ public:
 	virtual int						DrawBrushModel( bool bTranslucent, int nFlags, bool bTwoPass );
 
 	// returns the material animation start time
-	virtual float					GetTextureAnimationStartTime();
+	virtual double					GetTextureAnimationStartTime();
 	// Indicates that a texture animation has wrapped
 	virtual void					TextureAnimationWrapped();
 
 	// Set the next think time. Pass in CLIENT_THINK_ALWAYS to have Think() called each frame.
-	virtual void					SetNextClientThink( float nextThinkTime );
+	virtual void					SetNextClientThink( double nextThinkTime );
 
 	// anything that has health can override this...
 	virtual void					SetHealth(int iHealth) {}
@@ -794,7 +794,7 @@ public:
 	float							ProxyRandomValue() const { return m_flProxyRandomValue; }
 
 	// The spawn time of this entity
-	float							SpawnTime() const { return m_flSpawnTime; }
+	double							SpawnTime() const { return m_flSpawnTime; }
 
 	virtual bool					IsClientCreated( void ) const;
 
@@ -948,8 +948,8 @@ public:
 	void					StartGroundContact( CBaseEntity *ground );
 	void					EndGroundContact( CBaseEntity *ground );
 
-	void					SetGroundChangeTime( float flTime );
-	float					GetGroundChangeTime( void );
+	void					SetGroundChangeTime( double flTime );
+	double					GetGroundChangeTime( void );
 
 	// Remove this as ground entity for all object resting on this object
 	void					WakeRestingObjects();
@@ -1133,10 +1133,10 @@ public:
 
 	// Think functions with contexts
 	int		RegisterThinkContext( const char *szContext );
-	BASEPTR	ThinkSet( BASEPTR func, float flNextThinkTime = 0, const char *szContext = NULL );
-	void	SetNextThink( float nextThinkTime, const char *szContext = NULL );
-	float	GetNextThink( const char *szContext = NULL );
-	float	GetLastThink( const char *szContext = NULL );
+	BASEPTR	ThinkSet( BASEPTR func, double flNextThinkTime = 0, const char *szContext = NULL );
+	void	SetNextThink( double nextThinkTime, const char *szContext = NULL );
+	double	GetNextThink( const char *szContext = NULL );
+	double	GetLastThink( const char *szContext = NULL );
 	int		GetNextThinkTick( const char *szContext = NULL );
 	int		GetLastThinkTick( const char *szContext = NULL );
 	
@@ -1147,14 +1147,14 @@ public:
 	bool	WillSimulateGamePhysics();
 	int		GetFirstThinkTick();	// get first tick thinking on any context
 
-	float	GetAnimTime() const;
-	void	SetAnimTime( float at );
+	double	GetAnimTime() const;
+	void	SetAnimTime( double at );
 
-	float	GetSimulationTime() const;
-	void	SetSimulationTime( float st );
+	double	GetSimulationTime() const;
+	void	SetSimulationTime( double st );
 
-	float	GetCreateTime()										{ return m_flCreateTime; }
-	void	SetCreateTime( float flCreateTime )					{ m_flCreateTime = flCreateTime; }
+	double	GetCreateTime()										{ return m_flCreateTime; }
+	void	SetCreateTime( double flCreateTime )				{ m_flCreateTime = flCreateTime; }
 
 	int		GetCreationTick() const;
 
@@ -1226,7 +1226,7 @@ protected:
 
 	// Returns INTERPOLATE_STOP or INTERPOLATE_CONTINUE.
 	// bNoMoreChanges is set to 1 if you can call RemoveFromInterpolationList on the entity.
-	int BaseInterpolatePart1( float &currentTime, Vector &oldOrigin, QAngle &oldAngles, Vector &oldVel, int &bNoMoreChanges );
+	int BaseInterpolatePart1( double &currentTime, Vector &oldOrigin, QAngle &oldAngles, Vector &oldVel, int &bNoMoreChanges );
 	void BaseInterpolatePart2( Vector &oldOrigin, QAngle &oldAngles, Vector &oldVel, int nChangeFlags );
 
 
@@ -1302,13 +1302,13 @@ private:
 
 public:
 	// Time animation sequence or frame was last changed
-	float							m_flAnimTime;
-	float							m_flOldAnimTime;
+	double							m_flAnimTime;
+	double							m_flOldAnimTime;
 
-	float							m_flSimulationTime;
-	float							m_flOldSimulationTime;
+	double							m_flSimulationTime;
+	double							m_flOldSimulationTime;
 	
-	float							m_flCreateTime;
+	double							m_flCreateTime;
 
 	byte							m_ubInterpolationFrame;
 	byte							m_ubOldInterpolationFrame;
@@ -1538,10 +1538,10 @@ private:
 #endif
 
 	// The spawn time of the entity
-	float							m_flSpawnTime;
+	double							m_flSpawnTime;
 
 	// Timestamp of message arrival
-	float							m_flLastMessageTime;
+	double							m_flLastMessageTime;
 
 	// Base velocity
 	Vector							m_vecBaseVelocity;
@@ -1599,7 +1599,7 @@ private:
 	EHANDLE							m_ShadowDirUseOtherEntity;
 
 	EHANDLE							m_hGroundEntity;
-	float							m_flGroundChangeTime;
+	double							m_flGroundChangeTime;
 
 
 	// Friction.

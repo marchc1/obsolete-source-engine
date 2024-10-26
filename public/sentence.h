@@ -50,20 +50,20 @@ public:
 
 	CBasePhonemeTag &operator=( const CBasePhonemeTag &from )	{ memcpy( this, &from, sizeof(*this) ); return *this; }
 
-	float GetStartTime() const				{ return m_flStartTime; }
-	void SetStartTime( float startTime )	{ m_flStartTime = startTime; }
-	void AddStartTime( float startTime )	{ m_flStartTime += startTime; }
+	double GetStartTime() const				{ return m_flStartTime; }
+	void SetStartTime( double startTime )	{ m_flStartTime = startTime; }
+	void AddStartTime( double startTime )	{ m_flStartTime += startTime; }
 
-	float GetEndTime() const				{ return m_flEndTime; }
-	void SetEndTime( float endTime )		{ m_flEndTime = endTime; }
-	void AddEndTime( float startTime )		{ m_flEndTime += startTime; }
+	double GetEndTime() const				{ return m_flEndTime; }
+	void SetEndTime( double endTime )		{ m_flEndTime = endTime; }
+	void AddEndTime( double startTime )		{ m_flEndTime += startTime; }
 
 	int GetPhonemeCode() const				{ return m_nPhonemeCode; }
 	void SetPhonemeCode( unsigned short phonemeCode )	{ m_nPhonemeCode = phonemeCode; }
 
 private:
-	float			m_flStartTime;
-	float			m_flEndTime;
+	double			m_flStartTime;
+	double			m_flEndTime;
 	unsigned short	m_nPhonemeCode;
 };
 
@@ -118,8 +118,8 @@ public:
 
 	unsigned int	ComputeDataCheckSum();
 
-	float			m_flStartTime;
-	float			m_flEndTime;
+	double			m_flStartTime;
+	double			m_flEndTime;
 
 	CUtlVector	< CPhonemeTag *> m_Phonemes;
 #if PHONEME_EDITOR
@@ -228,20 +228,20 @@ public:
 	intp				CountPhonemes( void );
 
 	// For legacy loading, try to find a word that contains the time
-	CWordTag		*EstimateBestWord( float time );
+	CWordTag		*EstimateBestWord( double time );
 
 	CWordTag		*GetWordForPhoneme( CPhonemeTag *phoneme );
 
 	void			SetTextFromWords( void );
 
-	float			GetIntensity( float time, float endtime );
+	double			GetIntensity( double time, double endtime );
 	void			Resort( void );
-	CEmphasisSample *GetBoundedSample( int number, float endtime );
+	CEmphasisSample *GetBoundedSample( int number, double endtime );
 	int				GetNumSamples( void );
 	CEmphasisSample	*GetSample( int index );
 
 	// Compute start and endtime based on all words
-	void			GetEstimatedTimes( float& start, float &end );
+	void			GetEstimatedTimes( double& start, double &end );
 
 	void			SetVoiceDuck( bool shouldDuck ) { m_bShouldVoiceDuck = shouldDuck; }
 	bool			GetVoiceDuck() const { return m_bShouldVoiceDuck; }

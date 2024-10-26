@@ -200,7 +200,7 @@ private:
 
 	struct TFade
 	{
-		float flFadeStartTime;
+		double flFadeStartTime;
 		float flFadeLength;
 		float flFadeSustain;
 		int  iOriginalAlpha;

@@ -44,9 +44,9 @@
 													// get an interpolated value.
 
 // this global keeps the last known server packet tick (to avoid calling engine->GetLastTimestamp() all the time)
-extern float g_flLastPacketTimestamp;
+extern double g_flLastPacketTimestamp;
 
-inline void Interpolation_SetLastPacketTimeStamp( float timestamp)
+inline void Interpolation_SetLastPacketTimeStamp( double timestamp)
 {
 	Assert( timestamp > 0 );
 	g_flLastPacketTimestamp = timestamp;
@@ -97,12 +97,12 @@ public:
 		return s_bAllowExtrapolation;
 	}
 
-	static void SetLastTimeStamp(float timestamp)
+	static void SetLastTimeStamp(double timestamp)
 	{
 		s_flLastTimeStamp = timestamp;
 	}
 	
-	static float GetLastTimeStamp()
+	static double GetLastTimeStamp()
 	{
 		return s_flLastTimeStamp;
 	}
@@ -112,11 +112,11 @@ private:
 
 	CInterpolationContext *m_pNext;
 	bool m_bOldAllowExtrapolation;
-	float m_flOldLastTimeStamp;
+	double m_flOldLastTimeStamp;
 
 	static CInterpolationContext *s_pHead;
 	static bool s_bAllowExtrapolation;
-	static float s_flLastTimeStamp;
+	static double s_flLastTimeStamp;
 };
 
 
@@ -135,6 +135,11 @@ inline Vector ExtrapolateInterpolatedVarType( const Vector &oldVal, const Vector
 }
 
 inline float ExtrapolateInterpolatedVarType( const float &oldVal, const float &newVal, float divisor, float flExtrapolationAmount )
+{
+	return Lerp( 1.0f + flExtrapolationAmount * divisor, oldVal, newVal );
+}
+
+inline double ExtrapolateInterpolatedVarType( const double &oldVal, const double &newVal, float divisor, float flExtrapolationAmount )
 {
 	return Lerp( 1.0f + flExtrapolationAmount * divisor, oldVal, newVal );
 }
@@ -159,11 +164,11 @@ public:
 	
 	// Returns true if the new value is different from the prior most recent value.
 	virtual void NoteLastNetworkedValue() = 0;
-	virtual bool NoteChanged( float changetime, bool bUpdateLastNetworkedValue ) = 0;
+	virtual bool NoteChanged( double changetime, bool bUpdateLastNetworkedValue ) = 0;
 	virtual void Reset() = 0;
 	
 	// Returns 1 if the value will always be the same if currentTime is always increasing.
-	virtual int Interpolate( float currentTime ) = 0;
+	virtual int Interpolate( double currentTime ) = 0;
 	
 	virtual int	 GetType() const = 0;
 	virtual void RestoreToLastNetworked() = 0;
@@ -244,7 +249,7 @@ struct CInterpolatedVarEntryBase
 		}
 		Assert(count==maxCount);
 	}
-	Type *NewEntry( const Type *pValue, int maxCount, float time )
+	Type *NewEntry( const Type *pValue, int maxCount, double time )
 	{
 		changetime = time;
 		Init(maxCount);
@@ -262,7 +267,7 @@ struct CInterpolatedVarEntryBase
 		count = 0;
 	}
 
-	float		changetime;
+	double		changetime;
 	int			count;
 	Type *		value;
 
@@ -283,7 +288,7 @@ struct CInterpolatedVarEntryBase<Type, false>
 	{
 		Assert(maxCount==1);
 	}
-	Type *NewEntry( const Type *pValue, int maxCount, float time )
+	Type *NewEntry( const Type *pValue, int maxCount, double time )
 	{
 		Assert(maxCount==1);
 		changetime = time;
@@ -297,7 +302,7 @@ struct CInterpolatedVarEntryBase<Type, false>
 
 	void DeleteEntry() {}
 
-	float		changetime;
+	double		changetime;
 	Type		value;
 };
 
@@ -448,9 +453,9 @@ public:
 	virtual void Setup( void *pValue, int type );
 	virtual void SetInterpolationAmount( float seconds );
 	virtual void NoteLastNetworkedValue();
-	virtual bool NoteChanged( float changetime, bool bUpdateLastNetworkedValue );
+	virtual bool NoteChanged( double changetime, bool bUpdateLastNetworkedValue );
 	virtual void Reset();
-	virtual int Interpolate( float currentTime );
+	virtual int Interpolate( double currentTime );
 	virtual int GetType() const;
 	virtual void RestoreToLastNetworked();
 	virtual void Copy( IInterpolatedVar *pInSrc );
@@ -460,23 +465,23 @@ public:
 public:
 
 	// Just like the IInterpolatedVar functions, but you can specify an interpolation amount.
-	bool NoteChanged( float changetime, float interpolation_amount, bool bUpdateLastNetworkedValue );
-	int Interpolate( float currentTime, float interpolation_amount );
+	bool NoteChanged( double changetime, float interpolation_amount, bool bUpdateLastNetworkedValue );
+	int Interpolate( double currentTime, float interpolation_amount );
 
-	void DebugInterpolate( Type *pOut, float currentTime );
+	void DebugInterpolate( Type *pOut, double currentTime );
 
-	void GetDerivative( Type *pOut, float currentTime );
-	void GetDerivative_SmoothVelocity( Type *pOut, float currentTime );	// See notes on ::Derivative_HermiteLinearVelocity for info.
+	void GetDerivative( Type *pOut, double currentTime );
+	void GetDerivative_SmoothVelocity( Type *pOut, double currentTime );	// See notes on ::Derivative_HermiteLinearVelocity for info.
 
 	void ClearHistory();
-	void AddToHead( float changeTime, const Type* values, bool bFlushNewer );
+	void AddToHead( double changeTime, const Type* values, bool bFlushNewer );
 	const Type&	GetPrev( int iArrayIndex=0 ) const;
 	const Type&	GetCurrent( int iArrayIndex=0 ) const;
 	
 	// Returns the time difference betweem the most recent sample and its previous sample.
 	float	GetInterval() const;
 	bool	IsValidIndex( int i );
-	Type	*GetHistoryValue( int index, float& changetime, int iArrayIndex=0 );
+	Type	*GetHistoryValue( int index, double& changetime, int iArrayIndex=0 );
 	int		GetHead() { return 0; }
 	int		GetNext( int i ) 
 	{ 
@@ -498,7 +503,7 @@ public:
 	// set a debug name (if not provided by constructor)
 	void	SetDebugName(const char *pName ) { m_pDebugName = pName; }
 	virtual void SetDebug( bool bDebug ) { m_bDebug = bDebug; }
-	bool GetInterpolationInfo( float currentTime, int *pNewer, int *pOlder, int *pOldest );
+	bool GetInterpolationInfo( double currentTime, int *pNewer, int *pOlder, int *pOldest );
 
 protected:
 
@@ -519,12 +524,12 @@ protected:
 
 protected:
 
-	void RemoveOldEntries( float oldesttime );
-	void RemoveEntriesPreviousTo( float flTime );
+	void RemoveOldEntries( double oldesttime );
+	void RemoveEntriesPreviousTo( double flTime );
 
 	bool GetInterpolationInfo( 
 		CInterpolationInfo *pInfo,
-		float currentTime, 
+		double currentTime, 
 		float interpolation_amount,
 		int *pNoMoreChanges );
 
@@ -565,7 +570,7 @@ protected:
 	CVarHistory							m_VarHistory;
 	// Store networked values so when we latch we can detect which values were changed via networking
 	Type *								m_LastNetworkedValue;
-	float								m_LastNetworkedTime;
+	double								m_LastNetworkedTime;
 	byte								m_fType;
 	byte								m_nMaxCount;
 	byte *								m_bLooping;
@@ -624,7 +629,7 @@ void CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteLastNetworkedValue()
 }
 
 template< typename Type, bool IS_ARRAY >
-inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteChanged( float changetime, float interpolation_amount, bool bUpdateLastNetworkedValue )
+inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteChanged( double changetime, float interpolation_amount, bool bUpdateLastNetworkedValue )
 {
 	Assert( m_pValue );
 
@@ -672,7 +677,7 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteChanged( float change
 
 
 template< typename Type, bool IS_ARRAY >
-inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteChanged( float changetime, bool bUpdateLastNetworkedValue )
+inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteChanged( double changetime, bool bUpdateLastNetworkedValue )
 {
 	return NoteChanged( changetime, m_InterpolationAmount, bUpdateLastNetworkedValue );
 }
@@ -696,7 +701,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::ClearHistory()
 }
 
 template< typename Type, bool IS_ARRAY >
-inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::AddToHead( float changeTime, const Type* values, bool bFlushNewer )
+inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::AddToHead( double changeTime, const Type* values, bool bFlushNewer )
 {
 	MEM_ALLOC_CREDIT_CLASS();
 	intp newslot;
@@ -765,7 +770,7 @@ inline float CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetOldestEntry()
 
 
 template< typename Type, bool IS_ARRAY >
-inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::RemoveOldEntries( float oldesttime )
+inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::RemoveOldEntries( double oldesttime )
 {
 	int newCount = m_VarHistory.Count();
 	for ( int i = m_VarHistory.Count(); --i > 2; )
@@ -779,7 +784,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::RemoveOldEntries( float o
 
 
 template< typename Type, bool IS_ARRAY >
-inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::RemoveEntriesPreviousTo( float flTime )
+inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::RemoveEntriesPreviousTo( double flTime )
 {
 	for ( int i = 0; i < m_VarHistory.Count(); i++ )
 	{
@@ -798,7 +803,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::RemoveEntriesPreviousTo( 
 template< typename Type, bool IS_ARRAY >
 inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo( 
 	typename CInterpolatedVarArrayBase<Type, IS_ARRAY>::CInterpolationInfo *pInfo,
-	float currentTime, 
+	double currentTime, 
 	float interpolation_amount,
 	int *pNoMoreChanges
 	)
@@ -889,7 +894,7 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo(
 
 
 template< typename Type, bool IS_ARRAY >
-inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo( float currentTime, int *pNewer, int *pOlder, int *pOldest )
+inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo( double currentTime, int *pNewer, int *pOlder, int *pOldest )
 {
 	CInterpolationInfo info;
 	bool result = GetInterpolationInfo( &info, currentTime, m_InterpolationAmount, NULL );
@@ -908,7 +913,7 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo( flo
 
 
 template< typename Type, bool IS_ARRAY >
-inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::DebugInterpolate( Type *pOut, float currentTime )
+inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::DebugInterpolate( Type *pOut, double currentTime )
 {
 	float interpolation_amount = m_InterpolationAmount;
 
@@ -965,7 +970,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::DebugInterpolate( Type *p
 }
 
 template< typename Type, bool IS_ARRAY >
-inline int CInterpolatedVarArrayBase<Type, IS_ARRAY>::Interpolate( float currentTime, float interpolation_amount )
+inline int CInterpolatedVarArrayBase<Type, IS_ARRAY>::Interpolate( double currentTime, float interpolation_amount )
 {
 	int noMoreChanges = 0;
 	
@@ -1060,7 +1065,7 @@ inline int CInterpolatedVarArrayBase<Type, IS_ARRAY>::Interpolate( float current
 
 
 template< typename Type, bool IS_ARRAY >
-void CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetDerivative( Type *pOut, float currentTime )
+void CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetDerivative( Type *pOut, double currentTime )
 {
 	CInterpolationInfo info;
 	if (!GetInterpolationInfo( &info, currentTime, m_InterpolationAmount, NULL ))
@@ -1078,7 +1083,7 @@ void CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetDerivative( Type *pOut, float
 
 
 template< typename Type, bool IS_ARRAY >
-void CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetDerivative_SmoothVelocity( Type *pOut, float currentTime )
+void CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetDerivative_SmoothVelocity( Type *pOut, double currentTime )
 {
 	CInterpolationInfo info;
 	if (!GetInterpolationInfo( &info, currentTime, m_InterpolationAmount, NULL ))
@@ -1148,7 +1153,7 @@ void CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetDerivative_SmoothVelocity( Ty
 
 
 template< typename Type, bool IS_ARRAY >
-inline int CInterpolatedVarArrayBase<Type, IS_ARRAY>::Interpolate( float currentTime )
+inline int CInterpolatedVarArrayBase<Type, IS_ARRAY>::Interpolate( double currentTime )
 {
 	return Interpolate( currentTime, m_InterpolationAmount );
 }
@@ -1240,7 +1245,7 @@ inline bool	CInterpolatedVarArrayBase<Type, IS_ARRAY>::IsValidIndex( int i )
 }
 
 template< typename Type, bool IS_ARRAY >
-inline Type	*CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetHistoryValue( int index, float& changetime, int iArrayIndex )
+inline Type	*CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetHistoryValue( int index, double& changetime, int iArrayIndex )
 {
 	Assert( iArrayIndex >= 0 && iArrayIndex < m_nMaxCount );
 	if ( m_VarHistory.IsIdxValid(index) )

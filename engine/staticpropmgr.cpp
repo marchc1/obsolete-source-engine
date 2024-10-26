@@ -189,7 +189,7 @@ public:
 	virtual int				GetFxBlend( );
 	virtual void			GetColorModulation( float* color );
 	virtual bool			LODTest() { return true; } // NOTE: UNUSED
-	virtual bool			SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime );
+	virtual bool			SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime );
 	virtual void			SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights );
 	virtual bool			UsesFlexDelayedWeights() { return false; }
 	virtual void			DoAnimationEvents( void );
@@ -681,7 +681,7 @@ bool CStaticProp::ShouldDraw()
 //-----------------------------------------------------------------------------
 // Render setup
 //-----------------------------------------------------------------------------
-bool CStaticProp::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime )
+bool CStaticProp::SetupBones( matrix3x4_t *pBoneToWorldOut, int nMaxBones, int boneMask, double currentTime )
 {
 	if (!m_pModel)
 		return false;

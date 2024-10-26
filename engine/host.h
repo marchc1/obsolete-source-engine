@@ -26,7 +26,7 @@ class CCommonHostState
 public:
 	model_t		*worldmodel;	// cl_entitites[0].model
 	struct worldbrushdata_t *worldbrush;
-	float		interval_per_tick;		// Tick interval for game
+	double		interval_per_tick;		// Tick interval for game
 	void SetWorldModel( model_t *pModel );
 };
 
@@ -160,8 +160,8 @@ extern int	host_currentframetick;
 #define MAX_FRAMETIME	0.1F
 #define MIN_FRAMETIME	0.001F
 
-#define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / host_state.interval_per_tick ) )
-#define TICKS_TO_TIME( dt )		( host_state.interval_per_tick * (float)(dt) )
+#define TIME_TO_TICKS( dt )		( (int)( 0.5f + (double)(dt) / host_state.interval_per_tick ) )
+#define TICKS_TO_TIME( dt )		( host_state.interval_per_tick * (double)(dt) )
 
 // Normally, this is off, and it keeps the VCR file size smaller, but it can help
 // to turn it on when tracking down out-of-sync errors, because it verifies that more

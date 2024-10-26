@@ -18,7 +18,7 @@ struct animevent_t
 	int				event;
 	const char		*options;
 	float			cycle;
-	float			eventtime;
+	double			eventtime;
 	int				type;
 	CBaseAnimating	*pSource;
 };

@@ -755,18 +755,18 @@ public:
 
 	// Think functions with contexts
 	int		RegisterThinkContext( const char *szContext );
-	BASEPTR	ThinkSet( BASEPTR func, float flNextThinkTime = 0, const char *szContext = NULL );
-	void	SetNextThink( float nextThinkTime, const char *szContext = NULL );
-	float	GetNextThink( const char *szContext = NULL );
-	float	GetLastThink( const char *szContext = NULL );
+	BASEPTR	ThinkSet( BASEPTR func, double flNextThinkTime = 0, const char *szContext = NULL );
+	void	SetNextThink( double nextThinkTime, const char *szContext = NULL );
+	double	GetNextThink( const char *szContext = NULL );
+	double	GetLastThink( const char *szContext = NULL );
 	int		GetNextThinkTick( const char *szContext = NULL );
 	int		GetLastThinkTick( const char *szContext = NULL );
 
-	float				GetAnimTime() const;
-	void				SetAnimTime( float at );
+	double				GetAnimTime() const;
+	void				SetAnimTime( double at );
 
-	float				GetSimulationTime() const;
-	void				SetSimulationTime( float st );
+	double				GetSimulationTime() const;
+	void				SetSimulationTime( double st );
 
 	void				SetRenderMode( RenderMode_t nRenderMode );
 	RenderMode_t		GetRenderMode() const;
@@ -807,9 +807,9 @@ public:
 	void SetRenderColorA( byte a );
 
 	// was pev->animtime:  consider moving to CBaseAnimating
-	float		m_flPrevAnimTime;
-	CNetworkVar( float, m_flAnimTime );  // this is the point in time that the client will interpolate to position,angle,frame,etc.
-	CNetworkVar( float, m_flSimulationTime );
+	double		m_flPrevAnimTime;
+	CNetworkVar( double, m_flAnimTime );  // this is the point in time that the client will interpolate to position,angle,frame,etc.
+	CNetworkVar( double, m_flSimulationTime );
 
 	void IncrementInterpolationFrame(); // Call this to cause a discontinuity (teleport)
 
@@ -1030,8 +1030,8 @@ public:
 	void					StartGroundContact( CBaseEntity *ground );
 	void					EndGroundContact( CBaseEntity *ground );
 
-	void					SetGroundChangeTime( float flTime );
-	float					GetGroundChangeTime( void );
+	void					SetGroundChangeTime( double flTime );
+	double					GetGroundChangeTime( void );
 
 	// Remove this as ground entity for all object resting on this object
 	void					WakeRestingObjects();
@@ -1656,10 +1656,10 @@ private:
 	unsigned char	m_nSlimeTouch;
 	unsigned char	m_nWaterType;
 	CNetworkVarForDerived( unsigned char, m_nWaterLevel );
-	float			m_flNavIgnoreUntilTime;
+	double			m_flNavIgnoreUntilTime;
 
 	CNetworkHandleForDerived( CBaseEntity, m_hGroundEntity );
-	float			m_flGroundChangeTime; // Time that the ground entity changed
+	double			m_flGroundChangeTime; // Time that the ground entity changed
 	
 	string_t		m_ModelName;
 
@@ -1688,11 +1688,11 @@ private:
 	CNetworkVar( float, m_flElasticity );
 
 	// was pev->ltime
-	float			m_flLocalTime;
+	double			m_flLocalTime;
 	// local time at the beginning of this frame
-	float			m_flVPhysicsUpdateLocalTime;
+	double			m_flVPhysicsUpdateLocalTime;
 	// local time the movement has ended
-	float			m_flMoveDoneTime;
+	double			m_flMoveDoneTime;
 
 	// A counter to help quickly build a list of potentially pushed objects for physics
 	int				m_nPushEnumCount;

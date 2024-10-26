@@ -812,7 +812,7 @@ void CPrediction::RunCommand( C_BasePlayer *player, CUserCmd *ucmd, IMoveHelper 
 
 	// Set globals appropriately
 	gpGlobals->curtime		= player->m_nTickBase * TICK_INTERVAL;
-	gpGlobals->frametime	= m_bEnginePaused ? 0 : TICK_INTERVAL;
+	gpGlobals->frametime	= m_bEnginePaused ? 0 : (float)TICK_INTERVAL;
 
 	g_pGameMovement->StartTrackPredictionErrors( player );
 
@@ -865,7 +865,6 @@ void CPrediction::RunCommand( C_BasePlayer *player, CUserCmd *ucmd, IMoveHelper 
 
 	// Setup input.
 	{
-	
 		SetupMove( player, ucmd, moveHelper, g_pMoveData );
 	}
 
@@ -926,7 +925,7 @@ void CPrediction::SetIdealPitch ( C_BasePlayer *player, const Vector& origin, co
 	//  160 or so units to see what's below
 	for (i=0 ; i<MAX_FORWARD ; i++)
 	{
-		VectorMA( origin, (i+3)*12, forward, top );
+		VectorMA( origin, (float)(i+3)*12, forward, top );
 		
 		top[2] += viewheight[ 2 ];
 
@@ -1108,7 +1107,7 @@ void CPrediction::RestoreOriginalEntityState( void )
 //			*tcmd - 
 //			*localPlayer - 
 //-----------------------------------------------------------------------------
-void CPrediction::RunSimulation( int current_command, float curtime, CUserCmd *cmd, C_BasePlayer *localPlayer )
+void CPrediction::RunSimulation( int current_command, double curtime, CUserCmd *cmd, C_BasePlayer *localPlayer )
 {
 #if !defined( NO_ENTITY_PREDICTION )
 	VPROF( "CPrediction::RunSimulation" );
@@ -1140,7 +1139,7 @@ void CPrediction::RunSimulation( int current_command, float curtime, CUserCmd *c
 	{
 		// Always reset
 		gpGlobals->curtime		= curtime;
-		gpGlobals->frametime	= m_bEnginePaused ? 0 : TICK_INTERVAL;
+		gpGlobals->frametime	= m_bEnginePaused ? 0 : (float)TICK_INTERVAL;
 
 		C_BaseEntity *entity = predictables->GetPredictable( i );
 
@@ -1421,7 +1420,7 @@ int CPrediction::ComputeFirstCommandToExecute( bool received_new_world_update, i
 				// if we don't, we'll have 3 interpolation entries with the same timestamp as this predicted
 				// frame, so we won't be able to interpolate (which leads to jerky movement in the player when
 				// ANY entity like your gun gets a prediction error).
-				float flPrev = gpGlobals->curtime;
+				double flPrev = gpGlobals->curtime;
 				gpGlobals->curtime = pLocalPlayer->GetTimeBase() - TICK_INTERVAL;
 				
 				for ( int i = 0; i < predictables->GetPredictableCount(); i++ )
@@ -1516,12 +1515,12 @@ bool CPrediction::PerformPrediction( bool received_new_world_update, C_BasePlaye
 		m_bFirstTimePredicted = !cmd->hasbeenpredicted;
 
 		// Set globals appropriately
-		float curtime		= ( localPlayer->m_nTickBase ) * TICK_INTERVAL;
+		double curtime		= ( localPlayer->m_nTickBase ) * TICK_INTERVAL;
 
 		RunSimulation( current_command, curtime, cmd, localPlayer );
 
 		gpGlobals->curtime		= curtime;
-		gpGlobals->frametime	= m_bEnginePaused ? 0 : TICK_INTERVAL;
+		gpGlobals->frametime	= m_bEnginePaused ? 0 : (float)TICK_INTERVAL;
 
 		// Call untouch on any entities no longer predicted to be touching
 		Untouch();

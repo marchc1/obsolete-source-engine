@@ -199,7 +199,7 @@ public:
 	  CUtlRBTree< MasterFileHash_t, int > m_treeMasterFileHashes;
 	  CUtlRBTree< UserReportedFileHash_t, int > m_treeUserReportedFileHash;
 
-	  float m_flLastFileReceivedTime;
+	  double m_flLastFileReceivedTime;
 	  int m_cMatchedFile;
 	  int m_cMatchedMasterFile;
 	  int m_cMatchedMasterFileHash;

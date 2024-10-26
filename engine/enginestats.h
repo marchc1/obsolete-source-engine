@@ -68,7 +68,7 @@ public:
 
 	double GetRunTime( void );
 	
-	void SetFrameTime( float flFrameTime ) { m_flFrameTime = flFrameTime; }
+	void SetFrameTime( double flFrameTime ) { m_flFrameTime = flFrameTime; }
 	void SetFPSVariability( float flFPSVariability ) { m_flFPSVariability = flFPSVariability; }
 
 	int FrameCount() const { return m_totalNumFrames; }
@@ -95,7 +95,7 @@ private:
 	bool m_bPaused;
 	bool m_bInRun;
 
-	float m_flFrameTime;
+	double m_flFrameTime;
 	float m_flFPSVariability;
 };
 

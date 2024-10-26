@@ -133,7 +133,7 @@ public: // IServerMessageHandlers
 
 public:
 
-	float		m_flLastServerTickTime;		// the timestamp of last message
+	double		m_flLastServerTickTime;		// the timestamp of last message
 	bool		insimulation;
 
 	int			oldtickcount;		// previous tick
@@ -183,7 +183,7 @@ public:
 
 	// If 'insimulation', returns the time (in seconds) at the client's current tick.
 	// Otherwise, returns the exact client clock.
-	float				GetTime() const;
+	double				GetTime() const;
 	
 	
 	bool				IsPaused() const;

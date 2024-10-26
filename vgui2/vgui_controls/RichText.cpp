@@ -696,7 +696,7 @@ void RichText::CalculateFade( TRenderState &renderState )
 			{
 				float frac = ( fade.flFadeStartTime -  system()->GetCurrentTime() ) / fade.flFadeLength;
 
-				int alpha = frac * fade.iOriginalAlpha;
+				int alpha = (int)frac * fade.iOriginalAlpha;
 				alpha = clamp( alpha, 0, fade.iOriginalAlpha );
 
 				renderState.textColor.SetColor( renderState.textColor.r(), renderState.textColor.g(), renderState.textColor.b(), alpha );

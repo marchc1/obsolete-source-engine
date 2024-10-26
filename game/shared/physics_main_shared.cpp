@@ -2194,12 +2194,12 @@ void CBaseEntity::EndGroundContact( CBaseEntity *ground )
 }
 
 
-void CBaseEntity::SetGroundChangeTime( float flTime )
+void CBaseEntity::SetGroundChangeTime( double flTime )
 {
 	m_flGroundChangeTime = flTime;
 }
 
-float CBaseEntity::GetGroundChangeTime( void )
+double CBaseEntity::GetGroundChangeTime( void )
 {
 	return m_flGroundChangeTime;
 }

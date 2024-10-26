@@ -259,7 +259,7 @@ private:
 	{
 		CHandle< CBaseCombatCharacter >	m_hEntity1;
 		CHandle< CBaseCombatCharacter >	m_hEntity2;
-		float							m_flTime;
+		double							m_flTime;
 		bool							m_bEntity1CanSeeEntity2;
 		bool							m_bEntity2CanSeeEntity1;
 	};
