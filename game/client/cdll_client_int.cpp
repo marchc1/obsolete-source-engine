@@ -2725,7 +2725,6 @@ CSteamID GetSteamIDForPlayerIndex( int iPlayerIndex )
 void CHLClient::GMOD_ReceiveServerMessage( bf_read* pBF, int )
 {
 	int iType = pBF->ReadBitLong(4, false);
-	Msg("%i\n", iType);
 	switch(iType)
 	{
 		case 1: // Used for now by ClearModelPrecache logic.
