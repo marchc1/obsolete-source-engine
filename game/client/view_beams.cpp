@@ -1967,6 +1967,12 @@ void CViewRenderBeams::DrawBeam( Beam_t *pbeam )
 	{
 		return;
 	}
+
+	if ( modelinfo->GetModelSpriteHeight( sprite ) == 0 ) // GetModelSpriteHeight has a check for sprite. If the modelindex now changed, we would try to use the wrong model. Which is not good.
+	{
+		DevMsg( "Model is not a sprite!\n" );
+		return;
+	}
 	
 	halosprite = modelinfo->GetModel( pbeam->haloIndex );
 

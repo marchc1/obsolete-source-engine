@@ -494,6 +494,7 @@ public:
 	int								GetModelIndex( void ) const;
 	void							SetModelIndex( int index );
 	virtual int						CalcOverrideModelIndex() { return -1; }
+	void							SetRawModelIndex( int index ) { m_nModelIndex = index; };
 
 	// These methods return a *world-aligned* box relative to the absorigin of the entity.
 	// This is used for collision purposes and is *not* guaranteed

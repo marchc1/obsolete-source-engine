@@ -25,6 +25,7 @@ const unsigned short INVALID_STRING_INDEX = (unsigned short )-1;
 class INetworkStringTable;
 
 typedef void (*pfnStringChanged)( void *object, INetworkStringTable *stringTable, int stringNumber, char const *newString, void const *newData );
+typedef void (*pfnFullUpdateCallback)( INetworkStringTable *stringTable );
 
 //-----------------------------------------------------------------------------
 // Purpose: Game .dll shared string table interfaces
@@ -56,6 +57,12 @@ public:
 
 	// Callbacks
 	virtual void			SetStringChangedCallback( void *object, pfnStringChanged changeFunc ) = 0;
+	virtual void			SetFullUpdateCallback( pfnFullUpdateCallback changeFunc ) = 0;
+	virtual pfnStringChanged	GetCallback() = 0;
+	virtual pfnFullUpdateCallback	GetFullUpdateCallback() = 0;
+
+	// Destroy Stringtable
+	virtual void			DeleteAllStrings( bool bReNetwork = false ) = 0;
 };
 
 class INetworkStringTableContainer

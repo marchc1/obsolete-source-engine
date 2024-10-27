@@ -15,6 +15,13 @@
 #include "GModMaterialProxyFactory.h"
 #include "CLuaClass.h"
 #include "sv_autorefresh.h"
+#include <qlimits.h>
+#include <unordered_map>
+#ifdef CLIENT_DLL
+#include "networkstringtable_clientdll.h"
+#else
+#include "networkstringtable_gamedll.h"
+#endif
 #include "Externals.h"
 
 GarrysMod::Lua::ILuaShared* LuaShared()
@@ -278,4 +285,154 @@ void dumpstringtables_newCmd( const CCommand &args )
 ConCommand dumpstringtables_new( "cl_dumpstringtables_new", dumpstringtables_newCmd, "", 0 );
 #else
 ConCommand dumpstringtables_new( "dumpstringtables_new", dumpstringtables_newCmd, "", 0 );
+#endif
+
+#ifdef CLIENT_DLL
+static std::unordered_map<unsigned short, unsigned short> pNewIndexes;
+void PostFullUpdateCallback( INetworkStringTable* modelprecache )
+{
+	engine->ResetModelPrecache();
+
+	const CEntInfo* pInfo = g_pEntityList->FirstEntInfo();
+	for ( ;pInfo; pInfo = pInfo->m_pNext ) {
+		CBaseEntity *pEnt = ( CBaseEntity* )pInfo->m_pEntity;
+
+		int index = pEnt->GetModelIndex();
+		if ( index == 0 ) // Entity with no model :^
+			continue;
+
+		auto it = pNewIndexes.find( index );
+		if ( it == pNewIndexes.end() )
+		{
+			DevMsg( 2, "[OnClearModelPrecache]: Missing model: %i (%s, %s)\n", index, STRING( pEnt->GetModelName() ), modelprecache->GetString( index ) );
+			continue;
+		}
+
+		pEnt->SetRawModelIndex( it->second ); // Set all the new model indexes without doing anything else
+	}
+
+	pNewIndexes.clear();
+	modelprecache->SetFullUpdateCallback( NULL );
+	//physics->DestroyAllCollisionSets(); // CollisionSets use the model index.... (Unsure if it's safe to just destroy all)
+}
+
+void CGarrysMod::OnClearModelPrecache( bf_read* pBF ) // Called before stringtable & modelindex updates are received
+{
+	int iEntires = pBF->GetNumBitsLeft() / MAX_MODEL_INDEX_BITS / 2;
+
+	INetworkStringTable* modelprecache = networkstringtable->FindTable( "modelprecache" );
+	for ( int i=0; i<iEntires; ++i )
+	{
+		int oldIndex = pBF->ReadUBitLong( MAX_MODEL_INDEX_BITS );
+		int newIndex = pBF->ReadUBitLong( MAX_MODEL_INDEX_BITS );
+		pNewIndexes[ oldIndex ] = newIndex;
+		if ( oldIndex != newIndex )
+			DevMsg( 2, "[OnClearModelPrecache]: New Index: %i -> %i (%s)\n", oldIndex, newIndex, modelprecache->GetString( oldIndex ) );
+	}
+
+	modelprecache->SetFullUpdateCallback( &PostFullUpdateCallback ); // Wait for the stringtable update to be received, or else sprites will crash since they use the modelindex for rendering.
+}
+#else
+// Idea: Adding a Lua bind like engine.ClearModelPrecache could be useful.
+void CGarrysMod::ClearModelPrecache()
+{
+	std::unordered_map<std::string, unsigned short> pModels;
+	std::unordered_map<unsigned short, std::string> pRevModels; // This should only be used for debugging and it has no other purpose than that.
+	INetworkStringTable* modelprecache = networkstringtable->FindTable( "modelprecache" ); // Why is MODEL_PRECACHE_TABLENAME defined in precache.h? Maybe we should move it to a file that the game dll can access
+	int iWorldBushCount = 0;
+	int iNumStrings = modelprecache->GetNumStrings();
+	for ( int i=0; i<iNumStrings; ++i)
+	{
+		const char* pString = modelprecache->GetString( i );
+		pModels[ pString ] = i;
+		pRevModels[ i ] = pString;
+
+		if (pString[0] == '*')
+			iWorldBushCount = i;
+	}
+
+	std::string strWorldModel = modelprecache->GetString( 1 );
+	modelprecache->DeleteAllStrings( true ); // Yes I exposed it.
+	engine->ResetModelPrecache();
+	engine->PrecacheModel( "" ); // Engine...
+	engine->PrecacheModel( strWorldModel.c_str() ); // Precache world since CWorld::Precache doesn't do this :<
+
+	for ( int i=1; i<iWorldBushCount; ++i ) // NOTE: My engine version also precaches world bushes, but I don't think gmod does this, so this could probably be removed?
+	{
+		char localmodel[5]; // inline model names "*1", "*2" etc
+		Q_snprintf( localmodel, sizeof( localmodel ), "*%i", i );
+		engine->PrecacheModel( localmodel );
+	}
+
+	const CEntInfo *pInfo = g_pEntityList->FirstEntInfo();
+	for ( ;pInfo; pInfo = pInfo->m_pNext ) {
+		CBaseEntity *pEnt = (CBaseEntity*)pInfo->m_pEntity;
+
+		// It's a death sentence... Don't call CWorld::Precache if you value your physics environment.
+		// It will break physics props and possibly other things since more than just precache stuff is done in that function.
+		if (pEnt->IsWorld())
+			continue;
+
+		pEnt->Precache(); // Not the best Idea but it should work and solve any potential issues.
+	}
+
+	std::unordered_map<unsigned short, unsigned short> pNewIndexes;
+	iNumStrings = modelprecache->GetNumStrings();
+	for ( int i=0; i<iNumStrings; ++i )
+	{
+		auto it = pModels.find( modelprecache->GetString(i) );
+		if ( it == pModels.end() )
+		{
+			DevMsg(2, "[ClearModelPrecache] Failed to find new precache index? (%i, %s)\n", i, modelprecache->GetString(i));
+			continue;
+		}
+
+		pNewIndexes[ it->second ] = i;
+		if ( it->second != i )
+			DevMsg( 2, "[ClearModelPrecache] New Index: %i -> %i (%s)\n", it->second, i, modelprecache->GetString(i) );
+	}
+
+	pInfo = g_pEntityList->FirstEntInfo();
+	for ( ;pInfo; pInfo = pInfo->m_pNext ) {
+		CBaseEntity *pEnt = ( CBaseEntity* )pInfo->m_pEntity;
+
+		int index = pEnt->GetModelIndex();
+		if (index == 0) // Entity with no model :^
+			continue;
+
+		auto it = pNewIndexes.find(index);
+		if (it == pNewIndexes.end())
+		{
+			auto it2 = pRevModels.find(index);
+			DevMsg( 2, "[ClearModelPrecache] Missing model: %i (%s, %s, %s)\n", index, STRING( pEnt->GetModelName() ), pEnt->GetClassname(), it2 != pRevModels.end() ? it2->second.c_str() : "NULL" );
+			continue;
+		}
+
+		pEnt->SetRawModelIndex( it->second ); // Setting the new model index
+	}
+
+	//physics->DestroyAllCollisionSets(); // CollisionSets use the model index.... (Unsure if it's safe to just destroy all)
+
+	bf_write pBF;
+	char strData[ 1 << (MAX_MODEL_INDEX_BITS + 2) ]; // Should always be big enouth in the case that the stringtable is huge.
+	pBF.StartWriting( strData, sizeof( strData ) );
+	pBF.WriteUBitLong( 1, 4 ); // Write GMOD Net message type or so... idk
+
+	for ( const auto&[oldIndex, newIndex] : pNewIndexes )
+	{
+		pBF.WriteUBitLong( oldIndex, MAX_MODEL_INDEX_BITS );
+		pBF.WriteUBitLong( newIndex, MAX_MODEL_INDEX_BITS );
+	}
+
+	CRecipientFilter filter;
+	filter.AddAllPlayers();
+	engine->GMOD_SendToClient( &filter, strData, pBF.GetNumBytesWritten() ); // This will be received before the new ModelIndexes are networked, so we can prepare stuff
+}
+
+void ClearModelPrecache( const CCommand &args )
+{
+	garrysmod.ClearModelPrecache();
+}
+ 
+ConCommand sv_clearmodelprecache( "sv_clearmodelprecache", ClearModelPrecache, "", 0 );
 #endif

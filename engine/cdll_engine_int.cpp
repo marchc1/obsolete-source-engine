@@ -587,6 +587,7 @@ public:
 	virtual void SetPlayerVoiceVolume( unsigned long long unknown, float volume );
 	virtual bool NET_IsHostLocal( const char* pHostName );
 	virtual bool IsDedicatedServer();
+	virtual void ResetModelPrecache();
 #else
 	float	GetPausedExpireTime( void ) override;
 
@@ -2344,5 +2345,13 @@ bool CEngineClient::NET_IsHostLocal(const char* pHostName)
 bool CEngineClient::IsDedicatedServer()
 {
 	return g_bIsDedicated;
+}
+
+void CEngineClient::ResetModelPrecache()
+{
+	for (int i=0; i<MAX_MODELS; ++i)
+	{
+		cl.model_precache[i].SetModel(NULL);
+	}
 }
 #endif

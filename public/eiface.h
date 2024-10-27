@@ -437,6 +437,7 @@ public:
 	virtual bool NET_IsHostLocal( const char* unknwon ) = 0;
 
 	virtual void *GetReplay() const = 0;
+	virtual void ResetModelPrecache() = 0;
 #else
 	// Get sv.GetTime()
 	virtual float GetServerTime() const = 0;

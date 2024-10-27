@@ -66,6 +66,10 @@ public:
 	int				FindStringIndex( char const *string );
 
 	void			SetStringChangedCallback( void *object, pfnStringChanged changeFunc );
+	void			SetFullUpdateCallback( pfnFullUpdateCallback changeFunc );
+
+	// Destroy string table
+	void			DeleteAllStrings( bool bReNetwork = false );
 
 	bool			HasFileNameStrings() const;
 	bool			IsUserDataFixedSize() const;
@@ -103,12 +107,10 @@ public:
 	
 	void SetAllowClientSideAddString( bool state );
 	pfnStringChanged	GetCallback();
+	pfnFullUpdateCallback	GetFullUpdateCallback();
 
 protected:
 	void			DataChanged( int stringNumber, CNetworkStringTableItem *item );
-
-	// Destroy string table
-	void			DeleteAllStrings( void );
 
 	CNetworkStringTable( const CNetworkStringTable & ); // not implemented, not allowed
 
@@ -119,6 +121,11 @@ protected:
 	int						m_nEntryBits;
 	int						m_nTickCount;
 	int						m_nLastChangedTick;
+	// Renetworks the entire stringtable so try to minimize full updates.
+	// ToDo: Add functionality to remove single strings from the stringtable and improve the networking.
+	// NOTE: Gmod itself has already some logic that works for renetworking the stringtable when strings are deleted, so this isn't really needed,
+	//		 but the callback would still be required, maybe add a callback that is called after a stringtable was updated just like where the m_fullupdateFunc is called.
+	int						m_nLastFullChangedTick;
 
 	bool					m_bChangeHistoryEnabled : 1;
 	bool					m_bLocked : 1;
@@ -131,6 +138,7 @@ protected:
 
 	// Change function callback
 	pfnStringChanged		m_changeFunc;
+	pfnFullUpdateCallback	m_fullupdateFunc;
 	// Optional context/object
 	void					*m_pObject;
 

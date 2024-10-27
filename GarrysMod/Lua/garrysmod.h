@@ -57,4 +57,9 @@ public:
 	void EndClearVertexLighting( IMatRenderContext* context ); // Used by SpawniconGenerator::Render(void)
 #endif
 	bool ShouldCollide( CBaseEntity* ent1, CBaseEntity* ent2 );
+#ifdef CLIENT_DLL
+	void OnClearModelPrecache(bf_read* bf);
+#else
+	void ClearModelPrecache();
+#endif
 };

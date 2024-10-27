@@ -408,6 +408,7 @@ public:
 
 	void					ClearModelIndexOverrides( void );
 	virtual void			SetModelIndexOverride( int index, int nValue );
+	void					SetRawModelIndex( int index ) { m_nModelIndex = index; };
 
 public:
 	// virtual methods for derived classes to override

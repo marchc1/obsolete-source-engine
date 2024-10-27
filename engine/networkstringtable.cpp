@@ -215,9 +215,11 @@ CNetworkStringTable::CNetworkStringTable( TABLEID id, const char *tableName, int
 
 	m_changeFunc = NULL;
 	m_pObject = NULL;
+	m_fullupdateFunc = NULL;
 	m_nTickCount = 0;
 	m_pMirrorTable = NULL;
 	m_nLastChangedTick = 0;
+	m_nLastFullChangedTick = 0;
 	m_bChangeHistoryEnabled = false;
 	m_bLocked = false;
 
@@ -328,7 +330,7 @@ CNetworkStringTable::~CNetworkStringTable( void )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CNetworkStringTable::DeleteAllStrings( void )
+void CNetworkStringTable::DeleteAllStrings( bool bReNetwork )
 {
 	delete m_pItems;
 	if ( m_bIsFilenames )
@@ -346,6 +348,12 @@ void CNetworkStringTable::DeleteAllStrings( void )
 		m_pItemsClientSide = new CNetworkStringDict;
 		m_pItemsClientSide->Insert( "___clientsideitemsplaceholder0___" ); // 0 slot can't be used
 		m_pItemsClientSide->Insert( "___clientsideitemsplaceholder1___" ); // -1 can't be used since it looks like the "invalid" index from other string lookups
+	}
+
+	if ( bReNetwork )
+	{
+		m_nLastChangedTick = m_nTickCount; // Mark as changed
+		m_nLastFullChangedTick = m_nTickCount;
 	}
 }
 
@@ -418,6 +426,11 @@ pfnStringChanged CNetworkStringTable::GetCallback()
 	return m_changeFunc; 
 }
 
+pfnFullUpdateCallback CNetworkStringTable::GetFullUpdateCallback()
+{ 
+	return m_fullupdateFunc; 
+}
+
 #ifndef SHARED_NET_STRING_TABLES
 
 //-----------------------------------------------------------------------------
@@ -464,6 +477,10 @@ void CNetworkStringTable::UpdateMirrorTable( int tick_ack  )
 
 	m_pMirrorTable->SetTick( m_nTickCount ); // use same tick
 
+	bool bFullUpdate = tick_ack < m_nLastFullChangedTick;
+	if ( bFullUpdate )
+		m_pMirrorTable->DeleteAllStrings(); 
+
 	int count = m_pItems->Count();
 	
 	for ( int i = 0; i < count; i++ )
@@ -471,7 +488,7 @@ void CNetworkStringTable::UpdateMirrorTable( int tick_ack  )
 		CNetworkStringTableItem *p = &m_pItems->Element( i );
 
 		// mirror is up to date
-		if ( p->GetTickChanged() <= tick_ack )
+		if ( !bFullUpdate && p->GetTickChanged() <= tick_ack )
 			continue;
 
 		const void *pUserData = p->GetUserData();
@@ -497,6 +514,16 @@ void CNetworkStringTable::UpdateMirrorTable( int tick_ack  )
 			m_pMirrorTable->AddString( true, pName, nBytes, pUserData );
 		}
 	}
+
+	if ( bFullUpdate )
+	{
+		if ( m_fullupdateFunc )
+			m_fullupdateFunc( this );
+
+		pfnFullUpdateCallback pFullUpdateFunc = m_pMirrorTable->GetFullUpdateCallback();
+		if ( pFullUpdateFunc )
+			pFullUpdateFunc( m_pMirrorTable );
+	}
 }
 
 int CNetworkStringTable::WriteUpdate( CBaseClient *client, bf_write &buf, int tick_ack )
@@ -509,12 +536,15 @@ int CNetworkStringTable::WriteUpdate( CBaseClient *client, bf_write &buf, int ti
 
 	int count = m_pItems->Count();
 
+	bool bFullUpdate = tick_ack < m_nLastFullChangedTick;
+	buf.WriteOneBit( bFullUpdate );
+
 	for ( int i = 0; i < count; i++ )
 	{
 		CNetworkStringTableItem *p = &m_pItems->Element( i );
 
 		// Client is up to date
-		if ( p->GetTickChanged() <= tick_ack )
+		if ( !bFullUpdate && p->GetTickChanged() <= tick_ack )
 			continue;
 
 		int nStartBit = buf.GetNumBitsWritten();
@@ -604,6 +634,9 @@ int CNetworkStringTable::WriteUpdate( CBaseClient *client, bf_write &buf, int ti
 
 	ETWMark2I( GetTableName(), entriesUpdated, buf.GetNumBitsWritten() - nTableStartBit );
 
+	if ( bFullUpdate && m_fullupdateFunc )
+		m_fullupdateFunc( this );
+
 	return entriesUpdated;
 }
 
@@ -616,6 +649,10 @@ void CNetworkStringTable::ParseUpdate( bf_read &buf, int entries )
 	int lastEntry = -1;
 
 	CUtlVector< StringHistoryEntry > history;
+
+	bool bFullUpdate = buf.ReadOneBit();
+	if ( bFullUpdate )
+		DeleteAllStrings(); // Cleanup
 
 	for (int i=0; i<entries; i++)
 	{
@@ -726,6 +763,9 @@ void CNetworkStringTable::ParseUpdate( bf_read &buf, int entries )
 		Q_strncpy( she.string, pEntry, sizeof( she.string ) );
 		history.AddToTail( she );
 	}
+
+	if ( bFullUpdate && m_fullupdateFunc )
+		m_fullupdateFunc( this );
 }
 
 void CNetworkStringTable::CopyStringTable(CNetworkStringTable * table)
@@ -779,6 +819,15 @@ void CNetworkStringTable::SetStringChangedCallback( void *object, pfnStringChang
 {
 	m_changeFunc = changeFunc;
 	m_pObject = object;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Input  : changeFunc - 
+//-----------------------------------------------------------------------------
+void CNetworkStringTable::SetFullUpdateCallback( pfnFullUpdateCallback changeFunc )
+{
+	m_fullupdateFunc = changeFunc;
 }
 
 //-----------------------------------------------------------------------------

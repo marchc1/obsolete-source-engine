@@ -265,7 +265,9 @@ public:
 	
 	int PrecacheDecal( const char *name, bool preload /*=false*/ ) override
 	{
-		PR_CheckEmptyString( name );
+		if (sv.GetDecalPrecacheTable()->GetNumStrings() != 0)
+			PR_CheckEmptyString( name );
+		
 		int i = SV_FindOrAddDecal( name, preload );
 		if ( i >= 0 )
 		{
@@ -280,7 +282,9 @@ public:
 	
 	int PrecacheModel( const char *s, bool preload /*= false*/ ) override
 	{
-		PR_CheckEmptyString (s);
+		if (sv.GetModelPrecacheTable()->GetNumStrings() != 0) // Allow the gamedll to call it with "" if the stringtable is empty. It is most likely recreating the entire stringtable.
+			PR_CheckEmptyString (s);
+
 		int i = SV_FindOrAddModel( s, preload );
 		if ( i >= 0 )
 		{
@@ -296,7 +300,9 @@ public:
 	{
 		int		i;
 		
-		PR_CheckEmptyString (s);
+		if (sv.GetGenericPrecacheTable()->GetNumStrings() != 0)
+			PR_CheckEmptyString (s);
+
 		i = SV_FindOrAddGeneric( s, preload );
 		if (i >= 0)
 		{
@@ -1727,6 +1733,14 @@ public:
 	{
 		// ToDo
 		return NULL;
+	}
+
+	virtual void ResetModelPrecache() OVERRIDE
+	{
+		for (int i=0; i<MAX_MODELS; ++i)
+		{
+			sv.model_precache[i].SetModel(NULL);
+		}
 	}
 #else
 	virtual float GetServerTime() const OVERRIDE

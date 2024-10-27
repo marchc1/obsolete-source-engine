@@ -581,6 +581,7 @@ public:
 	virtual void SetPlayerVoiceVolume( unsigned long long unknown, float volume ) = 0;
 	virtual bool NET_IsHostLocal( const char* pHostName ) = 0;
 	virtual bool IsDedicatedServer() = 0;
+	virtual void ResetModelPrecache() = 0;
 #else
 	virtual void			AddPhonemeFile( const char *pszPhonemeFile ) = 0;
 	virtual float			GetPausedExpireTime( void ) = 0;
