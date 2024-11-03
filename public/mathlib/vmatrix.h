@@ -1025,7 +1025,7 @@ inline bool MatricesAreEqual( const VMatrix &src1, const VMatrix &src2, float fl
 //-----------------------------------------------------------------------------
 void MatrixBuildOrtho( VMatrix& dst, double left, double top, double right, double bottom, double zNear, double zFar );
 void MatrixBuildPerspectiveX( VMatrix& dst, float flFovX, float flAspect, float flZNear, float flZFar );
-void MatrixBuildPerspectiveOffCenterX( VMatrix& dst, double flFovX, double flAspect, double flZNear, double flZFar, double bottom, double top, double left, double right );
+void MatrixBuildPerspectiveOffCenterX( VMatrix& dst, float flFovX, float flAspect, float flZNear, float flZFar, float bottom, float top, float left, float right );
 void MatrixBuildPerspectiveZRange( VMatrix& dst, float flZNear, float flZFar );
 
 inline void MatrixOrtho( VMatrix& dst, double left, double top, double right, double bottom, double zNear, double zFar )

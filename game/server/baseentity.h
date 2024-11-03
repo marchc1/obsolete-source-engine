@@ -1570,9 +1570,9 @@ private:
 	friend class CPushBlockerEnum;
 
 	// Sets/Gets the next think based on context index
-	void SetNextThink( int nContextIndex, float thinkTime );
-	void SetLastThink( int nContextIndex, float thinkTime );
-	float GetNextThink( int nContextIndex ) const;
+	void SetNextThink( int nContextIndex, double thinkTime );
+	void SetLastThink( int nContextIndex, double thinkTime );
+	double GetNextThink( int nContextIndex ) const;
 	int	GetNextThinkTick( int nContextIndex ) const;
 
 	// Shot statistics

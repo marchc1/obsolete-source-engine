@@ -64,7 +64,7 @@ bool OverlayText_t::IsDead()
 	return (cl.GetTime() >= m_flEndTime);
 }
 
-void OverlayText_t::SetEndTime( float duration )
+void OverlayText_t::SetEndTime( double duration )
 {
 	m_nServerCount = cl.m_nServerCount;
 
@@ -81,7 +81,7 @@ void OverlayText_t::SetEndTime( float duration )
 	}
 	else
 	{
-	m_flEndTime = cl.GetTime() + duration;
+		m_flEndTime = cl.GetTime() + duration;
 	}
 }
 

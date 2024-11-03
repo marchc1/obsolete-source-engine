@@ -63,7 +63,7 @@ private:
 	CMaterialReference m_PreviewMaterial;
 	int m_nTextureID;
 	Vector m_vecCameraDirection;
-	float m_flLastRotationTime;
+	double m_flLastRotationTime;
 };
 
 

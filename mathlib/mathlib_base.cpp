@@ -743,7 +743,7 @@ void XM_CALLCONV FloorDivMod (double numer, double denom, int *quotient,
 
 		x = floor(numer / denom);
 		q = (int)x;
-		r = Floor2Int(numer - (x * denom));
+		r = Floor2Int((float)(numer - (x * denom)));
 	}
 	else
 	{
@@ -752,7 +752,7 @@ void XM_CALLCONV FloorDivMod (double numer, double denom, int *quotient,
 		//
 		x = floor(-numer / denom);
 		q = -(int)x;
-		r = Floor2Int(-numer - (x * denom));
+		r = Floor2Int((float)(-numer - (x * denom)));
 		if (r != 0)
 		{
 			q--;

@@ -1022,15 +1022,15 @@ void PhysCleanupFrictionSounds( CBaseEntity *pEntity )
 	}
 }
 
-float PhysGetNextSimTime()
+double PhysGetNextSimTime()
 {
 	return physenv->GetSimulationTime() + gpGlobals->frametime * cl_phys_timescale.GetFloat();
 }
 
-float PhysGetSyncCreateTime()
+double PhysGetSyncCreateTime()
 {
-	float nextTime = physenv->GetNextFrameTime();
-	float simTime = PhysGetNextSimTime();
+	double nextTime = physenv->GetNextFrameTime();
+	double simTime = PhysGetNextSimTime();
 	if ( nextTime < simTime )
 	{
 		// The next simulation frame begins before the end of this frame

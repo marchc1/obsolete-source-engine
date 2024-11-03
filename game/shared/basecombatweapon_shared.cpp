@@ -652,7 +652,7 @@ bool CBaseCombatWeapon::HasWeaponIdleTimeElapsed( void )
 // Purpose: 
 // Input  : time - 
 //-----------------------------------------------------------------------------
-void CBaseCombatWeapon::SetWeaponIdleTime( float time )
+void CBaseCombatWeapon::SetWeaponIdleTime( double time )
 {
 	m_flTimeWeaponIdle = time;
 }
@@ -661,7 +661,7 @@ void CBaseCombatWeapon::SetWeaponIdleTime( float time )
 // Purpose: 
 // Output : float
 //-----------------------------------------------------------------------------
-float CBaseCombatWeapon::GetWeaponIdleTime( void )
+double CBaseCombatWeapon::GetWeaponIdleTime( void )
 {
 	return m_flTimeWeaponIdle;
 }
@@ -1884,7 +1884,7 @@ float CBaseCombatWeapon::GetFireRate( void )
 // Input  :
 // Output :
 //-----------------------------------------------------------------------------
-void CBaseCombatWeapon::WeaponSound( WeaponSound_t sound_type, float soundtime /* = 0.0f */ )
+void CBaseCombatWeapon::WeaponSound( WeaponSound_t sound_type, double soundtime /* = 0.0f */ )
 {
 #if !defined( CLIENT_DLL )
 	if ( !m_bSoundsEnabled )
@@ -2038,7 +2038,7 @@ bool CBaseCombatWeapon::DefaultReload( int iClipSize1, int iClipSize2, int iActi
 	}
 
 	MDLCACHE_CRITICAL_SECTION();
-	float flSequenceEndTime = gpGlobals->curtime + SequenceDuration();
+	double flSequenceEndTime = gpGlobals->curtime + SequenceDuration();
 	pOwner->SetNextAttack( flSequenceEndTime );
 	m_flNextPrimaryAttack = m_flNextSecondaryAttack = flSequenceEndTime;
 

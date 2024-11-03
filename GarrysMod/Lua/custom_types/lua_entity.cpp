@@ -551,7 +551,7 @@ LUA_FUNCTION_STATIC(Entity_PhysicsInit)
 	LUA->CheckType(1, GarrysMod::Lua::Type::Entity);
 
 	CBaseEntity* ent = Get_ValidEntity(1);
-	int solidType = LUA->CheckNumber(2);
+	int solidType = (int)LUA->CheckNumber(2);
 
 	LUA->PushBool(ent->VPhysicsInitNormal((SolidType_t)solidType, 1, false) != NULL);
 
@@ -563,7 +563,7 @@ LUA_FUNCTION_STATIC(Entity_PhysicsInitStatic)
 	LUA->CheckType(1, GarrysMod::Lua::Type::Entity);
 
 	CBaseEntity* ent = Get_ValidEntity(1);
-	int solidType = LUA->CheckNumber(2);
+	int solidType = (int)LUA->CheckNumber(2);
 
 	IPhysicsObject* phys = ent->VPhysicsInitStatic();
 	LUA->PushBool(phys != NULL);

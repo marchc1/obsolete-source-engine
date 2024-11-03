@@ -250,7 +250,7 @@ public:
 	CNetworkVar( bool, m_bDrawInPortalRender );
 #endif
 
-	float		m_flDieTime;
+	double		m_flDieTime;
 
 private:
 

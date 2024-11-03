@@ -16,7 +16,7 @@ void RecieveNetworkedVarMsg( bf_read &msg )
 
 	EHANDLE pEHandle = EHANDLE(iEHandle);
 
-	char iType = msg.ReadChar();
+	int iType = msg.ReadChar();
 	char* strVarName = new char[255];
 	if (!msg.ReadString(strVarName, 255))
 		Warning("RecieveNetworkedVarMsg: This shouldn't happen!\n"); // Unofficial Warning.

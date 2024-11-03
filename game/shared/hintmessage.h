@@ -51,7 +51,7 @@ public:
 	inline bool IsEmpty() { return m_messages.Count() == 0; }
 
 private:
-	float		m_tmMessageEnd;
+	double		m_tmMessageEnd;
 	CUtlVector< CHintMessage * > m_messages;
 	CBasePlayer *m_pPlayer;
 };

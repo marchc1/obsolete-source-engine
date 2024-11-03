@@ -1062,7 +1062,7 @@ void CBaseEntity::CheckHasGamePhysicsSimulation()
 //-----------------------------------------------------------------------------
 // Sets/Gets the next think based on context index
 //-----------------------------------------------------------------------------
-void CBaseEntity::SetNextThink( int nContextIndex, float thinkTime )
+void CBaseEntity::SetNextThink( int nContextIndex, double thinkTime )
 {
 	int thinkTick = ( thinkTime == TICK_NEVER_THINK ) ? TICK_NEVER_THINK : TIME_TO_TICKS( thinkTime );
 
@@ -1077,7 +1077,7 @@ void CBaseEntity::SetNextThink( int nContextIndex, float thinkTime )
 	CheckHasThinkFunction( thinkTick == TICK_NEVER_THINK ? false : true );
 }
 
-void CBaseEntity::SetLastThink( int nContextIndex, float thinkTime )
+void CBaseEntity::SetLastThink( int nContextIndex, double thinkTime )
 {
 	int thinkTick = ( thinkTime == TICK_NEVER_THINK ) ? TICK_NEVER_THINK : TIME_TO_TICKS( thinkTime );
 
@@ -1091,7 +1091,7 @@ void CBaseEntity::SetLastThink( int nContextIndex, float thinkTime )
 	}
 }
 
-float CBaseEntity::GetNextThink( int nContextIndex ) const
+double CBaseEntity::GetNextThink( int nContextIndex ) const
 {
 	if (nContextIndex < 0)
 		return m_nNextThinkTick * TICK_INTERVAL;

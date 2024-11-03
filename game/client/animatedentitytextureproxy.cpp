@@ -16,14 +16,14 @@ public:
 	CAnimatedEntityTextureProxy() {}
 	virtual ~CAnimatedEntityTextureProxy() {}
 
-	virtual float GetAnimationStartTime( void* pBaseEntity );
+	virtual double GetAnimationStartTime( void* pBaseEntity );
 	virtual void AnimationWrapped( void* pC_BaseEntity );
 
 };
 
 EXPOSE_INTERFACE( CAnimatedEntityTextureProxy, IMaterialProxy, "AnimatedEntityTexture" IMATERIAL_PROXY_INTERFACE_VERSION );
 
-float CAnimatedEntityTextureProxy::GetAnimationStartTime( void* pArg )
+double CAnimatedEntityTextureProxy::GetAnimationStartTime( void* pArg )
 {
 	IClientRenderable *pRend = (IClientRenderable *)pArg;
 	if (!pRend)

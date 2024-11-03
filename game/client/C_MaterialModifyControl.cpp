@@ -222,7 +222,7 @@ private:
 	void OnBindSetVar( C_MaterialModifyControl *pControl );
 	void OnBindAnimatedTexture( C_MaterialModifyControl *pControl );
 	void OnBindFloatLerp( C_MaterialModifyControl *pControl );
-	float GetAnimationStartTime( void* pArg );
+	double GetAnimationStartTime( void* pArg );
 	void AnimationWrapped( void* pArg );
 
 	IMaterial	*m_pMaterial;
@@ -507,18 +507,18 @@ void CMaterialModifyProxy::OnBindAnimatedTexture( C_MaterialModifyControl *pCont
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-float CMaterialModifyProxy::GetAnimationStartTime( void* pArg )
+double CMaterialModifyProxy::GetAnimationStartTime( void* pArg )
 {
 	IClientRenderable *pRend = (IClientRenderable *)pArg;
 	if (!pRend)
-		return 0.0f;
+		return 0.0;
 
 	C_BaseEntity* pEntity = pRend->GetIClientUnknown()->GetBaseEntity();
 	if (pEntity)
 	{
 		return pEntity->GetTextureAnimationStartTime();
 	}
-	return 0.0f;
+	return 0.0;
 }
 
 //-----------------------------------------------------------------------------
@@ -595,7 +595,7 @@ public:
 	virtual bool Init( IMaterial *pMaterial, KeyValues *pKeyValues );
 	virtual void OnBind( void *pEntity );
 
-	virtual float GetAnimationStartTime( void* pBaseEntity );
+	virtual double GetAnimationStartTime( void* pBaseEntity );
 	virtual void AnimationWrapped( void* pC_BaseEntity );
 
 private:
@@ -763,18 +763,18 @@ void CMaterialModifyAnimatedProxy::OnBind( void *pEntity )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-float CMaterialModifyAnimatedProxy::GetAnimationStartTime( void* pArg )
+double CMaterialModifyAnimatedProxy::GetAnimationStartTime( void* pArg )
 {
 	IClientRenderable *pRend = (IClientRenderable *)pArg;
 	if (!pRend)
-		return 0.0f;
+		return 0.0;
 
 	C_BaseEntity* pEntity = pRend->GetIClientUnknown()->GetBaseEntity();
 	if (pEntity)
 	{
 		return pEntity->GetTextureAnimationStartTime();
 	}
-	return 0.0f;
+	return 0.0;
 }
 
 //-----------------------------------------------------------------------------

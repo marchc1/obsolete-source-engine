@@ -235,8 +235,8 @@ public:
 	virtual void			SetViewModel();
 
 	virtual bool			HasWeaponIdleTimeElapsed( void );
-	virtual void			SetWeaponIdleTime( float time );
-	virtual float			GetWeaponIdleTime( void );
+	virtual void			SetWeaponIdleTime( double time );
+	virtual double			GetWeaponIdleTime( void );
 
 	// Weapon selection
 	virtual bool			HasAnyAmmo( void );							// Returns true is weapon has ammo
@@ -312,7 +312,7 @@ public:
 	virtual float			GetMinRestTime() { return 0.3f; }
 	virtual float			GetMaxRestTime() { return 0.6f; }
 	virtual int				GetRandomBurst() { return random->RandomInt( GetMinBurst(), GetMaxBurst() ); }
-	virtual void			WeaponSound( WeaponSound_t sound_type, float soundtime = 0.0f );
+	virtual void			WeaponSound( WeaponSound_t sound_type, double soundtime = 0.0f );
 	virtual void			StopWeaponSound( WeaponSound_t sound_type );
 	virtual const WeaponProficiencyInfo_t *GetProficiencyValues();
 
@@ -629,7 +629,7 @@ public:
 	float					m_fFireDuration;		// The amount of time that the weapon has sustained firing
 	int						m_iSubType;
 
-	float					m_flUnlockTime;
+	double					m_flUnlockTime;
 	EHANDLE					m_hLocker;				// Who locked this weapon.
 
 	CNetworkVar( bool, m_bFlipViewModel );

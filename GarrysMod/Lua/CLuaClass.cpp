@@ -92,7 +92,7 @@ float CLuaObject::GetFloat()
 	if (m_reference != -1)
 	{
 		m_pLua->ReferencePush(m_reference);
-		float num = m_pLua->GetNumber(-1);
+		float num = (float)m_pLua->GetNumber(-1);
 		m_pLua->Pop(1);
 		return num;
 	} else {
@@ -105,7 +105,7 @@ int CLuaObject::GetInt()
 	if (m_reference != -1)
 	{
 		m_pLua->ReferencePush(m_reference);
-		int num = m_pLua->GetNumber(-1);
+		int num = (int)m_pLua->GetNumber(-1);
 		m_pLua->Pop(1);
 		return num;
 	} else {
@@ -253,7 +253,7 @@ int CLuaObject::GetMemberInt(const char* name, int b)
 		{
 			m_pLua->GetField(-1, name);
 			if (m_pLua->IsType(-1, GarrysMod::Lua::Type::Number)) {
-				val = m_pLua->GetNumber(-1);
+				val = (int)m_pLua->GetNumber(-1);
 			}
 			m_pLua->Pop(1);
 		}
@@ -273,7 +273,7 @@ float CLuaObject::GetMemberFloat(const char* name, float b)
 		{
 			m_pLua->GetField(-1, name);
 			if (m_pLua->IsType(-1, GarrysMod::Lua::Type::Number)) {
-				val = m_pLua->GetNumber(-1);
+				val = (float)m_pLua->GetNumber(-1);
 			}
 			m_pLua->Pop(1);
 		}

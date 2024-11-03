@@ -36,7 +36,7 @@ public:
 		int nCurSequence, 
 		float flCurCycle,
 		float flCurPlaybackRate,
-		float flCurTime
+		double flCurTime
 		);
 
 	void RemoveAll( void ) { m_animationQueue.RemoveAll(); };

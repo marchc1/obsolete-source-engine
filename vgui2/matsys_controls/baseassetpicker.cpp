@@ -431,7 +431,7 @@ private:
 	};
 
 private:
-	bool AddFilesInDirectory( CachedAssetList_t& list, const char *pStartingFile, const char *pFilePath, DirHandle_t hDirHandle, float flStartTime, float flDuration );
+	bool AddFilesInDirectory( CachedAssetList_t& list, const char *pStartingFile, const char *pFilePath, DirHandle_t hDirHandle, double flStartTime, double flDuration );
 	bool DoesExtensionMatch( CachedAssetList_t& list, const char *pFileName );
 	void AddAssetToList( CachedAssetList_t& list, const char *pAssetName, int nModIndex );
 
@@ -583,7 +583,7 @@ bool CAssetCache::DoesExtensionMatch( CachedAssetList_t& info, const char *pFile
 //-----------------------------------------------------------------------------
 // Recursively add all files matching the wildcard under this directory
 //-----------------------------------------------------------------------------
-bool CAssetCache::AddFilesInDirectory( CachedAssetList_t& list, const char *pStartingFile, const char *pFilePath, DirHandle_t hCurrentDir, float flStartTime, float flDuration )
+bool CAssetCache::AddFilesInDirectory( CachedAssetList_t& list, const char *pStartingFile, const char *pFilePath, DirHandle_t hCurrentDir, double flStartTime, double flDuration )
 {
 	// Indicates no files found
 	if ( list.m_hFind == FILESYSTEM_INVALID_FIND_HANDLE )
@@ -673,7 +673,7 @@ bool CAssetCache::ContinueSearchForAssets( AssetList_t hList, float flDuration )
 {
 	CachedAssetList_t& list = m_CachedAssets[ (intp)hList ];
 
-	float flStartTime = Plat_FloatTime();
+	double flStartTime = Plat_FloatTime();
 	while ( list.m_DirectoriesToCheck.Count() )
 	{
 		const char *pFilePath = list.m_DirectoriesToCheck[ list.m_DirectoriesToCheck.Head() ].m_DirName;

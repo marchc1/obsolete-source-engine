@@ -1574,14 +1574,14 @@ void CPhysicsEnvironment::SetSimulationTimestep( float timestep )
 	m_pPhysEnv->set_delta_PSI_time( timestep );
 }
 
-float CPhysicsEnvironment::GetSimulationTime( void ) const
+double CPhysicsEnvironment::GetSimulationTime( void ) const
 {
-	return (float)m_pPhysEnv->get_current_time().get_time();
+	return m_pPhysEnv->get_current_time().get_time();
 }
 
-float CPhysicsEnvironment::GetNextFrameTime( void ) const
+double CPhysicsEnvironment::GetNextFrameTime( void ) const
 {
-	return (float)m_pPhysEnv->get_next_PSI_time().get_time();
+	return m_pPhysEnv->get_next_PSI_time().get_time();
 }
 
 

@@ -253,7 +253,7 @@ LUA_FUNCTION_STATIC(Angle_RotateAroundAxis) // Verify this. Probably shit.
     VectorIRotate(&vec->x, matrix, &rotated.x);
 
     Quaternion rotation;
-    AxisAngleQuaternion(rotated, radians, rotation);
+    AxisAngleQuaternion(rotated, (float)radians, rotation);
 
     matrix3x4_t matrix2;
     QuaternionMatrix(rotation, matrix2);
@@ -398,7 +398,7 @@ LUA_FUNCTION_STATIC(Global_LerpAngle)
 	QAngle* start = Get_Angle(2);
 	QAngle* end = Get_Angle(3);
 
-	Push_Angle(new QAngle(Lerp(delta, start->x, end->x), Lerp(delta, start->y, end->y), Lerp(delta, start->z, end->z)));
+	Push_Angle(new QAngle((float)Lerp(delta, start->x, end->x), (float)Lerp(delta, start->y, end->y), (float)Lerp(delta, start->z, end->z)));
 
 	return 1;
 }

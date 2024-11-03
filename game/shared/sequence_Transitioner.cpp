@@ -77,7 +77,7 @@ void CSequenceTransitioner::UpdateCurrent(
 	int nCurSequence, 
 	float flCurCycle,
 	float flCurPlaybackRate,
-	float flCurTime )
+	double flCurTime )
 {
 	// sequence may be set before model is initialized
 	if ( hdr == NULL)

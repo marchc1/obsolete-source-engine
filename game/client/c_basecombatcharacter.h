@@ -85,7 +85,7 @@ public:
 	void SetAmmoCount( int iCount, int iAmmoIndex );
 
 	float				GetNextAttack() const { return m_flNextAttack; }
-	void				SetNextAttack( float flWait ) { m_flNextAttack = flWait; }
+	void				SetNextAttack( double flWait ) { m_flNextAttack = flWait; }
 
 	virtual int			BloodColor();
 
@@ -105,7 +105,7 @@ public:
 
 public:
 
-	float			m_flNextAttack;
+	double			m_flNextAttack;
 
 protected:
 

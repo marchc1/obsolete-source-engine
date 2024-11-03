@@ -10,6 +10,7 @@
 #include "tier1/strtools.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
+#undef _INC_CRTDBG
 #include "tier0/memdbgon.h"
 
 static int s_MilesRefCount = 0;

@@ -110,15 +110,15 @@ protected:
 	int m_lastx, m_lasty;
 
 	float m_zoom;
-	float m_altitude, m_azimuth;
+	double m_altitude, m_azimuth;
 	//vec3 m_lookat
 
 	float m_prevZoom;
 	float m_prevAltitude, m_prevAzimuth;
 
-	float m_flLastMouseTime;
-	float m_flLastTickTime;
-	float m_flSpin;
+	double m_flLastMouseTime;
+	double m_flLastTickTime;
+	double m_flSpin;
 	bool m_bSpin;
 
 	void UpdateTransform( void );

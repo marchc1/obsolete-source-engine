@@ -516,7 +516,7 @@ class IntervalTimer
 public:
 	IntervalTimer( void )
 	{
-		m_timestamp = -1.0f;
+		m_timestamp = -1.0;
 	}
 
 	void Reset( void )
@@ -531,33 +531,33 @@ public:
 
 	void Invalidate( void )
 	{
-		m_timestamp = -1.0f;
+		m_timestamp = -1.0;
 	}		
 
 	bool HasStarted( void ) const
 	{
-		return (m_timestamp > 0.0f);
+		return (m_timestamp > 0.0);
 	}
 
 	/// if not started, elapsed time is very large
-	float GetElapsedTime( void ) const
+	double GetElapsedTime( void ) const
 	{
-		return (HasStarted()) ? (Now() - m_timestamp) : 99999.9f;
+		return (HasStarted()) ? (Now() - m_timestamp) : 99999.9;
 	}
 
-	bool IsLessThen( float duration ) const
+	bool IsLessThen( double duration ) const
 	{
 		return (Now() - m_timestamp < duration) ? true : false;
 	}
 
-	bool IsGreaterThen( float duration ) const
+	bool IsGreaterThen( double duration ) const
 	{
 		return (Now() - m_timestamp > duration) ? true : false;
 	}
 
 private:
-	float m_timestamp;
-	float Now( void ) const;		// work-around since client header doesn't like inlined gpGlobals->curtime
+	double m_timestamp;
+	double Now( void ) const;		// work-around since client header doesn't like inlined gpGlobals->curtime
 };
 
 
@@ -571,8 +571,8 @@ class CountdownTimer
 public:
 	CountdownTimer( void )
 	{
-		m_timestamp = -1.0f;
-		m_duration = 0.0f;
+		m_timestamp = -1.0;
+		m_duration = 0.0;
 	}
 
 	void Reset( void )
@@ -601,31 +601,31 @@ public:
 		return (Now() > m_timestamp);
 	}
 
-	float GetElapsedTime( void ) const
+	double GetElapsedTime( void ) const
 	{
 		return Now() - m_timestamp + m_duration;
 	}
 
-	float GetRemainingTime( void ) const
+	double GetRemainingTime( void ) const
 	{
 		return (m_timestamp - Now());
 	}
 
 	/// return original countdown time
-	float GetCountdownDuration( void ) const
+	double GetCountdownDuration( void ) const
 	{
 		return (m_timestamp > 0.0f) ? m_duration : 0.0f;
 	}
 
 private:
-	float m_duration;
-	float m_timestamp;
-	virtual float Now( void ) const;		// work-around since client header doesn't like inlined gpGlobals->curtime
+	double m_duration;
+	double m_timestamp;
+	virtual double Now( void ) const;		// work-around since client header doesn't like inlined gpGlobals->curtime
 };
 
 class RealTimeCountdownTimer : public CountdownTimer
 {
-	virtual float Now( void ) const override
+	virtual double Now( void ) const override
 	{
 		return Plat_FloatTime();
 	}

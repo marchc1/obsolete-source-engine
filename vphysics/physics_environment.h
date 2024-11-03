@@ -65,8 +65,8 @@ public:
 	void			Simulate( float deltaTime ) override;
 	float			GetSimulationTimestep() const override;
 	void			SetSimulationTimestep( float timestep ) override;
-	float			GetSimulationTime() const override;
-	float			GetNextFrameTime() const override;
+	double			GetSimulationTime() const override;
+	double			GetNextFrameTime() const override;
 	bool			IsInSimulation() const override;
 
 	void DestroyObject( IPhysicsObject * ) override;

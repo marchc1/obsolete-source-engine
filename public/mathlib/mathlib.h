@@ -717,6 +717,12 @@ FORCEINLINE T Lerp( float flPercent, T const &A, T const &B )
 	return A + (B - A) * flPercent;
 }
 
+template <class T>
+FORCEINLINE T Lerp( double flPercent, T const &A, T const &B )
+{
+	return A + (B - A) * flPercent;
+}
+
 FORCEINLINE float XM_CALLCONV Sqr( float f )
 {
 	return f*f;

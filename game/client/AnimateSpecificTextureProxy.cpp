@@ -24,7 +24,7 @@ class CAnimateSpecificTexture : public CBaseAnimatedTextureProxy
 private:
 	CUtlString m_OnlyAnimateOnTexture;
 public:
-	virtual float GetAnimationStartTime( void* pBaseEntity ) { return 0; }
+	virtual double GetAnimationStartTime( void* pBaseEntity ) { return 0; }
 	virtual bool Init( IMaterial *pMaterial, KeyValues *pKeyValues );
 	virtual void OnBind( void *pC_BaseEntity );
 	virtual void Release( void ) { delete this; }

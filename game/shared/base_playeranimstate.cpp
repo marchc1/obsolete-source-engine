@@ -112,7 +112,7 @@ void CBasePlayerAnimState::ClearAnimationState()
 }
 
 
-float CBasePlayerAnimState::TimeSinceLastAnimationStateClear() const
+double CBasePlayerAnimState::TimeSinceLastAnimationStateClear() const
 {
 	return gpGlobals->curtime - m_flLastAnimationStateClearTime;
 }

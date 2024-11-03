@@ -86,7 +86,7 @@ private:
 private:
 	CBasePlayer			*m_pPlayer;
 
-	float				m_flLastHintPlayedAt;
+	double				m_flLastHintPlayedAt;
 	bool				m_bShowHints;
 	CVarBitVec			m_HintHistory;
 	const char			**m_pszHintMessages;

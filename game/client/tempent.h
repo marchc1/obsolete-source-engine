@@ -95,7 +95,7 @@ protected:
 
 public:
 	int								flags;
-	float							die;
+	double							die;
 	float							m_flFrameMax;
 	float							x;
 	float							y;

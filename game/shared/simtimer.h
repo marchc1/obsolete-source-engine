@@ -36,12 +36,12 @@ public:
 		return ( gpGlobals->curtime - m_next > -ST_EPS );
 	}
 
-	float Delay( float delayTime )
+	double Delay( float delayTime )
 	{
 		return (m_next += delayTime);
 	}
 	
-	float GetNext() const
+	double GetNext() const
 	{
 		return m_next;
 	}
@@ -59,9 +59,9 @@ public:
 			m_next = gpGlobals->curtime + minInterval;
 	}
 
-	float GetRemaining() const
+	double GetRemaining() const
 	{
-		float result = m_next - gpGlobals->curtime;
+		double result = m_next - gpGlobals->curtime;
 		if (result < 0 )
 			return 0;
 		return result;
@@ -70,7 +70,7 @@ public:
 	DECLARE_SIMPLE_DATADESC();
 	
 protected:
-	float m_next;
+	double m_next;
 };
 
 //-----------------------------------------------------------------------------
@@ -86,7 +86,7 @@ public:
 	void Set( float interval, bool startExpired = true )
 	{ 
 		m_interval = interval;
-		m_next = (startExpired) ? -1.0F : gpGlobals->curtime + m_interval;
+		m_next = (startExpired) ? -1.0 : gpGlobals->curtime + m_interval;
 	}
 
 	void Reset( float interval = -1.0F )
@@ -101,7 +101,7 @@ public:
 		}
 	}
 
-	float GetInterval() const
+	double GetInterval() const
 	{
 		return m_interval;
 	}
@@ -109,7 +109,7 @@ public:
 	DECLARE_SIMPLE_DATADESC();
 	
 private:
-	float m_interval;
+	double m_interval;
 };
 
 
@@ -338,7 +338,7 @@ public:
 	}
 
 private:
-	float m_lastTime;
+	double m_lastTime;
 };
 
 //-----------------------------------------------------------------------------

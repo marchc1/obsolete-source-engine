@@ -176,7 +176,7 @@ protected:
 	float				GetOuterXYSpeed() const;
 
 	// How long has it been since we cleared the animation state?
-	float				TimeSinceLastAnimationStateClear() const;
+	double				TimeSinceLastAnimationStateClear() const;
 
 	float				GetEyeYaw() const { return m_flEyeYaw; }
 
@@ -212,7 +212,7 @@ protected:
 	float				m_flLastYaw;
 
 	// Time when we stopped moving
-	float				m_flLastTurnTime;
+	double				m_flLastTurnTime;
 
 	// One of the above enums
 	int					m_nTurningInPlace;
@@ -247,7 +247,7 @@ private:
 	
 	float m_flMaxGroundSpeed;
 
-	float m_flLastAnimationStateClearTime;
+	double m_flLastAnimationStateClearTime;
 
 	// If he's using 8-way blending, then we blend to this idle 
 	int m_iCurrent8WayIdleSequence;

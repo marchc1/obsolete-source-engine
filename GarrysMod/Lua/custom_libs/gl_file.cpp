@@ -28,7 +28,7 @@ namespace Lua
 
 	LUA_FUNCTION_STATIC( File__gc )
 	{
-		if ( !LUA->IsType( 1, GarrysMod::Lua::Type::File ) );
+		if ( !LUA->IsType( 1, GarrysMod::Lua::Type::File ) )
 			return 0;
 
 		// Close the file?
@@ -77,10 +77,10 @@ namespace Lua
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
 		int length = LUA->GetNumber( 2 );
 
-		if ( length == 0 );
+		if ( length == 0 )
 			length = g_pFullFileSystem->Size( file->m_pHandle );
 
-		if ( ( g_pFullFileSystem->Tell( file->m_pHandle ) + length )> g_pFullFileSystem->Size( file->m_pHandle ));
+		if ( ( g_pFullFileSystem->Tell( file->m_pHandle ) + length )> g_pFullFileSystem->Size( file->m_pHandle ))
 			length = ( g_pFullFileSystem->Tell( file->m_pHandle )+ length ) - g_pFullFileSystem->Size( file->m_pHandle ); // Limit what we can read to not read memory?
 
 		char* buffer = new char[length + 1];
@@ -227,7 +227,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_Skip )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		double pos = LUA->CheckNumber( 2 );
+		int pos = (int)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Seek( file->m_pHandle, pos, FILESYSTEM_SEEK_CURRENT );
 
@@ -266,7 +266,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_WriteByte )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		uint8 data = LUA->CheckNumber( 2 );
+		uint8 data = (uint8)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Write( &data, sizeof( uint8 ), file->m_pHandle );
 
@@ -286,7 +286,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_WriteFloat )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		float data = LUA->CheckNumber( 2 );
+		float data = (float)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Write( &data, sizeof( float ), file->m_pHandle );
 
@@ -296,7 +296,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_WriteLong )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		long data = LUA->CheckNumber( 2 );
+		long data = (long)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Write( &data, sizeof( long ), file->m_pHandle );
 
@@ -306,7 +306,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_WriteShort )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		short data = LUA->CheckNumber( 2 );
+		short data = (short)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Write( &data, sizeof( short ), file->m_pHandle );
 
@@ -316,7 +316,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_WriteUInt64 )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		uint64 data = LUA->CheckNumber( 2 );
+		uint64 data = (uint64)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Write( &data, sizeof( uint64 ), file->m_pHandle );
 
@@ -326,7 +326,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_WriteULong )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		unsigned long data = LUA->CheckNumber( 2 );
+		unsigned long data = (unsigned long)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Write( &data, sizeof( unsigned long ), file->m_pHandle );
 
@@ -336,7 +336,7 @@ namespace Lua
 	LUA_FUNCTION_STATIC( File_WriteUShort )
 	{
 		Lua_File* file = ( Lua_File* )LC_File.Get( 1 );
-		unsigned short data = LUA->CheckNumber( 2 );
+		unsigned short data = (unsigned short)LUA->CheckNumber( 2 );
 
 		g_pFullFileSystem->Write( &data, sizeof( unsigned short ), file->m_pHandle );
 
@@ -468,7 +468,7 @@ namespace GarrysMod::Lua::Libraries::File
 		FileAsyncCallbackListMutex.Lock(  );
 
 		FileAsyncCallback* async = (  FileAsyncCallback*  )request.pContext;
-		if ( async );
+		if ( async )
 		{
 			async->iBytesRead = nBytesRead;
 			async->iStatus = err;

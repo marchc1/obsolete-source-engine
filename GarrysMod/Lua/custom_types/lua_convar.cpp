@@ -114,7 +114,7 @@ LUA_FUNCTION_STATIC(ConVar_GetString)
 LUA_FUNCTION_STATIC(ConVar_IsFlagSet)
 {
 	ConVar* var = (ConVar*)LC_ConVar.Get(1);
-	int flag = LUA->CheckNumber(2);
+	int flag = (int)LUA->CheckNumber(2);
 
 	LUA->PushBool(var->IsFlagSet(flag));
 
@@ -143,7 +143,7 @@ LUA_FUNCTION_STATIC(ConVar_SetBool)
 LUA_FUNCTION_STATIC(ConVar_SetFloat)
 {
 	ConVar* var = (ConVar*)LC_ConVar.Get(1);
-	float value = LUA->CheckNumber(2);
+	float value = (float)LUA->CheckNumber(2);
 
 	var->SetValue(std::to_string(value).c_str());
 
@@ -153,7 +153,7 @@ LUA_FUNCTION_STATIC(ConVar_SetFloat)
 LUA_FUNCTION_STATIC(ConVar_SetInt)
 {
 	ConVar* var = (ConVar*)LC_ConVar.Get(1);
-	int value = LUA->CheckNumber(2);
+	int value = (int)LUA->CheckNumber(2);
 
 	var->SetValue(std::to_string(value).c_str());
 

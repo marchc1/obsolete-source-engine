@@ -1815,7 +1815,7 @@ void CValueChangeTracker::GetValue( char *buf, size_t bufsize )
 		break;
 	case FIELD_FLOAT:
 	case FIELD_TIME:
-		Q_snprintf( buf, bufsize, "%f", *(float const *)pInputData );
+		Q_snprintf( buf, bufsize, "%f", *(double const *)pInputData );
 		break;
 	case FIELD_STRING:
 		Q_snprintf( buf, bufsize, "%s", (char const*)pInputData );

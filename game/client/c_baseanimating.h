@@ -301,7 +301,7 @@ public:
 	void					Clear( void ) override;
 	void							ClearRagdoll();
 	void							CreateUnragdollInfo( C_BaseAnimating *pRagdoll );
-	bool							ForceSetupBonesAtTime( matrix3x4_t *pBonesOut, float flTime );
+	bool							ForceSetupBonesAtTime( matrix3x4_t *pBonesOut, double flTime );
 	virtual bool					GetRagdollInitBoneArrays( matrix3x4_t *pDeltaBones0, matrix3x4_t *pDeltaBones1, matrix3x4_t *pCurrentBones, float boneDt );
 
 	// For shadows rendering the correct body + sequence...

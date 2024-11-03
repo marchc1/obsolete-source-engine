@@ -26,10 +26,10 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // local helper functions
 //-----------------------------------------------------------------------------
-static float UpdateTime( float &flLastTime )
+static double UpdateTime( double &flLastTime )
 {
-	float flTime = vgui::system()->GetFrameTime();
-	float dt = flTime - flLastTime;
+	double flTime = vgui::system()->GetFrameTime();
+	double dt = flTime - flLastTime;
 	flLastTime = flTime;
 	return dt;
 }
@@ -103,7 +103,7 @@ void CPotteryWheelManip::OnCancelManipulation( void )
 
 void CPotteryWheelManip::OnTick( void )
 {
-	float dt = UpdateTime( m_flLastTickTime );
+	double dt = UpdateTime( m_flLastTickTime );
 
 	if ( m_bSpin )
 	{
@@ -114,7 +114,7 @@ void CPotteryWheelManip::OnTick( void )
 
 void CPotteryWheelManip::OnCursorMoved( int x, int y )
 {
-	float dt = UpdateTime( m_flLastMouseTime );
+	double dt = UpdateTime( m_flLastMouseTime );
 
 	if ( m_bSpin )
 	{
@@ -142,7 +142,7 @@ void CPotteryWheelManip::OnCursorMoved( int x, int y )
 	{
 		m_azimuth  += 0.002f * ( x - m_lastx );
 		m_altitude -= 0.002f * ( y - m_lasty );
-		m_altitude = max( (float)-M_PI/2, min( (float)M_PI/2, m_altitude ) );
+		m_altitude = MAX( (float)-M_PI/2, MIN( (float)M_PI/2, m_altitude ) );
 	}
 	m_lastx = x;
 	m_lasty = y;

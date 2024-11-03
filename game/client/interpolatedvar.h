@@ -124,7 +124,7 @@ extern ConVar cl_extrapolate_amount;
 
 
 template< class T >
-inline T ExtrapolateInterpolatedVarType( const T &oldVal, const T &newVal, float divisor, float flExtrapolationAmount )
+inline T ExtrapolateInterpolatedVarType( const T &oldVal, const T &newVal, double divisor, double flExtrapolationAmount )
 {
 	return newVal;
 }
@@ -139,9 +139,9 @@ inline float ExtrapolateInterpolatedVarType( const float &oldVal, const float &n
 	return Lerp( 1.0f + flExtrapolationAmount * divisor, oldVal, newVal );
 }
 
-inline double ExtrapolateInterpolatedVarType( const double &oldVal, const double &newVal, float divisor, float flExtrapolationAmount )
+inline double ExtrapolateInterpolatedVarType( const double &oldVal, const double &newVal, double divisor, double flExtrapolationAmount )
 {
-	return Lerp( 1.0f + flExtrapolationAmount * divisor, oldVal, newVal );
+	return Lerp( 1.0 + flExtrapolationAmount * divisor, oldVal, newVal );
 }
 
 inline QAngle ExtrapolateInterpolatedVarType( const QAngle &oldVal, const QAngle &newVal, float divisor, float flExtrapolationAmount )
@@ -465,8 +465,8 @@ public:
 public:
 
 	// Just like the IInterpolatedVar functions, but you can specify an interpolation amount.
-	bool NoteChanged( double changetime, float interpolation_amount, bool bUpdateLastNetworkedValue );
-	int Interpolate( double currentTime, float interpolation_amount );
+	bool NoteChanged( double changetime, double interpolation_amount, bool bUpdateLastNetworkedValue );
+	int Interpolate( double currentTime, double interpolation_amount );
 
 	void DebugInterpolate( Type *pOut, double currentTime );
 
@@ -530,7 +530,7 @@ protected:
 	bool GetInterpolationInfo( 
 		CInterpolationInfo *pInfo,
 		double currentTime, 
-		float interpolation_amount,
+		double interpolation_amount,
 		int *pNoMoreChanges );
 
 	void TimeFixup_Hermite( 
@@ -544,15 +544,15 @@ protected:
 		CInterpolatedVarEntry &fixup,
 		CInterpolatedVarEntry*& prev, 
 		CInterpolatedVarEntry*& start, 
-		float dt
+		double dt
 		);
 
 	void _Extrapolate( 
 		Type *pOut,
 		CInterpolatedVarEntry *pOld,
 		CInterpolatedVarEntry *pNew,
-		float flDestinationTime,
-		float flMaxExtrapolationAmount
+		double flDestinationTime,
+		double flMaxExtrapolationAmount
 		);
 
 	void _Interpolate( Type *out, float frac, CInterpolatedVarEntry *start, CInterpolatedVarEntry *end );
@@ -629,7 +629,7 @@ void CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteLastNetworkedValue()
 }
 
 template< typename Type, bool IS_ARRAY >
-inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteChanged( double changetime, float interpolation_amount, bool bUpdateLastNetworkedValue )
+inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::NoteChanged( double changetime, double interpolation_amount, bool bUpdateLastNetworkedValue )
 {
 	Assert( m_pValue );
 
@@ -804,7 +804,7 @@ template< typename Type, bool IS_ARRAY >
 inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo( 
 	typename CInterpolatedVarArrayBase<Type, IS_ARRAY>::CInterpolationInfo *pInfo,
 	double currentTime, 
-	float interpolation_amount,
+	double interpolation_amount,
 	int *pNoMoreChanges
 	)
 {
@@ -812,7 +812,7 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo(
 
 	CVarHistory &varHistory = m_VarHistory;
 
-	float targettime = currentTime - interpolation_amount;
+	double targettime = currentTime - interpolation_amount;
 
 	pInfo->m_bHermite = false;
 	pInfo->frac = 0;
@@ -822,7 +822,7 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo(
 	{
 		pInfo->older = i;
 		
-		float older_change_time = m_VarHistory[ i ].changetime;
+		double older_change_time = m_VarHistory[ i ].changetime;
 		if ( older_change_time == 0.0f )
 			break;
 
@@ -844,8 +844,8 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo(
 			return true;
 		}
 
-		float newer_change_time = varHistory[ pInfo->newer ].changetime;
-		float dt = newer_change_time - older_change_time;
+		double newer_change_time = varHistory[ pInfo->newer ].changetime;
+		double dt = newer_change_time - older_change_time;
 		if ( dt > 0.0001f )
 		{
 			pInfo->frac = ( targettime - older_change_time ) / ( newer_change_time - older_change_time );
@@ -856,8 +856,8 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo(
 			if ( !(m_fType & INTERPOLATE_LINEAR_ONLY) && varHistory.IsIdxValid(oldestindex) )
 			{
 				pInfo->oldest = oldestindex;
-				float oldest_change_time = varHistory[ oldestindex ].changetime;
-				float dt2 = older_change_time - oldest_change_time;
+				double oldest_change_time = varHistory[ oldestindex ].changetime;
+				double dt2 = older_change_time - oldest_change_time;
 				if ( dt2 > 0.0001f )
 				{
 					pInfo->m_bHermite = true;
@@ -970,7 +970,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::DebugInterpolate( Type *p
 }
 
 template< typename Type, bool IS_ARRAY >
-inline int CInterpolatedVarArrayBase<Type, IS_ARRAY>::Interpolate( double currentTime, float interpolation_amount )
+inline int CInterpolatedVarArrayBase<Type, IS_ARRAY>::Interpolate( double currentTime, double interpolation_amount )
 {
 	int noMoreChanges = 0;
 	
@@ -1351,8 +1351,8 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::_Extrapolate(
 	Type *pOut,
 	CInterpolatedVarEntry *pOld,
 	CInterpolatedVarEntry *pNew,
-	float flDestinationTime,
-	float flMaxExtrapolationAmount
+	double flDestinationTime,
+	double flMaxExtrapolationAmount
 	)
 {
 	if ( fabs( pOld->changetime - pNew->changetime ) < 0.001f || flDestinationTime <= pNew->changetime )
@@ -1362,9 +1362,9 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::_Extrapolate(
 	}
 	else
 	{
-		float flExtrapolationAmount = MIN( flDestinationTime - pNew->changetime, flMaxExtrapolationAmount );
+		double flExtrapolationAmount = MIN( flDestinationTime - pNew->changetime, flMaxExtrapolationAmount );
 
-		float divisor = 1.0f / (pNew->changetime - pOld->changetime);
+		double divisor = 1.0 / (pNew->changetime - pOld->changetime);
 		for ( int i=0; i < m_nMaxCount; i++ )
 		{
 			pOut[i] = ExtrapolateInterpolatedVarType( pOld->GetValue()[i], pNew->GetValue()[i], divisor, flExtrapolationAmount );
@@ -1378,10 +1378,10 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::TimeFixup2_Hermite(
 	typename CInterpolatedVarArrayBase<Type, IS_ARRAY>::CInterpolatedVarEntry &fixup,
 	typename CInterpolatedVarArrayBase<Type, IS_ARRAY>::CInterpolatedVarEntry*& prev, 
 	typename CInterpolatedVarArrayBase<Type, IS_ARRAY>::CInterpolatedVarEntry*& start, 
-	float dt1
+	double dt1
 	)
 {
-	float dt2 = start->changetime - prev->changetime;
+	double dt2 = start->changetime - prev->changetime;
 
 	// If times are not of the same interval renormalize the earlier sample to allow for uniform hermite spline interpolation
 	if ( fabs( dt1 - dt2 ) > 0.0001f &&
@@ -1481,7 +1481,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::_Derivative_Hermite(
 	fixup.value = (Type*)_alloca( sizeof(Type) * m_nMaxCount );
 	TimeFixup_Hermite( fixup, prev, start, end );
 
-	float divisor = 1.0f / (end->changetime - start->changetime);
+	double divisor = 1.0f / (end->changetime - start->changetime);
 
 	for( int i = 0; i < m_nMaxCount; i++ )
 	{

@@ -15,13 +15,13 @@ class CAnimatedTextureProxy : public CBaseAnimatedTextureProxy
 public:
 	CAnimatedTextureProxy() {}
 	virtual ~CAnimatedTextureProxy() {}
-	virtual float GetAnimationStartTime( void* pBaseEntity );
+	virtual double GetAnimationStartTime( void* pBaseEntity );
 };
 
 EXPOSE_INTERFACE( CAnimatedTextureProxy, IMaterialProxy, "AnimatedTexture" IMATERIAL_PROXY_INTERFACE_VERSION );
 
 
-float CAnimatedTextureProxy::GetAnimationStartTime( void* pBaseEntity )
+double CAnimatedTextureProxy::GetAnimationStartTime( void* pBaseEntity )
 {
 	return 0;
 }

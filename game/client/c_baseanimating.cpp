@@ -4744,7 +4744,7 @@ void C_BaseAnimating::OnPreDataChanged( DataUpdateType_t updateType )
 	m_bLastClientSideFrameReset = m_bClientSideFrameReset;
 }
 
-bool C_BaseAnimating::ForceSetupBonesAtTime( matrix3x4_t *pBonesOut, float flTime )
+bool C_BaseAnimating::ForceSetupBonesAtTime( matrix3x4_t *pBonesOut, double flTime )
 {
 	// blow the cached prev bones
 	InvalidateBoneCache();

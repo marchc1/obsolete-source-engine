@@ -17,12 +17,12 @@ public:
 
 	virtual ~CAnimatedOffsetTextureProxy() {}
 
-	virtual float GetAnimationStartTime( void* pBaseEntity );
+	virtual double GetAnimationStartTime( void* pBaseEntity );
 	virtual void OnBind( void *pBaseEntity );
 
 protected:
 
-	float	m_flFrameOffset;
+	double	m_flFrameOffset;
 };
 
 EXPOSE_INTERFACE( CAnimatedOffsetTextureProxy, IMaterialProxy, "AnimatedOffsetTexture" IMATERIAL_PROXY_INTERFACE_VERSION );
@@ -32,7 +32,7 @@ EXPOSE_INTERFACE( CAnimatedOffsetTextureProxy, IMaterialProxy, "AnimatedOffsetTe
 // Input  : pArg - 
 // Output : float
 //-----------------------------------------------------------------------------
-float CAnimatedOffsetTextureProxy::GetAnimationStartTime( void* pArg )
+double CAnimatedOffsetTextureProxy::GetAnimationStartTime( void* pArg )
 {
 	return m_flFrameOffset;
 }

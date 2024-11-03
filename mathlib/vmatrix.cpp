@@ -1237,10 +1237,10 @@ void MatrixBuildPerspectiveX( VMatrix& dst, float flFovX, float flAspect, float 
 	MatrixBuildPerspectiveZRange ( dst, flZNear, flZFar );
 }
 
-void MatrixBuildPerspectiveOffCenterX( VMatrix& dst, double flFovX, double flAspect, double flZNear, double flZFar, double bottom, double top, double left, double right )
+void MatrixBuildPerspectiveOffCenterX( VMatrix& dst, float flFovX, float flAspect, float flZNear, float flZFar, float bottom, float top, float left, float right )
 {
-	float flWidth = tanf( flFovX * M_PI_F / 360.0f );
-	float flHeight = flWidth / flAspect;
+	float flWidth = tanf( (float)(flFovX * M_PI_F / 360.0f) );
+	float flHeight = flWidth / (float)flAspect;
 
 	// bottom, top, left, right are 0..1 so convert to -<val>/2..<val>/2
 	float flLeft   = -(flWidth/2.0f)  * (1.0f - left)   + left   * (flWidth/2.0f);

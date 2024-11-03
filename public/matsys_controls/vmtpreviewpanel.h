@@ -73,7 +73,7 @@ private:
 	Color m_LightColor;
 	float m_flLightIntensity;
 	Vector m_vecCameraDirection;
-	float m_flLastRotationTime;
+	double m_flLastRotationTime;
 	bool m_bDrawIn3DMode;
 };
 

@@ -382,7 +382,7 @@ public:
 	void					UpdateFogController( void );
 	void					UpdateFogBlend( void );
 
-	float					GetFOVTime( void ){ return m_flFOVTime; }
+	double					GetFOVTime( void ){ return m_flFOVTime; }
 
 	virtual void			OnAchievementAchieved( int iAchievement ) {}
 	
@@ -421,7 +421,7 @@ public:
 	// Player FOV values
 	int						m_iFOV;				// field of view
 	int						m_iFOVStart;		// starting value of the FOV changing over time (client only)
-	float					m_flFOVTime;		// starting time of the FOV zoom
+	double					m_flFOVTime;		// starting time of the FOV zoom
 	int						m_iDefaultFOV;		// default FOV if no other zooms are occurring
 	EHANDLE					m_hZoomOwner;		// This is a pointer to the entity currently controlling the player's zoom
 												// Only this entity can change the zoom state once it has ownership
@@ -611,7 +611,7 @@ protected:
 	bool			m_bSentFreezeFrame;
 	float			m_flFreezeZOffset;
 
-	float			m_flNextAchievementAnnounceTime;
+	double			m_flNextAchievementAnnounceTime;
 
 	int				m_nForceVisionFilterFlags; // Force our vision filter to a specific setting
 	int				m_nLocalPlayerVisionFlags;

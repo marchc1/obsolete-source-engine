@@ -694,7 +694,7 @@ void RichText::CalculateFade( TRenderState &renderState )
 			const auto &fade = m_FormatStream[renderState.formatStreamIndex].fade;
 			if ( fade.flFadeLength != -1.0f )
 			{
-				float frac = ( fade.flFadeStartTime -  system()->GetCurrentTime() ) / fade.flFadeLength;
+				double frac = ( fade.flFadeStartTime -  system()->GetCurrentTime() ) / fade.flFadeLength;
 
 				int alpha = (int)frac * fade.iOriginalAlpha;
 				alpha = clamp( alpha, 0, fade.iOriginalAlpha );
