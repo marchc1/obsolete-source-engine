@@ -40,15 +40,15 @@ public:
 
 	void			SetServerLinkState( bool state ) { m_bLinkedToServerEnt = state; }
 
-	float	m_flStartTime;
-	float	m_flFadeOutStart;
+	double	m_flStartTime;
+	double	m_flFadeOutStart;
 	float	m_flFadeOutLength;
 	float	m_flFadeOutModelStart;
 	float	m_flFadeOutModelLength;
-	float	m_flFadeInStart;
+	double	m_flFadeInStart;
 	float	m_flFadeInLength;
 	int		m_nDissolveType;
-	float   m_flNextSparkTime;
+	double   m_flNextSparkTime;
 
 	Vector	m_vEffectColor;
 

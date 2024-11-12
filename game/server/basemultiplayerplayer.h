@@ -65,7 +65,7 @@ public:
 	virtual CMultiplayer_Expresser *GetMultiplayerExpresser() { return m_pExpresser; }
 
 	void SetLastForcedChangeTeamTimeToNow( void ) { m_flLastForcedChangeTeamTime = gpGlobals->curtime; }
-	float GetLastForcedChangeTeamTime( void ) { return m_flLastForcedChangeTeamTime; }
+	double GetLastForcedChangeTeamTime( void ) { return m_flLastForcedChangeTeamTime; }
 
 	void SetTeamBalanceScore( int iScore ) { m_iBalanceScore = iScore; }
 	int GetTeamBalanceScore( void ) { return m_iBalanceScore; }
@@ -85,7 +85,7 @@ public:
 	float m_flAreaCaptureScoreAccumulator;
 	float m_flCapPointScoreRate;
 
-	float GetConnectionTime( void ) { return m_flConnectionTime; }
+	double GetConnectionTime( void ) { return m_flConnectionTime; }
 
 	// Command rate limiting.
 	bool ShouldRunRateLimitedCommand( const CCommand &args );
@@ -99,8 +99,8 @@ private:
 	//---------------------------------
 	CMultiplayer_Expresser		*m_pExpresser;
 
-	float m_flConnectionTime;
-	float m_flLastForcedChangeTeamTime;
+	double m_flConnectionTime;
+	double m_flLastForcedChangeTeamTime;
 
 	int m_iBalanceScore;	// a score used to determine which players are switched to balance the teams
 

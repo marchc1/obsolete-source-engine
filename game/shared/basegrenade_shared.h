@@ -121,8 +121,8 @@ public:
 	CNetworkVar( bool, m_bIsLive );					// Is this grenade live, or can it be picked up?
 	CNetworkVar( float, m_DmgRadius );				// How far do I do damage?
 	CNetworkVar( float, m_flNextAttack );
-	float				m_flDetonateTime;			// Time at which to detonate.
-	float				m_flWarnAITime;				// Time at which to warn the AI
+	double				m_flDetonateTime;			// Time at which to detonate.
+	double				m_flWarnAITime;				// Time at which to warn the AI
 
 protected:
 

@@ -121,7 +121,7 @@ private:
 
 	#define	FADE_DURATION	0.25f
 
-	float	m_flFadeTime;
+	double	m_flFadeTime;
 
 #endif
 
@@ -799,7 +799,7 @@ void C_WeaponStunStick::DrawFirstPersonEffects( void )
 	pRenderContext->Bind( pMaterial );
 
 	// Find where we are in the fade
-	float fadeAmount = RemapValClamped( gpGlobals->curtime, m_flFadeTime, m_flFadeTime + FADE_DURATION, 1.0f, 0.1f );
+	float fadeAmount = RemapValClampedD( gpGlobals->curtime, m_flFadeTime, m_flFadeTime + FADE_DURATION, 1.0f, 0.1f );
 
 	// Get bright when swung
 	if ( InSwing() )

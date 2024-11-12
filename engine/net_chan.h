@@ -191,7 +191,7 @@ public:	// INetChannel interface
 	bool		HasPendingReliableData( void );
 	void		SetMaxBufferSize(bool bReliable, int nBytes, bool bVoice = false );
 	virtual int		GetNumBitsWritten( bool bReliable );
-	virtual void	SetInterpolationAmount( float flInterpolationAmount );
+	virtual void	SetInterpolationAmount( double flInterpolationAmount );
 	virtual void	SetRemoteFramerate( float flFrameTime, float flFrameTimeStdDeviation );
 
 	// Max # of payload bytes before we must split/fragment the packet
@@ -339,7 +339,7 @@ public:
 	IDemoRecorder				*m_DemoRecorder;			// if != NULL points to a recording/playback demo object
 	int							m_nQueuedPackets;
 
-	float						m_flInterpolationAmount;
+	double						m_flInterpolationAmount;
 	float						m_flRemoteFrameTime;
 	float						m_flRemoteFrameTimeStdDeviation;
 	int							m_nMaxRoutablePayloadSize;

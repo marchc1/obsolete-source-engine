@@ -55,7 +55,7 @@ CON_COMMAND( ai_set_move_height_epsilon, "Set how high AI bumps up ground walker
 
 	if ( args.ArgC() > 1 )
 	{
-		float newEps = atof( args[1] );
+		float newEps = (float)atof( args[1] );
 		if ( newEps >= 0.0  && newEps < 1.0 )
 		{
 			MOVE_HEIGHT_EPSILON = newEps;
@@ -1112,9 +1112,9 @@ Vector CAI_MoveProbe::CalcJumpLaunchVelocity(const Vector &startPos, const Vecto
 	*pminHeight = MAX( *pminHeight, stepHeight );
 
 	// time from start to apex
-	float t0 = sqrt( ( 2.0 * *pminHeight) / flGravity );
+	float t0 = (float)sqrt( ( 2.0 * *pminHeight) / flGravity );
 	// time from apex to end
-	float t1 = sqrt( ( 2.0 * fabs( *pminHeight - stepHeight) ) / flGravity );
+	float t1 = (float)sqrt( ( 2.0 * fabs( *pminHeight - stepHeight) ) / flGravity );
 
 	float velHorz = distance / (t0 + t1);
 

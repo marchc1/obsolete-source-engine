@@ -150,7 +150,7 @@ private:
 	struct NearNodeCache_T
 	{
 		Vector	vTestPosition;		
-		float	expiration;				// Time tested
+		double	expiration;				// Time tested
 		int		node;					// Nearest Node to position
 		int		hull;					// Hull	type tested (or HULL_NONE is only visibility tested)
 

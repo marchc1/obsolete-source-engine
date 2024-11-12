@@ -42,7 +42,7 @@ public:
 
 private:
 	string_t	m_sFlySound;
-	float		m_flNextFlySoundTime;
+	double		m_flNextFlySoundTime;
 
 	// Input Parameters
 	float		m_flHomingStrength;
@@ -57,9 +57,9 @@ private:
 	int			m_spriteTexture;
 
 	// In flight data
-	float		m_flHomingLaunchTime;
-	float		m_flHomingStartTime;
-	float		m_flHomingEndTime;
+	double		m_flHomingLaunchTime;
+	double		m_flHomingStartTime;
+	double		m_flHomingEndTime;
 	float		m_flSpinOffset;				// For randomization
 
 	EHANDLE		m_hTarget;

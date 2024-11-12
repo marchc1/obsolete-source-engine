@@ -46,7 +46,7 @@ public:
 
 	byte	m_LinkInfo;							// other information about this link
 
-	float	m_timeStaleExpires;
+	double	m_timeStaleExpires;
 
 	CAI_DynamicLink *m_pDynamicLink;
 	

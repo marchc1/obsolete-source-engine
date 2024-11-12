@@ -261,7 +261,7 @@ private:
 	// to the man point. If he's en-route, m_bNPCInRoute will be true. 
 	CHandle<CBaseCombatCharacter> m_hController;
 
-	float					m_flNextAttack;
+	double					m_flNextAttack;
 	Vector					m_vecControllerUsePos;
 	
 	float					m_yawCenter;	// "Center" yaw

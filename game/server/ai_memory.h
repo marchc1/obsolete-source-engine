@@ -34,12 +34,12 @@ struct AI_EnemyInfo_t
 
 	Vector			vLastKnownLocation;
 	Vector			vLastSeenLocation;
-	float			timeLastSeen;		// Last time enemy was seen
-	float			timeFirstSeen;		// First time enemy was seen
-	float			timeLastReacquired;	
-	float			timeValidEnemy;		// First time can be selected (reaction delay)
-	float			timeLastReceivedDamageFrom;
-	float			timeAtFirstHand;	// Time at which the enemy was seen firsthand
+	double			timeLastSeen;		// Last time enemy was seen
+	double			timeFirstSeen;		// First time enemy was seen
+	double			timeLastReacquired;	
+	double			timeValidEnemy;		// First time can be selected (reaction delay)
+	double			timeLastReceivedDamageFrom;
+	double			timeAtFirstHand;	// Time at which the enemy was seen firsthand
 	bool			bDangerMemory;		// Memory of danger position w/o Enemy pointer
 	bool			bEludedMe;			// True if enemy not at last known location 
 	bool			bUnforgettable;
@@ -78,26 +78,26 @@ public:
 	const Vector &	LastKnownPosition( const CBaseEntity *pEnemy );
 	const Vector &	LastSeenPosition( CBaseEntity *pEnemy );
 
-	float			TimeLastReacquired( CBaseEntity *pEnemy );
-	float			LastTimeSeen( const CBaseEntity *pEnemy, bool bCheckDangerMemory = true );
-	float			FirstTimeSeen( CBaseEntity *pEnemy);
+	double			TimeLastReacquired( CBaseEntity *pEnemy );
+	double			LastTimeSeen( const CBaseEntity *pEnemy, bool bCheckDangerMemory = true );
+	double			FirstTimeSeen( CBaseEntity *pEnemy);
 	bool			HasFreeKnowledgeOf( CBaseEntity *pEnemy );
 
-	float			LastTimeTookDamageFrom( CBaseEntity *pEnemy);
+	double			LastTimeTookDamageFrom( CBaseEntity *pEnemy);
 
-	float			TimeAtFirstHand( CBaseEntity *pEnemy );
+	double			TimeAtFirstHand( CBaseEntity *pEnemy );
 	
 	void			MarkAsEluded( CBaseEntity *enemy );						// Don't know where he is (whole squad)
 	bool			HasEludedMe( CBaseEntity *pEnemy );
 
-	void			SetTimeValidEnemy( CBaseEntity *pEnemy, float flTime );
+	void			SetTimeValidEnemy( CBaseEntity *pEnemy, double flTime );
 
 	void			SetUnforgettable( CBaseEntity *pEnemy, bool bUnforgettable = true );
 	void			SetMobbedMe( CBaseEntity *pEnemy, bool bMobbedMe = true );
 	
-	void			SetFreeKnowledgeDuration( float flDuration );
-	void			SetEnemyDiscardTime( float flTime );
-	float			GetEnemyDiscardTime( void ) const { return m_flEnemyDiscardTime; }
+	void			SetFreeKnowledgeDuration( double flDuration );
+	void			SetEnemyDiscardTime( double flTime );
+	double			GetEnemyDiscardTime( void ) const { return m_flEnemyDiscardTime; }
 
 	DECLARE_SIMPLE_DATADESC();
 
@@ -107,8 +107,8 @@ private:
 	bool ShouldDiscardMemory( AI_EnemyInfo_t *pMemory );
 
 	CMemMap m_Map;
-	float	m_flFreeKnowledgeDuration;
-	float	m_flEnemyDiscardTime;
+	double	m_flFreeKnowledgeDuration;
+	double	m_flEnemyDiscardTime;
 	Vector	m_vecDefaultLKP;
 	Vector	m_vecDefaultLSP;
 	int		m_serial;

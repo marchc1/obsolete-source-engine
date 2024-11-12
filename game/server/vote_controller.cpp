@@ -178,8 +178,8 @@ private:
 
 	CUtlMap< CSteamID, float > m_mapKickWatchList;
 	CUtlMap< CSteamID, float > m_mapNameLockedList;
-	float m_flNextKickCheckTime;
-	float m_flNextNameLockCheckTime;
+	double m_flNextKickCheckTime;
+	double m_flNextNameLockCheckTime;
 };
 
 CVoteControllerSystem VoteControllerSystem( "CVoteControllerSystem" );

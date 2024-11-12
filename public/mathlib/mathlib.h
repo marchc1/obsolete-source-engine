@@ -692,11 +692,11 @@ inline float XM_CALLCONV anglemod(float a)
 }
 
 // Remap a value in the range [A,B] to [C,D].
-inline float XM_CALLCONV RemapVal( float val, float A, float B, float C, float D)
+inline float XM_CALLCONV RemapVal( double val, float A, float B, float C, float D)
 {
 	if ( A == B )
 		return val >= B ? D : C;
-	return C + (D - C) * (val - A) / (B - A);
+	return (float)(C + (D - C) * (val - A) / (B - A));
 }
 
 inline float XM_CALLCONV RemapValClamped( float val, float A, float B, float C, float D)
@@ -704,6 +704,16 @@ inline float XM_CALLCONV RemapValClamped( float val, float A, float B, float C, 
 	if ( A == B )
 		return val >= B ? D : C;
 	float cVal = (val - A) / (B - A);
+	cVal = clamp( cVal, 0.0f, 1.0f );
+
+	return C + (D - C) * cVal;
+}
+
+inline float XM_CALLCONV RemapValClampedD( double val, double A, double B, float C, float D)
+{
+	if ( A == B )
+		return val >= B ? D : C;
+	float cVal = (float)((val - A) / (B - A));
 	cVal = clamp( cVal, 0.0f, 1.0f );
 
 	return C + (D - C) * cVal;

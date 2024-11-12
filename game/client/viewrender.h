@@ -518,7 +518,7 @@ private:
 	CSimpleRenderExecutor m_SimpleExecutor;
 
 	bool			m_rbTakeFreezeFrame[ STEREO_EYE_MAX ];
-	float			m_flFreezeFrameUntil;
+	double			m_flFreezeFrameUntil;
 
 #if defined( REPLAY_ENABLED )
 	CReplayScreenshotTaker	*m_pReplayScreenshotTaker;

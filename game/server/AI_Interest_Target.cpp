@@ -35,7 +35,7 @@ bool CAI_InterestTarget_t::IsActive( void )
 
 float CAI_InterestTarget_t::Interest( void )
 {
-	float t = (gpGlobals->curtime - m_flStartTime) / (m_flEndTime - m_flStartTime);
+	float t = (float)((gpGlobals->curtime - m_flStartTime) / (m_flEndTime - m_flStartTime));
 
 	if (t < 0.0f || t > 1.0f)
 		return 0.0f;

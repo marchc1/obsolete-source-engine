@@ -65,7 +65,7 @@ struct ClientModelRenderInfo_t : public ModelRenderInfo_t
 struct RagdollInfo_t
 {
 	bool		m_bActive;
-	float		m_flSaveTime;
+	double		m_flSaveTime;
 	int			m_nNumBones;
 	Vector		m_rgBonePos[MAXSTUDIOBONES];
 	Quaternion	m_rgBoneQuaternion[MAXSTUDIOBONES];
@@ -182,13 +182,13 @@ public:
 
 	// C_BaseClientShader **p_ClientShaders;
 
-	virtual	void StandardBlendingRules( CStudioHdr *pStudioHdr, Vector pos[], Quaternion q[], float currentTime, int boneMask );
-	void UnragdollBlend( CStudioHdr *hdr, Vector pos[], Quaternion q[], float currentTime );
+	virtual	void StandardBlendingRules( CStudioHdr *pStudioHdr, Vector pos[], Quaternion q[], double currentTime, int boneMask );
+	void UnragdollBlend( CStudioHdr *hdr, Vector pos[], Quaternion q[], double currentTime );
 
 	void MaintainSequenceTransitions( IBoneSetup &boneSetup, float flCycle, Vector pos[], Quaternion q[] );
-	virtual void AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], float currentTime );
+	virtual void AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], double currentTime );
 
-	virtual void ChildLayerBlend( Vector pos[], Quaternion q[], float currentTime, int boneMask );
+	virtual void ChildLayerBlend( Vector pos[], Quaternion q[], double currentTime, int boneMask );
 
 	// Attachments
 	int		LookupAttachment( const char *pAttachmentName ) override;
@@ -604,7 +604,7 @@ private:
 	
 	CUtlVector< matrix3x4_t >		m_CachedBoneData; // never access this directly. Use m_BoneAccessor.
 	memhandle_t						m_hitboxBoneCacheHandle;
-	float							m_flLastBoneSetupTime;
+	double							m_flLastBoneSetupTime;
 	CJiggleBones					*m_pJiggleBones;
 
 	// Calculated attachment points
@@ -681,14 +681,14 @@ public:
 
 	bool m_bFadeOut;
 	bool m_bImportant;
-	float m_flEffectTime;
+	double m_flEffectTime;
 
 private:
 	int m_iCurrentFriction;
 	int m_iMinFriction;
 	int m_iMaxFriction;
-	float m_flFrictionModTime;
-	float m_flFrictionTime;
+	double m_flFrictionModTime;
+	double m_flFrictionTime;
 
 	int  m_iFrictionAnimState;
 	bool m_bReleaseRagdoll;

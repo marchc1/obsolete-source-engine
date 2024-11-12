@@ -217,9 +217,9 @@ private:
 	bool		m_hasspokenstart;
 	bool		m_hasspokenarrival;
 	bool		m_hasPausedScenes;
-	float		m_flSpeakNextNagTime;
-	float		m_flWeaponSafetyTimeOut;
-	float		m_flNextLeadIdle;
+	double		m_flSpeakNextNagTime;
+	double		m_flWeaponSafetyTimeOut;
+	double		m_flNextLeadIdle;
 	bool		m_bInitialAheadTest;
 	CAI_MoveMonitor m_MoveMonitor;
 	

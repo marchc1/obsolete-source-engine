@@ -34,11 +34,11 @@ class CBoneSetup
 public:
 	CBoneSetup( const CStudioHdr *pStudioHdr, int boneMask, const float poseParameter[], IPoseDebugger *pPoseDebugger = NULL );
 	void InitPose( Vector pos[], Quaternion q[] );
-	void AccumulatePose( Vector pos[], Quaternion q[], int sequence, float cycle, float flWeight, float flTime, CIKContext *pIKContext );
-	void CalcAutoplaySequences(	Vector pos[], Quaternion q[], float flRealTime, CIKContext *pIKContext );
+	void AccumulatePose( Vector pos[], Quaternion q[], int sequence, float cycle, float flWeight, double flTime, CIKContext *pIKContext );
+	void CalcAutoplaySequences(	Vector pos[], Quaternion q[], double flRealTime, CIKContext *pIKContext );
 private:
-	void AddSequenceLayers( Vector pos[], Quaternion q[], mstudioseqdesc_t &seqdesc, int sequence, float cycle, float flWeight, float flTime, CIKContext *pIKContext );
-	void AddLocalLayers( Vector pos[], Quaternion q[], mstudioseqdesc_t &seqdesc, int sequence, float cycle, float flWeight, float flTime, CIKContext *pIKContext );
+	void AddSequenceLayers( Vector pos[], Quaternion q[], mstudioseqdesc_t &seqdesc, int sequence, float cycle, float flWeight, double flTime, CIKContext *pIKContext );
+	void AddLocalLayers( Vector pos[], Quaternion q[], mstudioseqdesc_t &seqdesc, int sequence, float cycle, float flWeight, double flTime, CIKContext *pIKContext );
 public:
 	const CStudioHdr *m_pStudioHdr;
 	int m_boneMask;
@@ -140,7 +140,7 @@ CBoneCache::CBoneCache( const bonecacheparams_t &params, unsigned int size, unsi
 	UpdateBones( params.pBoneToWorld, params.pStudioHdr->numbones(), params.curtime );
 }
 
-void CBoneCache::UpdateBones( const matrix3x4_t *pBoneToWorld, int numbones, float curtime )
+void CBoneCache::UpdateBones( const matrix3x4_t *pBoneToWorld, int numbones, double curtime )
 {
 	matrix3x4_t *pBones = BoneArray();
 	const unsigned short *pCachedToStudio = CachedToStudio();
@@ -184,7 +184,7 @@ void CBoneCache::ReadCachedBonePointers( matrix3x4_t **bones, int numbones )
 	}
 }
 
-bool CBoneCache::IsValid( float curtime, float dt ) const
+bool CBoneCache::IsValid( double curtime, float dt ) const
 {
 	if ( curtime - m_timeValid <= dt )
 		return true;
@@ -1943,7 +1943,7 @@ bool CalcPoseSingle(
 	float cycle,
 	const float poseParameter[],
 	int boneMask,
-	float flTime
+	double flTime
 	)
 {
 	bool bResult = true;
@@ -1970,8 +1970,9 @@ bool CalcPoseSingle(
 	if (seqdesc.flags & STUDIO_REALTIME)
 	{
 		float cps = Studio_CPS( pStudioHdr, seqdesc, sequence, poseParameter );
-		cycle = flTime * cps;
-		cycle = cycle - (int)cycle;
+		double flCycle = cycle;
+		flCycle = flTime * cps;
+		cycle = (float)(flCycle - (int)flCycle);
 	}
 	else if (seqdesc.flags & STUDIO_CYCLEPOSE)
 	{
@@ -2144,7 +2145,7 @@ void CBoneSetup::AddSequenceLayers(
    int sequence, 
    float cycle,
    float flWeight,
-   float flTime,
+   double flTime,
    CIKContext *pIKContext
    )
 {
@@ -2237,7 +2238,7 @@ void CBoneSetup::AddLocalLayers(
 	int sequence, 
 	float cycle,
 	float flWeight,
-	float flTime,
+	double flTime,
 	CIKContext *pIKContext
 	)
 {
@@ -2319,12 +2320,12 @@ void IBoneSetup::InitPose( Vector pos[], Quaternion q[] )
 	::InitPose( m_pBoneSetup->m_pStudioHdr, pos, q, m_pBoneSetup->m_boneMask );
 }
 
-void IBoneSetup::AccumulatePose( Vector pos[], Quaternion q[], int sequence, float cycle, float flWeight, float flTime, CIKContext *pIKContext )
+void IBoneSetup::AccumulatePose( Vector pos[], Quaternion q[], int sequence, float cycle, float flWeight, double flTime, CIKContext *pIKContext )
 {
 	m_pBoneSetup->AccumulatePose( pos, q, sequence, cycle, flWeight, flTime, pIKContext );
 }
 
-void IBoneSetup::CalcAutoplaySequences(	Vector pos[], Quaternion q[], float flRealTime, CIKContext *pIKContext )
+void IBoneSetup::CalcAutoplaySequences(	Vector pos[], Quaternion q[], double flRealTime, CIKContext *pIKContext )
 {
 	m_pBoneSetup->CalcAutoplaySequences( pos, q, flRealTime, pIKContext );
 }
@@ -2408,7 +2409,7 @@ void CBoneSetup::AccumulatePose(
 	int sequence, 
 	float cycle,
 	float flWeight,
-	float flTime,
+	double flTime,
 	CIKContext *pIKContext
 	)
 {
@@ -3235,7 +3236,7 @@ CIKContext::CIKContext()
 }
 
 
-void CIKContext::Init( const CStudioHdr *pStudioHdr, const QAngle &angles, const Vector &pos, float flTime, int iFramecounter, int boneMask )
+void CIKContext::Init( const CStudioHdr *pStudioHdr, const QAngle &angles, const Vector &pos, double flTime, int iFramecounter, int boneMask )
 {
 	m_pStudioHdr = pStudioHdr;
 	m_ikChainRule.RemoveAll(); // m_numikrules = 0;
@@ -3282,8 +3283,8 @@ void CIKContext::AddDependencies( mstudioseqdesc_t &seqdesc, int iSequence, floa
 	if (seqdesc.flags & STUDIO_REALTIME)
 	{
 		float cps = Studio_CPS( m_pStudioHdr, seqdesc, iSequence, poseParameters );
-		flCycle = m_flTime * cps;
-		flCycle = flCycle - (int)flCycle;
+		double pCycle = m_flTime * cps; // Temp var for next operation
+		flCycle = pCycle - (int)pCycle;
 	}
 	else if (flCycle < 0 || flCycle >= 1)
 	{
@@ -3966,7 +3967,7 @@ void CIKContext::AutoIKRelease( void )
 	{
 		CIKTarget *pTarget = &m_target[i];
 
-		float dt = m_flTime - pTarget->error.flTime;
+		double dt = m_flTime - pTarget->error.flTime;
 		if (pTarget->error.bInError || dt < 0.5f)
 		{
 			if (!pTarget->error.bInError)
@@ -3976,14 +3977,14 @@ void CIKContext::AutoIKRelease( void )
 				pTarget->error.bInError = true;
 			}
 
-			float ft = m_flTime - pTarget->error.flErrorTime;
+			double ft = m_flTime - pTarget->error.flErrorTime;
 			if (dt < 0.25f)
 			{
-				pTarget->error.ramp = min( pTarget->error.ramp + ft * 4.0f, 1.0f );
+				pTarget->error.ramp = MIN( pTarget->error.ramp + ft * 4.0f, 1.0f );
 			}
 			else
 			{
-				pTarget->error.ramp = max( pTarget->error.ramp - ft * 4.0f, 0.0f );
+				pTarget->error.ramp = MAX( pTarget->error.ramp - ft * 4.0f, 0.0f );
 			}
 			if (pTarget->error.ramp > 0.0f)
 			{
@@ -4469,7 +4470,7 @@ void CIKContext::SolveLock(
 void CBoneSetup::CalcAutoplaySequences(
    Vector pos[], 
    Quaternion q[], 
-   float flRealTime,
+   double flRealTime,
    CIKContext *pIKContext
    )
 {
@@ -4488,12 +4489,12 @@ void CBoneSetup::CalcAutoplaySequences(
 		mstudioseqdesc_t &seqdesc = ((CStudioHdr *)m_pStudioHdr)->pSeqdesc( sequenceIndex );
 		if (seqdesc.flags & STUDIO_AUTOPLAY)
 		{
-			float cycle = 0;
+			double cycle = 0;
 			float cps = Studio_CPS( m_pStudioHdr, seqdesc, sequenceIndex, m_flPoseParameter );
 			cycle = flRealTime * cps;
 			cycle = cycle - (int)cycle;
 
-			AccumulatePose( pos, q, sequenceIndex, cycle, 1.0, flRealTime, pIKContext );
+			AccumulatePose( pos, q, sequenceIndex, (float)cycle, 1.0, flRealTime, pIKContext );
 		}
 	}
 

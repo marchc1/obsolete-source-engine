@@ -241,7 +241,7 @@ int   			g_paintedtime = 0; 		// sample PAIRS mixed since start
 
 float			g_ReplaySoundTimeFracAccumulator = 0.0f;	// Used by replay
 
-float			g_ClockSyncArray[NUM_CLOCK_SYNCS] = {0};
+double			g_ClockSyncArray[NUM_CLOCK_SYNCS] = {0};
 int				g_SoundClockPaintTime[NUM_CLOCK_SYNCS] = {0};
 
 // default 10ms
@@ -253,7 +253,7 @@ void S_SyncClockAdjust( clocksync_index_t syncIndex )
 	g_SoundClockPaintTime[syncIndex] = 0;
 }
 
-float S_ComputeDelayForSoundtime( float soundtime, clocksync_index_t syncIndex )
+float S_ComputeDelayForSoundtime( double soundtime, clocksync_index_t syncIndex )
 {
 	// reset clock and return 0
 	if ( g_ClockSyncArray[syncIndex] == 0 )
@@ -6404,7 +6404,7 @@ std::atomic_bool g_bMixThreadExit{false};
 ThreadHandle_t g_hMixThread;
 void S_Update_Thread()
 {
-	float frameTime = THREADED_MIX_TIME * 0.001f;
+	double frameTime = THREADED_MIX_TIME * 0.001;
 	double lastFrameTime = Plat_FloatTime();
 
 	while ( !g_bMixThreadExit )

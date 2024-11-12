@@ -426,7 +426,7 @@ CSprite *CSprite::SpriteCreatePredictable( const char *module, int line, const c
 //-----------------------------------------------------------------------------
 void CSprite::AnimateThink( void )
 {
-	Animate( m_flSpriteFramerate * (gpGlobals->curtime - m_flLastTime) );
+	Animate( m_flSpriteFramerate * (float)(gpGlobals->curtime - m_flLastTime) );
 
 	SetNextThink( gpGlobals->curtime );
 	m_flLastTime			= gpGlobals->curtime;
@@ -468,7 +468,7 @@ void CSprite::Expand( float scaleSpeed, float fadeSpeed )
 //-----------------------------------------------------------------------------
 void CSprite::ExpandThink( void )
 {
-	float frametime = gpGlobals->curtime - m_flLastTime;
+	float frametime = (float)(gpGlobals->curtime - m_flLastTime);
 	SetSpriteScale( m_flSpriteScale + m_flSpeed * frametime );
 
 	int sub = (int)(m_iHealth * frametime);
@@ -648,7 +648,7 @@ float CSprite::GetRenderScale( void )
 		return m_flSpriteScale;
 
 	//Get our percentage
-	float timeDelta = ( gpGlobals->curtime - m_flScaleTimeStart ) / m_flScaleTime;
+	float timeDelta = (float)(( gpGlobals->curtime - m_flScaleTimeStart ) / m_flScaleTime);
 
 	//Return the result
 	return ( m_flStartScale + ( ( m_flDestScale - m_flStartScale  ) * timeDelta ) );
@@ -696,7 +696,7 @@ int	CSprite::GetRenderBrightness( void )
 	}
 
 	//Get our percentage
-	float timeDelta = ( gpGlobals->curtime - m_flBrightnessTimeStart ) / m_flBrightnessTime;
+	float timeDelta = (float)( gpGlobals->curtime - m_flBrightnessTimeStart ) / m_flBrightnessTime;
 
 	float brightness = ( (float) m_nStartBrightness + ( (float) ( m_nDestBrightness - m_nStartBrightness  ) * timeDelta ) );
 

@@ -99,7 +99,7 @@ public:
 	int	 OnTakeDamage_Alive( const CTakeDamageInfo &info );
 
 	// Time.
-	void SetBusy( float flTime )		{ m_flBusyTime = flTime; }
+	void SetBusy( double flTime )		{ m_flBusyTime = flTime; }
 	bool IsBusy( void )					{ return ( gpGlobals->curtime < m_flBusyTime ); }
 
 	bool IsMounted( void )				{ return m_bMounted; }
@@ -113,7 +113,7 @@ private:
 
 	CHandle<CFuncTank>	m_hFuncTank;
 	bool				m_bMounted;
-	float				m_flBusyTime;
+	double				m_flBusyTime;
 	bool				m_bSpottedPlayerOutOfCover;
 };
 

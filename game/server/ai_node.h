@@ -116,7 +116,7 @@ public:
 	CAI_Link *		GetLinkByIndex( int i )	{ return m_Links[i]; }
 
 	bool 			IsLocked() const			{ return ( m_flNextUseTime > gpGlobals->curtime ); }
-	void			Lock( float duration )		{ m_flNextUseTime = gpGlobals->curtime + duration; }
+	void			Lock( double duration )		{ m_flNextUseTime = gpGlobals->curtime + duration; }
 	void			Unlock()					{ m_flNextUseTime = gpGlobals->curtime; }
 
 	int 			GetZone() const			{ return m_zone; }
@@ -156,7 +156,7 @@ public:
 	int				m_zone;
 	CUtlVector<CAI_Link *> m_Links;		// growable array of links to this node
 
-	float			m_flNextUseTime;		// When can I be used again?
+	double			m_flNextUseTime;		// When can I be used again?
 	CAI_Hint*		m_pHint;				// hint attached to this node
 	int				m_iFirstShuffledLink;				// first link to check
 };

@@ -65,7 +65,7 @@ public:
 
 	// FIXME: Should these methods remain in this interface? Or go in some 
 	// other client-server neutral interface?
-	virtual float Time() = 0;
+	virtual double Time() = 0;
 	virtual bool IsServer() = 0;
 
 	// Used by the playback system to suppress sounds

@@ -461,7 +461,7 @@ int CSpriteTrail::DrawModel( int flags )
 		// This makes it so that we're always drawing to the current location
 		TrailPoint_t *pPoint = (i != m_nStepCount) ? GetTrailPoint(i) : &currentPoint;
 
-		float flLifePerc = (pPoint->m_flDieTime - gpGlobals->curtime) / m_flLifeTime;
+		float flLifePerc = (float)(pPoint->m_flDieTime - gpGlobals->curtime) / m_flLifeTime;
 		flLifePerc = clamp( flLifePerc, 0.0f, 1.0f );
 
 		BeamSeg_t curSeg;

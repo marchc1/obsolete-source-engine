@@ -793,7 +793,7 @@ void CAI_LeadBehavior::StartTask( const Task_t *pTask )
 
 		case TASK_LEAD_PLAYER_NEEDS_WEAPON:
 		{
-			float flAvailableTime = GetOuter()->GetExpresser()->GetSemaphoreAvailableTime( GetOuter() );
+			double flAvailableTime = GetOuter()->GetExpresser()->GetSemaphoreAvailableTime( GetOuter() );
 
 			// if someone else is talking, don't speak
 			if ( flAvailableTime <= gpGlobals->curtime )

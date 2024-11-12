@@ -40,7 +40,7 @@ struct fogparams_t
 
 	CNetworkVar( float, startLerpTo );
 	CNetworkVar( float, endLerpTo );
-	CNetworkVar( float, lerptime );
+	CNetworkVar( double, lerptime );
 	CNetworkVar( float, duration );
 	CNetworkVar( bool, enable );
 	CNetworkVar( bool, blend );
@@ -63,7 +63,7 @@ struct fogplayerparams_t
 #endif
 
 	CNetworkHandle( CFogController, m_hCtrl );
-	float					m_flTransitionTime;
+	double					m_flTransitionTime;
 
 	color32					m_OldColor;
 	float					m_flOldStart;

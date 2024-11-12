@@ -1476,7 +1476,7 @@ static void GetFogColor( fogparams_t *pFogParams, float *pColor )
 			VectorNormalize( vNormalized );
 			pFogParams->dirPrimary = vNormalized;
 
-			float flBlendFactor = 0.5 * forward.Dot( pFogParams->dirPrimary ) + 0.5;
+			float flBlendFactor = 0.5f * forward.Dot( pFogParams->dirPrimary ) + 0.5f;
 
 			// FIXME: convert to linear colorspace
 			pColor[0] = flPrimaryColor[0] * flBlendFactor + flSecondaryColor[0] * ( 1 - flBlendFactor );

@@ -204,7 +204,7 @@ void C_BaseAnimatingOverlay::GetRenderBounds( Vector& theMins, Vector& theMaxs )
 
 
 
-void C_BaseAnimatingOverlay::CheckForLayerChanges( CStudioHdr *hdr, float currentTime )
+void C_BaseAnimatingOverlay::CheckForLayerChanges( CStudioHdr *hdr, double currentTime )
 {
 	bool bLayersChanged = false;
 	
@@ -249,7 +249,7 @@ void C_BaseAnimatingOverlay::CheckForLayerChanges( CStudioHdr *hdr, float curren
 
 			if (pPrev2)
 			{
-				float num = 0;
+				double num = 0;
 				if ( fabs( t0 - t1 ) > 0.001f )
 					num = (t2 - t1) / (t0 - t1);
 
@@ -257,11 +257,11 @@ void C_BaseAnimatingOverlay::CheckForLayerChanges( CStudioHdr *hdr, float curren
 				float flTemp;
 				if (IsSequenceLooping( hdr, pHead->m_nSequence ))
 				{
-					flTemp = LoopingLerp( num, (float)pHead->m_flPrevCycle, (float)pHead->m_flCycle );
+					flTemp = LoopingLerp( (float)num, (float)pHead->m_flPrevCycle, (float)pHead->m_flCycle );
 				}
 				else
 				{
-					flTemp = Lerp( num, (float)pHead->m_flPrevCycle, (float)pHead->m_flCycle );
+					flTemp = Lerp( (float)num, (float)pHead->m_flPrevCycle, (float)pHead->m_flCycle );
 				}
 				pPrev2->m_flCycle = flTemp;
 				pPrev2->m_flWeight = pHead->m_flWeight;
@@ -291,7 +291,7 @@ void C_BaseAnimatingOverlay::CheckForLayerChanges( CStudioHdr *hdr, float curren
 
 
 
-void C_BaseAnimatingOverlay::AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], float currentTime )
+void C_BaseAnimatingOverlay::AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], double currentTime )
 {
 	BaseClass::AccumulateLayers( boneSetup, pos, q, currentTime );
 	int i;
@@ -361,7 +361,7 @@ void C_BaseAnimatingOverlay::AccumulateLayers( IBoneSetup &boneSetup, Vector pos
 				// if ( m_AnimOverlay[i].m_nSequence != m_iv_AnimOverlay.GetPrev( i )->nSequence )
 				float fCycle = m_AnimOverlay[ i ].m_flCycle;
 
-				fCycle = ClampCycle( fCycle, IsSequenceLooping( m_AnimOverlay[i].m_nSequence ) );
+				fCycle = (float)ClampCycle( (float)fCycle, IsSequenceLooping( m_AnimOverlay[i].m_nSequence ) );
 
 				if (fWeight > 1)
 					fWeight = 1;

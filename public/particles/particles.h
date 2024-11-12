@@ -177,8 +177,8 @@ struct ModelHitBoxInfo_t
 class CModelHitBoxesInfo
 {
 public:
-	float m_flLastUpdateTime;
-	float m_flPrevLastUpdateTime;
+	double m_flLastUpdateTime;
+	double m_flPrevLastUpdateTime;
 	int m_nNumHitBoxes;
 	int m_nNumPrevHitBoxes;
 	ModelHitBoxInfo_t *m_pHitBoxes;
@@ -391,8 +391,8 @@ public:
 	void UncacheAllParticleSystems();
 
 	// Sets the last simulation time, used for particle system sleeping logic
-	void SetLastSimulationTime( float flTime );
-	float GetLastSimulationTime() const;
+	void SetLastSimulationTime( double flTime );
+	double GetLastSimulationTime() const;
 
 	int Debug_GetTotalParticleCount() const;
 	bool Debug_FrameWarningNeededTestAndReset();
@@ -461,7 +461,7 @@ private:
 	IParticleSystemQuery *m_pQuery;
 	CUtlVector< RenderCache_t > m_RenderCache;
 	IMaterial *m_pShadowDepthMaterial;
-	float m_flLastSimulationTime;
+	double m_flLastSimulationTime;
 
 	bool m_bDidInit;
 	bool m_bUsingDefaultQuery;
@@ -1071,7 +1071,7 @@ public:
 	fltx4 *GetInitialM128AttributePtrForWrite( int nAttribute, size_t *pStrideOut );
 
 	void Simulate( float dt, bool updateBboxOnly );
-	void SkipToTime( float t );
+	void SkipToTime( double t );
 
 	// the camera objetc may be compared for equality against control point objects
 	void Render( IMatRenderContext *pRenderContext, bool bTranslucentOnly = false, void *pCameraObject = NULL );
@@ -1102,12 +1102,12 @@ public:
 
 	// Used to retrieve the position of a control point
 	// somewhere between m_fCurTime and m_fCurTime - m_fPreviousDT
-	void GetControlPointAtTime( int nControlPoint, float flTime, Vector *pControlPoint ) const;
+	void GetControlPointAtTime( int nControlPoint, double flTime, Vector *pControlPoint ) const;
 	void GetControlPointAtPrevTime( int nControlPoint, Vector *pControlPoint ) const;
-	void GetControlPointOrientationAtTime( int nControlPoint, float flTime, Vector *pForward, Vector *pRight, Vector *pUp );
-	void GetControlPointTransformAtTime( int nControlPoint, float flTime, matrix3x4_t *pMat );
-	void GetControlPointTransformAtTime( int nControlPoint, float flTime, VMatrix *pMat );
-	void GetControlPointTransformAtTime( int nControlPoint, float flTime, CParticleSIMDTransformation *pXForm );
+	void GetControlPointOrientationAtTime( int nControlPoint, double flTime, Vector *pForward, Vector *pRight, Vector *pUp );
+	void GetControlPointTransformAtTime( int nControlPoint, double flTime, matrix3x4_t *pMat );
+	void GetControlPointTransformAtTime( int nControlPoint, double flTime, VMatrix *pMat );
+	void GetControlPointTransformAtTime( int nControlPoint, double flTime, CParticleSIMDTransformation *pXForm );
 	int GetHighestControlPoint( void ) const;
 
 	// Has this particle moved recently (since the last simulation?)
@@ -1178,7 +1178,7 @@ public:
 
 	// calculate the points of a curve for a path
 	void CalculatePathValues( CPathParameters const &PathIn,
-							  float flTimeStamp,
+							  double flTimeStamp,
 							  Vector *pStartPnt,
 							  Vector *pMidPnt,
 							  Vector *pEndPnt
@@ -1270,7 +1270,7 @@ public:
 	fltx4 m_fl4CurTime;										// accumulated time
 
 	int m_nPaddedActiveParticles;	// # of groups of 4 particles
-	float m_flCurTime;				// accumulated time
+	double m_flCurTime;				// accumulated time
 
 	int m_nActiveParticles;			// # of active particles
 	float m_flDt;

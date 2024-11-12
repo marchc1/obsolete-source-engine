@@ -35,7 +35,7 @@ public:
 	virtual void		StartPlaying( char const *demfilename ) = 0;
 	virtual void		StopPlaying() = 0;
 
-	virtual void		Update( bool newframe, int demoframe, float demotime ) = 0;
+	virtual void		Update( bool newframe, int demoframe, double demotime ) = 0;
 
 	virtual void		SaveToBuffer( CUtlBuffer& buf ) = 0;
 	virtual void		SaveToFile( void ) = 0;

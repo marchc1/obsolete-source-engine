@@ -135,7 +135,7 @@ public:
 
 	virtual void GetBoneTransform( int iBone, matrix3x4_t &pBoneToWorld );
 	virtual void SetupBones( matrix3x4_t *pBoneToWorld, int boneMask );
-	virtual void CalculateIKLocks( float currentTime );
+	virtual void CalculateIKLocks( double currentTime );
 	virtual void Teleport( const Vector *newPosition, const QAngle *newAngles, const Vector *newVelocity );
 
 	bool HasAnimEvent( int nSequence, int nEvent );
@@ -300,7 +300,7 @@ public:
 	void InputBecomeRagdoll( inputdata_t &inputdata );
 
 	// Dissolve, returns true if the ragdoll has been created
-	bool Dissolve( const char *pMaterialName, float flStartTime, bool bNPCOnly = true, int nDissolveType = 0, Vector vDissolverOrigin = vec3_origin, int iMagnitude = 0 );
+	bool Dissolve( const char *pMaterialName, double flStartTime, bool bNPCOnly = true, int nDissolveType = 0, Vector vDissolverOrigin = vec3_origin, int iMagnitude = 0 );
 	bool IsDissolving() { return ( (GetFlags() & FL_DISSOLVING) != 0 ); }
 	void TransferDissolveFrom( CBaseAnimating *pAnim );
 
@@ -364,7 +364,7 @@ public:
 	void UpdateStepOrigin( void );
 
 protected:
-	float				m_flIKGroundContactTime;
+	double				m_flIKGroundContactTime;
 	float				m_flIKGroundMinHeight;
 	float				m_flIKGroundMaxHeight;
 
@@ -382,7 +382,7 @@ private:
 	bool				m_bSequenceFinished;// flag set when StudioAdvanceFrame moves across a frame boundry
 	bool				m_bSequenceLoops;	// true if the sequence loops
 	bool				m_bResetSequenceInfoOnLoad; // true if a ResetSequenceInfo was queued up during dynamic load
-	float				m_flDissolveStartTime;
+	double				m_flDissolveStartTime;
 
 	// was pev->frame
 	CNetworkVar( float, m_flCycle );

@@ -4444,7 +4444,7 @@ void CGameMovement::Duck( void )
 						// Invert time if release before fully ducked!!!
 						float unduckMilliseconds = 1000.0f * TIME_TO_UNDUCK;
 						float duckMilliseconds = 1000.0f * TIME_TO_DUCK;
-						float elapsedMilliseconds = GAMEMOVEMENT_DUCK_TIME - player->m_Local.m_flDucktime;
+						float elapsedMilliseconds = (float)(GAMEMOVEMENT_DUCK_TIME - player->m_Local.m_flDucktime);
 
 						float fracDucked = elapsedMilliseconds / duckMilliseconds;
 						float remainingUnduckMilliseconds = fracDucked * unduckMilliseconds;

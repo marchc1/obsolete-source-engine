@@ -561,7 +561,7 @@ bool CAI_Squad::FOkToMakeSound( int soundPriority )
 // Input  : soundPriority - for sorting
 //			time - 
 //-----------------------------------------------------------------------------
-void CAI_Squad::JustMadeSound( int soundPriority, float time )
+void CAI_Squad::JustMadeSound( int soundPriority, double time )
 {
 	m_flSquadSoundWaitTime = time;
 	m_nSquadSoundPriority = soundPriority;

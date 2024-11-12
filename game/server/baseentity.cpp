@@ -2250,7 +2250,7 @@ struct pushblock_t
 	CBaseEntity *pRootParent;
 	CBaseEntity *pBlockedEntity;
 	float		moveBackFraction;
-	float		movetime;
+	double		movetime;
 };
 
 static void ComputePushStartMatrix( matrix3x4_t &start, CBaseEntity *pEntity, const pushblock_t &params )
@@ -2447,7 +2447,7 @@ static void CheckPushedEntity( CBaseEntity *pEntity, pushblock_t &params )
 
 void CBaseEntity::VPhysicsUpdatePusher( IPhysicsObject *pPhysics )
 {
-	float movetime = m_flLocalTime - m_flVPhysicsUpdateLocalTime;
+	double movetime = m_flLocalTime - m_flVPhysicsUpdateLocalTime;
 	if (movetime <= 0)
 		return;
 
@@ -2490,10 +2490,10 @@ void CBaseEntity::VPhysicsUpdatePusher( IPhysicsObject *pPhysics )
 			}
 		}
 
-		float physLocalTime = m_flLocalTime;
+		double physLocalTime = m_flLocalTime;
 		if ( params.pBlockedEntity )
 		{
-			float moveback = movetime * params.moveBackFraction;
+			double moveback = movetime * params.moveBackFraction;
 			if ( moveback > 0 )
 			{
 				physLocalTime = m_flLocalTime - moveback;
@@ -2570,7 +2570,7 @@ void CBaseEntity::VPhysicsUpdatePusher( IPhysicsObject *pPhysics )
 }
 
 
-void CBaseEntity::SetMoveDoneTime( float flDelay )
+void CBaseEntity::SetMoveDoneTime( double flDelay )
 {
 	if (flDelay >= 0)
 	{
@@ -6969,7 +6969,7 @@ bool CBaseEntity::UseStepSimulationNetworkAngles( const QAngle **out_a )
 // Purpose: 
 //-----------------------------------------------------------------------------
 
-bool CBaseEntity::AddStepDiscontinuity( float flTime, const Vector &vecOrigin, const QAngle &vecAngles )
+bool CBaseEntity::AddStepDiscontinuity( double flTime, const Vector &vecOrigin, const QAngle &vecAngles )
 {
 	if ((GetMoveType() != MOVETYPE_STEP ) || !HasDataObjectType( STEPSIMULATION ) )
 	{

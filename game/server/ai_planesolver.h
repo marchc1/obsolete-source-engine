@@ -124,7 +124,7 @@ private:
 	Vector				m_PrevSolutionVector;
 	
 	float				m_ClosestHaveBeenToCurrent;
-	float 				m_TimeLastProgress;
+	double 				m_TimeLastProgress;
 
 	bool				m_fCannotSolveCurrent;
 	

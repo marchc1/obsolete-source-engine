@@ -193,7 +193,7 @@ void CEntityDissolve::InputDissolve( inputdata_t &inputdata )
 // Input  : pTarget - 
 //-----------------------------------------------------------------------------
 CEntityDissolve *CEntityDissolve::Create( CBaseEntity *pTarget, const char *pMaterialName, 
-	float flStartTime, int nDissolveType, bool *pRagdollCreated )
+	double flStartTime, int nDissolveType, bool *pRagdollCreated )
 {
 	if ( pRagdollCreated )
 	{
@@ -304,7 +304,7 @@ void CEntityDissolve::AttachToEntity( CBaseEntity *pTarget )
 // Purpose: 
 // Input  : lifetime - 
 //-----------------------------------------------------------------------------
-void CEntityDissolve::SetStartTime( float flStartTime )
+void CEntityDissolve::SetStartTime( double flStartTime )
 {
 	m_flStartTime = flStartTime;
 }
@@ -333,7 +333,7 @@ void CEntityDissolve::DissolveThink( void )
 		SetRenderColorA( 0 );
 	}
 
-	float dt = gpGlobals->curtime - m_flStartTime;
+	double dt = gpGlobals->curtime - m_flStartTime;
 
 	if ( dt < m_flFadeInStart )
 	{

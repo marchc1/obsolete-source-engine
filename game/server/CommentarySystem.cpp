@@ -117,7 +117,7 @@ private:
 	bool		m_bPreventMovement;
 	bool		m_bUnderCrosshair;
 	bool		m_bUnstoppable;
-	float		m_flFinishedTime;
+	double		m_flFinishedTime;
 	Vector		m_vecFinishOrigin;
 	QAngle		m_vecOriginalAngles;
 	QAngle		m_vecFinishAngles;
@@ -129,7 +129,7 @@ private:
 	COutputEvent	m_pOnCommentaryStopped;
 
 	CNetworkVar( bool, m_bActive );
-	CNetworkVar( float, m_flStartTime );
+	CNetworkVar( double, m_flStartTime );
 	CNetworkVar( string_t, m_iszSpeakers );
 	CNetworkVar( int, m_iNodeNumber );
 	CNetworkVar( int, m_iNodeNumberMax );
@@ -788,7 +788,7 @@ private:
 	bool	m_bCommentaryConvarsChanging;
 	int		m_iClearPressedButtons;
 	bool	m_bCommentaryEnabledMidGame;
-	float	m_flNextTeleportTime;
+	double	m_flNextTeleportTime;
 	int		m_iTeleportStage;
 
 	CUtlVector< modifiedconvars_t > m_ModifiedConvars;
@@ -1244,8 +1244,8 @@ void CPointCommentaryNode::UpdateViewThink( void )
 		}
 
 		// Blend to the target position over time. 
- 		float flCurTime = (gpGlobals->curtime - m_flStartTime);
- 		float flBlendPerc = clamp( flCurTime * 0.5f, 0.f, 1.f );
+ 		double flCurTime = (gpGlobals->curtime - m_flStartTime);
+ 		float flBlendPerc = clamp( (float)(flCurTime * 0.5f), 0.f, 1.f );
 
 		// Figure out the current view position
 		Vector vecCurEye;
@@ -1268,9 +1268,9 @@ void CPointCommentaryNode::UpdateViewPostThink( void )
  	if ( m_hViewPosition.Get() && m_hViewPositionMover )
 	{
  		// Blend back to the player's position over time.
-   		float flCurTime = (gpGlobals->curtime - m_flFinishedTime);
+   		double flCurTime = (gpGlobals->curtime - m_flFinishedTime);
 		float flTimeToBlend = MIN( 2.0F, m_flFinishedTime - m_flStartTime ); 
- 		float flBlendPerc = 1.0f - clamp( flCurTime / flTimeToBlend, 0.f, 1.f );
+ 		float flBlendPerc = 1.0f - clamp( (float)(flCurTime / flTimeToBlend), 0.f, 1.f );
 
 		//Msg("OUT: CurTime %.2f, BlendTime: %.2f, Blend: %.3f\n", flCurTime, flTimeToBlend, flBlendPerc );
 

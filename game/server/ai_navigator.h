@@ -532,7 +532,7 @@ public:
 
 	int					GetNavFailCounter() const;
 	void 				ClearNavFailCounter();
-	float				GetLastNavFailTime() const;
+	double				GetLastNavFailTime() const;
 	bool				TeleportAlongPath();
 
 private:
@@ -593,7 +593,7 @@ private:
 	CAI_Path*			m_pPath;									// My current route
 
 	CAI_WaypointList *	m_pClippedWaypoints;
-	float				m_flTimeClipped;
+	double				m_flTimeClipped;
 	Activity			m_PreviousMoveActivity;
 	Activity			m_PreviousArrivalActivity;
 
@@ -602,19 +602,19 @@ private:
 	
 	bool				m_bNotOnNetwork;							// This NPC has no reachable nodes!
 
-	float				m_flNextSimplifyTime;						// next time we should try to simplify our route
+	double				m_flNextSimplifyTime;						// next time we should try to simplify our route
 	bool				m_bForcedSimplify;
-	float				m_flLastSuccessfulSimplifyTime;
+	double				m_flLastSuccessfulSimplifyTime;
 
-	float				m_flTimeLastAvoidanceTriangulate;
+	double				m_flTimeLastAvoidanceTriangulate;
 
 	// --------------
 
-	float				m_timePathRebuildMax;						// How long to try rebuilding path before failing task
-	float				m_timePathRebuildDelay;						// How long to wait before trying to rebuild again
+	double				m_timePathRebuildMax;						// How long to try rebuilding path before failing task
+	double				m_timePathRebuildDelay;						// How long to wait before trying to rebuild again
 
-	float				m_timePathRebuildFail;						// Current global time when should fail building path
-	float				m_timePathRebuildNext;						// Global time to try rebuilding again
+	double				m_timePathRebuildFail;						// Current global time when should fail building path
+	double				m_timePathRebuildNext;						// Global time to try rebuilding again
 
 	// --------------
 	
@@ -639,12 +639,12 @@ private:
 	// --------------
 
 	Vector				m_vPosBeginFailedSteer;
-	float				m_timeBeginFailedSteer;
+	double				m_timeBeginFailedSteer;
 
 	// --------------
 
 	int					m_nNavFailCounter;
-	float				m_flLastNavFailTime;
+	double				m_flLastNavFailTime;
 public:
 	DECLARE_SIMPLE_DATADESC();
 };

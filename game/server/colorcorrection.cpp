@@ -59,8 +59,8 @@ private:
 	float	m_flFadeOutDuration;	// Duration for a full Max->0 transition
 	float	m_flStartFadeInWeight;
 	float	m_flStartFadeOutWeight;
-	float	m_flTimeStartFadeIn;
-	float	m_flTimeStartFadeOut;
+	double	m_flTimeStartFadeIn;
+	double	m_flTimeStartFadeOut;
 	
 	float	m_flMaxWeight;
 
@@ -226,7 +226,7 @@ void CColorCorrection::FadeInThink( void )
 	}	
 	
 	Assert ( flTimeToFade > 0.0f );
-	float flFadeRatio = (gpGlobals->curtime - m_flTimeStartFadeIn) / flTimeToFade;
+	float flFadeRatio = (float)((gpGlobals->curtime - m_flTimeStartFadeIn) / flTimeToFade);
 	flFadeRatio = clamp ( flFadeRatio, 0.0f, 1.0f );
 	m_flStartFadeInWeight = clamp ( m_flStartFadeInWeight, 0.0f, 1.0f );
 
@@ -261,7 +261,7 @@ void CColorCorrection::FadeOutThink( void )
 	}	
 	
 	Assert ( flTimeToFade > 0.0f );
-	float flFadeRatio = (gpGlobals->curtime - m_flTimeStartFadeOut) / flTimeToFade;
+	float flFadeRatio = (float)((gpGlobals->curtime - m_flTimeStartFadeOut) / flTimeToFade);
 	flFadeRatio = clamp ( flFadeRatio, 0.0f, 1.0f );
 	m_flStartFadeOutWeight = clamp ( m_flStartFadeOutWeight, 0.0f, 1.0f );
 

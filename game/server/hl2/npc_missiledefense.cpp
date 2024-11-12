@@ -64,7 +64,7 @@ public:
 
 	Vector		m_vGunAng;
 	int			m_iAmmoLoaded;
-	float		m_flReloadedTime;
+	double		m_flReloadedTime;
 };
 
 LINK_ENTITY_TO_CLASS( npc_missiledefense, CNPC_MissileDefense );

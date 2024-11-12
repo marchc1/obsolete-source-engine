@@ -27,10 +27,10 @@ class CNPC_Stalker : public CAI_BaseStalker
 	DECLARE_CLASS( CNPC_Stalker, CAI_BaseStalker );
 
 public:
-	float			m_flNextAttackSoundTime;
-	float			m_flNextBreatheSoundTime;
-	float			m_flNextScrambleSoundTime;
-	float			m_flNextNPCThink;
+	double			m_flNextAttackSoundTime;
+	double			m_flNextBreatheSoundTime;
+	double			m_flNextScrambleSoundTime;
+	double			m_flNextNPCThink;
 
 	// ------------------------------
 	//	Laser Beam

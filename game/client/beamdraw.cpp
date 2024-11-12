@@ -1352,11 +1352,11 @@ void DrawRing( int noise_divisions, float *prgNoise, void (*pfnNoise)( float *no
 //			*color - 
 //-----------------------------------------------------------------------------
 void DrawBeamFollow( const model_t* spritemodel, BeamTrail_t* pHead, int frame, int rendermode, 
-					Vector& delta, Vector& screen, Vector& screenLast, float die,
+					Vector& delta, Vector& screen, Vector& screenLast, double die,
 					const Vector& source, int flags, float width, float amplitude, 
 					float freq, float* color, float flHDRColorScale )
 {
-	float			fraction;
+	double			fraction;
 	float			div;
 	float			vLast = 0.0;
 	float			vStep = 1.0;
@@ -1449,7 +1449,7 @@ void DrawBeamFollow( const model_t* spritemodel, BeamTrail_t* pHead, int frame, 
 		if (pHead->next != NULL)
 		{
 			fraction = (pHead->die - gpGlobals->curtime) * div;
-			VectorScale( color, fraction, scaledColor );
+			VectorScale( color, (vec_t)fraction, scaledColor );
 			nColor[0] = (unsigned char)clamp( (int)(scaledColor[0] * 255.0f), 0, 255 );
 			nColor[1] = (unsigned char)clamp( (int)(scaledColor[1] * 255.0f), 0, 255 );
 			nColor[2] = (unsigned char)clamp( (int)(scaledColor[2] * 255.0f), 0, 255 );

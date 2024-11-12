@@ -93,7 +93,7 @@ void CClientThinkList::SetNextClientThink( ClientThinkHandle_t hThink, float flN
 	}
 }
 
-void CClientThinkList::SetNextClientThink( ClientEntityHandle_t hEnt, float flNextTime )
+void CClientThinkList::SetNextClientThink( ClientEntityHandle_t hEnt, double flNextTime )
 {
 	if ( flNextTime == CLIENT_THINK_NEVER )
 	{

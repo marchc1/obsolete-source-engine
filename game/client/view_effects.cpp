@@ -35,7 +35,7 @@ struct screenfade_t
 {
 	float		Speed;		// How fast to fade (tics / second) (+ fade in, - fade out)
 	float		End;		// When the fading hits maximum
-	float		Reset;		// When to reset to not fading (for fadeout and hold)
+	double		Reset;		// When to reset to not fading (for fadeout and hold)
 	byte		r, g, b, alpha;	// Fade color
 	int			Flags;		// Fading flags
 

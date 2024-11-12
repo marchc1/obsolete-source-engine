@@ -542,7 +542,7 @@ bool CAI_FollowBehavior::IsFollowGoalInRange( float tolerance, float zTolerance,
 
 	// Increase Z tolerance slightly as XY distance decreases
 	float flToleranceSq = (tolerance*tolerance);
-	float flIncreaseRange = flToleranceSq * 0.25;
+	float flIncreaseRange = flToleranceSq * 0.25f;
 	zTolerance += zTolerance * clamp((distanceSq / flIncreaseRange), 0.f, 1.f );
 	if ( fabs( origin.z - goal.z ) > zTolerance )
 		return false;
@@ -1421,7 +1421,7 @@ void CAI_FollowBehavior::StartTask( const Task_t *pTask )
 							if( count > 0 )
 							{
 								// Slice up the directions among followers and leader. ( +1 because we count the leader!)
-								float flSlice = 360.0 / (count + 1);
+								float flSlice = 360.0f / (count + 1);
 
 								// Add one to slots so then are 1 to N instead of 0 to N - 1.
 								int slot = random->RandomInt( 0, count );

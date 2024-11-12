@@ -128,7 +128,7 @@ void CEnvWindShared::Init( int nEntIndex, int iRandomSeed, float flTime,
 
 #define WIND_VARIATION_UPDATE_TIME 0.1f
 
-void CEnvWindShared::ComputeWindVariation( float flTime )
+void CEnvWindShared::ComputeWindVariation( double flTime )
 {
 	// The wind variation is updated every 10th of a second..
 	while( flTime >= m_flVariationTime )
@@ -170,7 +170,7 @@ void CEnvWindShared::UpdateWindSound( float flTotalWindSpeed )
 #define WIND_ACCELERATION	150.0f	// wind speed can accelerate this many units per second
 #define WIND_DECELERATION	15.0f	// wind speed can decelerate this many units per second
 
-float CEnvWindShared::WindThink( float flTime )
+float CEnvWindShared::WindThink( double flTime )
 {
 	// NOTE: This algorithm can be client-server neutal because we're using 
 	// the random number generator to generate *time* at which the wind changes.
@@ -285,7 +285,7 @@ void ResetWindspeed()
 //-----------------------------------------------------------------------------
 // Method to sample the windspeed at a particular time
 //-----------------------------------------------------------------------------
-void GetWindspeedAtTime( float flTime, Vector &vecVelocity )
+void GetWindspeedAtTime( double flTime, Vector &vecVelocity )
 {
 	// For now, ignore history and time.. fix later when we use wind to affect
 	// client-side prediction

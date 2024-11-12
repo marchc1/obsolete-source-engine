@@ -251,7 +251,7 @@ void CPlayerAnimState::EstimateYaw( void )
 	}
 	else
 	{
-		m_flGaitYaw = (atan2(est_velocity[1], est_velocity[0]) * 180 / M_PI);
+		m_flGaitYaw = (float)(atan2(est_velocity[1], est_velocity[0]) * 180 / M_PI);
 
 		if (m_flGaitYaw > 180)
 			m_flGaitYaw = 180;

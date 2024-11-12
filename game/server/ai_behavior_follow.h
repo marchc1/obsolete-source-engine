@@ -155,7 +155,7 @@ public:
 	virtual bool	TargetIsUnreachable() { return m_bTargetUnreachable; }
 	
 	int				GetNumFailedFollowAttempts()	{ return m_nFailedFollowAttempts; }
-	float			GetTimeFailFollowStarted()		{ return m_flTimeFailFollowStarted; }
+	double			GetTimeFailFollowStarted()		{ return m_flTimeFailFollowStarted; }
 	bool			FollowTargetVisible() { return HasCondition( COND_FOLLOW_TARGET_VISIBLE ); };
 
 	bool			IsMovingToFollowTarget();
@@ -288,20 +288,20 @@ protected:
 	
 	EHANDLE 		   				m_hFollowTarget;
 	AI_FollowNavInfo_t 				m_FollowNavGoal;
-	float							m_flTimeUpdatedFollowPosition;
+	double							m_flTimeUpdatedFollowPosition;
 	bool							m_bFirstFacing;
-	float							m_flTimeFollowTargetVisible;
+	double							m_flTimeFollowTargetVisible;
 	
 	CAI_MoveMonitor	   				m_TargetMonitor;
 	bool							m_bTargetUnreachable;
 	bool							m_bFollowNavFailed; // Set when pathfinding fails to limit impact of m_FollowDelay on ShouldFollow
 
 	int								m_nFailedFollowAttempts;
-	float							m_flTimeFailFollowStarted;
+	double							m_flTimeFailFollowStarted;
 	Vector							m_vFollowMoveAnchor;
 
 	bool							m_bMovingToCover;
-	float							m_flOriginalEnemyDiscardTime;
+	double							m_flOriginalEnemyDiscardTime;
 	float							m_SavedDistTooFar;
 	
 	CRandStopwatch	   				m_FollowDelay;

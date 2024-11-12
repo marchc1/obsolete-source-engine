@@ -684,7 +684,7 @@ public:
 	  =================
 	*/
 	void EmitAmbientSound( int entindex, const Vector& pos, const char *samp, float vol, 
-		soundlevel_t soundlevel, int fFlags, int pitch, float soundtime /*=0.0f*/ ) override
+		soundlevel_t soundlevel, int fFlags, int pitch, double soundtime /*=0.0f*/ ) override
 	{
 		SoundInfo_t sound; 
 		sound.SetDefault();

@@ -140,8 +140,8 @@ private:
 	void ExplodeThink();
 	void APCMissileTouch( CBaseEntity *pOther );
 
-	float	m_flReachedTargetTime;
-	float	m_flIgnitionTime;
+	double	m_flReachedTargetTime;
+	double	m_flIgnitionTime;
 	bool	m_bGuidingDisabled;
 	float   m_flLastHomingSpeed;
 	EHANDLE m_hSpecificTarget;

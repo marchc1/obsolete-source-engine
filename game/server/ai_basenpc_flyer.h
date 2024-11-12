@@ -69,17 +69,17 @@ protected:
 	{
 		if( m_vNoiseMod.x )
 		{
-			m_vCurrentVelocity.x += noiseScale*sinf(m_vNoiseMod.x * gpGlobals->curtime + m_vNoiseMod.x);
+			m_vCurrentVelocity.x += noiseScale*(float)sin(m_vNoiseMod.x * gpGlobals->curtime + m_vNoiseMod.x);
 		}
 
 		if( m_vNoiseMod.y )
 		{
-			m_vCurrentVelocity.y += noiseScale*cosf(m_vNoiseMod.y * gpGlobals->curtime + m_vNoiseMod.y);
+			m_vCurrentVelocity.y += noiseScale*(float)cos(m_vNoiseMod.y * gpGlobals->curtime + m_vNoiseMod.y);
 		}
 
 		if( m_vNoiseMod.z )
 		{
-			m_vCurrentVelocity.z -= noiseScale*cosf(m_vNoiseMod.z * gpGlobals->curtime + m_vNoiseMod.z);
+			m_vCurrentVelocity.z -= noiseScale*(float)cos(m_vNoiseMod.z * gpGlobals->curtime + m_vNoiseMod.z);
 		}
 	}
 

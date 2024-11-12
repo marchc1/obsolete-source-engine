@@ -37,7 +37,7 @@ public:
 	void InitFromCurrent( float endValue, float dt, InterpType_t type = INTERP_LINEAR );
 
 	// Find our interpolated value at the given point in time
-	float Interp( float curTime );
+	float Interp( double curTime );
 
 private:
 

@@ -223,10 +223,10 @@ private:
 
 	// Magnet movement	
 	bool			m_bDropping;
-	float			m_flNextDangerSoundTime;
-	float			m_flNextCreakSound;
-	float			m_flNextDropAllowedTime;
-	float			m_flSlowRaiseTime;
+	double			m_flNextDangerSoundTime;
+	double			m_flNextCreakSound;
+	double			m_flNextDropAllowedTime;
+	double			m_flSlowRaiseTime;
 
 	// Speeds
 	float			m_flMaxExtensionSpeed;

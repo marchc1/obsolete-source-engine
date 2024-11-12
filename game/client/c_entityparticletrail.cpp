@@ -210,7 +210,7 @@ inline void C_EntityParticleTrail::RenderParticles( CParticleRenderIterator *pIt
 	const SimpleParticle *pParticle = (const SimpleParticle*)pIterator->GetFirst();
 	while ( pParticle )
 	{
-		float t = pParticle->m_flLifetime / pParticle->m_flDieTime;
+		float t = (float)(pParticle->m_flLifetime / pParticle->m_flDieTime);
 
 		// Render
 		Vector	tPos;

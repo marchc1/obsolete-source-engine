@@ -58,10 +58,10 @@ public:
 	virtual	void		SetViewtarget( const Vector &viewtarget );
 	const Vector		&GetViewtarget( void ) const;
 
-	void				SetFlexWeight( char *szName, float value );
-	void				SetFlexWeight( LocalFlexController_t index, float value );
-	float				GetFlexWeight( char *szName );
-	float				GetFlexWeight( LocalFlexController_t index );
+	void				SetFlexWeight( char *szName, double value );
+	void				SetFlexWeight( LocalFlexController_t index, double value );
+	double				GetFlexWeight( char *szName );
+	double				GetFlexWeight( LocalFlexController_t index );
 
 	// Look up flex controller index by global name
 	LocalFlexController_t	FindFlexController( const char *szName );
@@ -242,7 +242,7 @@ public:
 
 private:
 	// last time a foreground flex animation was played
-	float				m_flLastFlexAnimationTime;
+	double				m_flLastFlexAnimationTime;
 
 
 public:
@@ -285,12 +285,12 @@ inline const Vector &CBaseFlex::GetViewtarget( ) const
 	return m_viewtarget.Get();	// bah
 }
 
-inline void CBaseFlex::SetFlexWeight( char *szName, float value )
+inline void CBaseFlex::SetFlexWeight( char *szName, double value )
 {
 	SetFlexWeight( FindFlexController( szName ), value );
 }
 
-inline float CBaseFlex::GetFlexWeight( char *szName )
+inline double CBaseFlex::GetFlexWeight( char *szName )
 {
 	return GetFlexWeight( FindFlexController( szName ) );
 }

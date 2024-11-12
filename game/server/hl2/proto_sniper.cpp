@@ -160,8 +160,8 @@ public:
 	Vector		m_vecStart;
 	Vector		m_vecEnd;
 
-	float	m_flLastThink;
-	float	m_SoundTime;
+	double	m_flLastThink;
+	double	m_SoundTime;
 	int		m_AmmoType;
 	int		m_PenetratedAmmoType;
 	float	m_Speed;
@@ -330,7 +330,7 @@ private:
 	Vector						m_vecFrustratedTarget;
 	Vector						m_vecPaintStart; // used to track where a sweep starts for the purpose of interpolating.
 
-	float						m_flFrustration;
+	double						m_flFrustration;
 
 	float						m_flThinkInterval;
 
@@ -350,7 +350,7 @@ private:
 	float						m_flShieldDist;
 	float						m_flShieldRadius;
 
-	float						m_flTimeLastAttackedPlayer;
+	double						m_flTimeLastAttackedPlayer;
 
 	// Protection
 	EHANDLE						m_hProtectTarget;			// Entity that this sniper is supposed to protect
@@ -359,7 +359,7 @@ private:
 	// Have I warned the target that I'm pointing my laser at them?
 	bool						m_bWarnedTargetEntity;
 
-	float						m_flTimeLastShotMissed;
+	double						m_flTimeLastShotMissed;
 	bool						m_bKilledPlayer;
 	bool						m_bShootZombiesInChest;		///< if true, do not try to shoot zombies in the headcrab
 
@@ -696,7 +696,7 @@ float CProtoSniper::GetPositionParameter( float flTime, bool fLinear )
 	float flElapsedTime;
 	float flTimeParameter;
 
-	flElapsedTime = flTime - (GetWaitFinishTime() - gpGlobals->curtime);
+	flElapsedTime = flTime - (float)(GetWaitFinishTime() - gpGlobals->curtime);
 
 	flTimeParameter = ( flElapsedTime / flTime );
 
@@ -818,9 +818,9 @@ void CProtoSniper::PaintTarget( const Vector &vecTarget, float flPaintTime )
 	}
 
 	// mult by P
-	vecCurrentDir.x += flNoiseScale * ( sinf( 3 * M_PI_F * gpGlobals->curtime ) * 0.0006F );
-	vecCurrentDir.y += flNoiseScale * ( sinf( 2 * M_PI_F * gpGlobals->curtime + 0.5F * M_PI_F ) * 0.0006F );
-	vecCurrentDir.z += flNoiseScale * ( sinf( 1.5F * M_PI_F * gpGlobals->curtime + M_PI_F ) * 0.0006F );
+	vecCurrentDir.x += flNoiseScale * ( (float)sin( 3 * M_PI_F * gpGlobals->curtime ) * 0.0006F );
+	vecCurrentDir.y += flNoiseScale * ( (float)sin( 2 * M_PI_F * gpGlobals->curtime + 0.5F * M_PI_F ) * 0.0006F );
+	vecCurrentDir.z += flNoiseScale * ( (float)sin( 1.5F * M_PI_F * gpGlobals->curtime + M_PI_F ) * 0.0006F );
 #endif
 
 	trace_t tr;
@@ -1766,8 +1766,7 @@ bool CProtoSniper::VerifyShot( CBaseEntity *pTarget )
 //---------------------------------------------------------
 int CProtoSniper::RangeAttack1Conditions ( float flDot, float flDist )
 {
-	float fFrustration;
-	fFrustration = gpGlobals->curtime - m_flFrustration;
+	double fFrustration = gpGlobals->curtime - m_flFrustration;
 
 	//Msg( "Frustration: %f\n", fFrustration );
 
@@ -2410,7 +2409,7 @@ Vector CProtoSniper::DesiredBodyTarget( CBaseEntity *pTarget )
 	// By default, aim for the center
 	Vector vecTarget = pTarget->WorldSpaceCenter();
 
-	float flTimeSinceLastMiss = gpGlobals->curtime - m_flTimeLastShotMissed;
+	double flTimeSinceLastMiss = gpGlobals->curtime - m_flTimeLastShotMissed;
 
 	if( pTarget->GetFlags() & FL_CLIENT )
 	{
@@ -3203,7 +3202,7 @@ void CSniperBullet::BulletThink( void )
 	Vector vecEnd;
 	float flInterval;
 
-	flInterval = gpGlobals->curtime - GetLastThink();
+	flInterval = (float)(gpGlobals->curtime - GetLastThink());
 	vecStart = GetAbsOrigin();
 	vecEnd = vecStart + ( m_vecDir * (m_Speed * flInterval) );
 	float flDist = (vecStart - vecEnd).Length();

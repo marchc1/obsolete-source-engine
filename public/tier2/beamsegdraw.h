@@ -108,7 +108,7 @@ void DrawRing( int noise_divisions, float *prgNoise, void (*pfnNoise)( float *no
 			  const Vector& source, const Vector& delta, float width, float amplitude, 
 			  float freq, float speed, int segments, float* color, float flHDRColorScale = 1.0f );
 void DrawBeamFollow( const model_t* spritemodel, BeamTrail_t* pHead, int frame, int rendermode, Vector& delta, 
-					Vector& screen, Vector& screenLast, float die, const Vector& source, 
+					Vector& screen, Vector& screenLast, double die, const Vector& source, 
 					int flags, float width, float amplitude, float freq, float* color, float flHDRColorScale = 1.0f );
 
 void DrawBeamQuadratic( const Vector &start, const Vector &control, const Vector &end, float width, const Vector &color, float scrollOffset, float flHDRColorScale = 1.0f );

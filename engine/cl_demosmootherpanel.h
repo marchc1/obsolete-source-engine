@@ -210,7 +210,7 @@ protected:
 	bool				m_bPreviewing;
 	bool				m_bPreviewOriginal;
 	int					m_iPreviewStartTick;
-	float				m_fPreviewCurrentTime;
+	double				m_fPreviewCurrentTime;
 	int					m_nPreviewLastFrame;
 	bool				m_bPreviewPaused;
 

@@ -99,7 +99,7 @@ protected:
 
 	void	UpdateSelectionTime( void );
 
-	float	m_flSelectionTime;	// most recent time at which weapon selection had input
+	double	m_flSelectionTime;	// most recent time at which weapon selection had input
 
 	static CBaseHudWeaponSelection *s_pInstance;
 

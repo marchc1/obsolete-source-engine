@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 CBaseEntity *CTempEntTester::Create( const Vector &vecOrigin, const QAngle &vecAngles, const char *lifetime, const char *single_te )
 {
-	float life;
+	double life;
 	char classname[ 128 ];
 	if ( lifetime && lifetime[0] )
 	{

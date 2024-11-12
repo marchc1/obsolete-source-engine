@@ -69,7 +69,7 @@ protected:
 	CMoveData		*mv;
 	
 	int				m_nOldWaterLevel;
-	float			m_flWaterEntryTime;
+	double			m_flWaterEntryTime;
 	int				m_nOnLadder;
 
 	Vector			m_vecForward;

@@ -101,7 +101,7 @@ struct VarMapping_t
 
 	CUtlVector< VarMapEntry_t >	m_Entries;
 	int							m_nInterpolatedEntries;
-	float						m_lastInterpolationTime;
+	double						m_lastInterpolationTime;
 };
 
 																	
@@ -592,8 +592,8 @@ public:
 	// See CSoundEmitterSystem
 	virtual void ModifyEmitSoundParams( EmitSound_t &params );
 
-	void	EmitSound( const char *soundname, float soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
-	void	EmitSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, float soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
+	void	EmitSound( const char *soundname, double soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
+	void	EmitSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, double soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
 	void	StopSound( const char *soundname );
 	void	StopSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle );
 	void	GenderExpandString( char const *in, char *out, int maxlen );
@@ -603,8 +603,8 @@ public:
 	static bool	GetParametersForSound( const char *soundname, CSoundParameters &params, const char *actormodel );
 	static bool	GetParametersForSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, CSoundParameters &params, const char *actormodel );
 
-	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin = NULL, float soundtime = 0.0f, float *duration = NULL );
-	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHANDLE& handle, const Vector *pOrigin = NULL, float soundtime = 0.0f, float *duration = NULL );
+	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin = NULL, double soundtime = 0.0f, float *duration = NULL );
+	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHANDLE& handle, const Vector *pOrigin = NULL, double soundtime = 0.0f, float *duration = NULL );
 	static void StopSound( int iEntIndex, const char *soundname );
 	static soundlevel_t LookupSoundLevel( const char *soundname );
 	static soundlevel_t LookupSoundLevel( const char *soundname, HSOUNDSCRIPTHANDLE& handle );
@@ -614,7 +614,7 @@ public:
 
 	static void StopSound( int iEntIndex, int iChannel, const char *pSample );
 
-	static void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags = 0, float soundtime = 0.0f, float *duration = NULL );
+	static void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags = 0, double soundtime = 0.0f, float *duration = NULL );
 
 	// These files need to be listed in scripts/game_sounds_manifest.txt
 	static HSOUNDSCRIPTHANDLE PrecacheScriptSound( const char *soundname );
@@ -1208,7 +1208,7 @@ protected:
 	void MarkMessageReceived();
 
 	// Gets the last message time
-	float	GetLastMessageTime() const		{ return m_flLastMessageTime; }
+	double	GetLastMessageTime() const		{ return m_flLastMessageTime; }
 
 	// For non-players
 	int	PhysicsClipVelocity (const Vector& in, const Vector& normal, Vector& out, float overbounce );

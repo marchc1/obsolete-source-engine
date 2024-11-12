@@ -319,7 +319,7 @@ void CHudHistoryResource::Paint( void )
 				continue;
 			}
 
-			float elapsed = m_PickupHistory[i].DisplayTime - gpGlobals->curtime;
+			float elapsed = (float)(m_PickupHistory[i].DisplayTime - gpGlobals->curtime);
 			float scale = elapsed * 80;
 			Color clr = gHUD.m_clrNormal;
 			clr[3] = MIN( scale, 255 );

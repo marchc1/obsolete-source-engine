@@ -29,7 +29,7 @@ public:
 	void	DispatchAnimEvents( CBaseAnimating *eventHandler, CBaseAnimating *pOwner );
 	void	SetOrder( int nOrder );
 
-	float GetFadeout( float flCurTime );
+	float GetFadeout( double flCurTime );
 
 	// For CNetworkVars.
 	void NetworkStateChanged();
@@ -62,8 +62,8 @@ public:
 	float	m_flKillRate;
 	float	m_flKillDelay;
 
-	float	m_flLayerAnimtime;
-	float	m_flLayerFadeOuttime;
+	double	m_flLayerAnimtime;
+	double	m_flLayerFadeOuttime;
 
 	// For checking for duplicates
 	Activity	m_nActivity;
@@ -86,7 +86,7 @@ public:
 
 	float	m_flLastEventCheck;
 
-	float	m_flLastAccess;
+	double	m_flLastAccess;
 
 	// Network state changes get forwarded here.
 	CBaseAnimatingOverlay *m_pOwnerEntity;
@@ -94,7 +94,7 @@ public:
 	DECLARE_SIMPLE_DATADESC();
 };
 
-inline float CAnimationLayer::GetFadeout( float flCurTime )
+inline float CAnimationLayer::GetFadeout( double flCurTime )
 {
 	float s;
 
@@ -105,7 +105,7 @@ inline float CAnimationLayer::GetFadeout( float flCurTime )
 	else
 	{
 		// blend in over 0.2 seconds
-		s = 1.0F - (flCurTime - m_flLayerAnimtime) / m_flLayerFadeOuttime;
+		s = (float)(1.0 - (flCurTime - m_flLayerAnimtime) / m_flLayerFadeOuttime);
 		if (s > 0 && s <= 1.0F)
 		{
 			// do a nice spline curve

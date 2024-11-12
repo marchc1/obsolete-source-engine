@@ -210,7 +210,7 @@ void CEntityFlame::SetHitboxFireScale( float flHitboxFireScale )
 	m_flHitboxFireScale = flHitboxFireScale;
 }
 
-float CEntityFlame::GetRemainingLife( void )
+double CEntityFlame::GetRemainingLife( void )
 {
 	return m_flLifetime - gpGlobals->curtime;
 }

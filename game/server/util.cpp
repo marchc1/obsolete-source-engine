@@ -2017,7 +2017,7 @@ public:
 	byte	m_checkVisibilityPVS[MAX_MAP_LEAFS/8];
 	int		m_checkCluster;
 	int		m_lastcheck;
-	float	m_lastchecktime;
+	double	m_lastchecktime;
 	bool	m_bClientPVSIsExpanded;
 };
 
@@ -2106,7 +2106,7 @@ static edict_t *UTIL_GetCurrentCheckClient()
 	edict_t	*ent;
 
 	// find a new check if on a new frame
-	float delta = gpGlobals->curtime - g_CheckClient.m_lastchecktime;
+	double delta = gpGlobals->curtime - g_CheckClient.m_lastchecktime;
 	if ( delta >= 0.1 || delta < 0 )
 	{
 		g_CheckClient.m_lastcheck = UTIL_GetNewCheckClient( g_CheckClient.m_lastcheck );

@@ -376,7 +376,7 @@ void C_EntityDissolve::DoSparks( mstudiohitboxset_t *set, matrix3x4_t *hitboxbon
 	if ( m_flNextSparkTime > gpGlobals->curtime )
 		return;
 
-	float dt = m_flStartTime + m_flFadeOutStart - gpGlobals->curtime;
+	double dt = m_flStartTime + m_flFadeOutStart - gpGlobals->curtime;
 	dt = clamp( dt, 0.0f, m_flFadeOutStart );
 	
 	float flNextTime;
@@ -431,7 +431,7 @@ void C_EntityDissolve::SetupEmitter( void )
 //-----------------------------------------------------------------------------
 float C_EntityDissolve::GetFadeInPercentage( void )
 {
-	float dt = gpGlobals->curtime - m_flStartTime;
+	double dt = gpGlobals->curtime - m_flStartTime;
 	
 	if ( dt > m_flFadeOutStart )
 		return 1.0f;
@@ -443,7 +443,7 @@ float C_EntityDissolve::GetFadeInPercentage( void )
 	{
 		dt -= m_flFadeInStart;
 		
-		return ( dt / m_flFadeInLength );
+		return (float)( dt / m_flFadeInLength );
 	}
 
 	return 1.0f;
@@ -455,7 +455,7 @@ float C_EntityDissolve::GetFadeInPercentage( void )
 //-----------------------------------------------------------------------------
 float C_EntityDissolve::GetFadeOutPercentage( void )
 {
-	float dt = gpGlobals->curtime - m_flStartTime;
+	double dt = gpGlobals->curtime - m_flStartTime;
 	
 	if ( dt < m_flFadeInStart )
 		return 1.0f;
@@ -467,7 +467,7 @@ float C_EntityDissolve::GetFadeOutPercentage( void )
 		if ( dt > m_flFadeOutLength )
 			return 0.0f;
 		
-		return 1.0f - ( dt / m_flFadeOutLength );
+		return 1.0f - (float)( dt / m_flFadeOutLength );
 	}
 	
 	return 1.0f;
@@ -479,7 +479,7 @@ float C_EntityDissolve::GetFadeOutPercentage( void )
 //-----------------------------------------------------------------------------
 float C_EntityDissolve::GetModelFadeOutPercentage( void )
 {
-	float dt = gpGlobals->curtime - m_flStartTime;
+	double dt = gpGlobals->curtime - m_flStartTime;
 	
 	if ( dt < m_flFadeOutModelStart )
 		return 1.0f;
@@ -491,7 +491,7 @@ float C_EntityDissolve::GetModelFadeOutPercentage( void )
 		if ( dt > m_flFadeOutModelLength )
 			return 0.0f;
 		
-		return 1.0f - ( dt / m_flFadeOutModelLength );
+		return 1.0f - (float)( dt / m_flFadeOutModelLength );
 	}
 	
 	return 1.0f;

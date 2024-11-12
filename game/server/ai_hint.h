@@ -323,7 +323,7 @@ private:
 	HintNodeData		m_NodeData;
 	int					m_nTargetNodeID;
 	EHANDLE				m_hHintOwner;			// Is hint locked (being used by NPC / NPC en-route to use it)
-	float				m_flNextUseTime;		// When can I be used again?
+	double				m_flNextUseTime;		// When can I be used again?
 	COutputEHANDLE		m_OnNPCStartedUsing;	// Triggered when an NPC has actively begun to use the node.
 	COutputEHANDLE		m_OnNPCStoppedUsing;	// Triggered when an NPC has finished using this node.
 	float				m_nodeFOV;

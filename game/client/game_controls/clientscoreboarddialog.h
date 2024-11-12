@@ -99,7 +99,7 @@ protected:
 	int TrackerImage;
 	int	m_HLTVSpectators;
 	int m_ReplaySpectators;
-	float m_fNextUpdateTime;
+	double m_fNextUpdateTime;
 
 	void MoveLabelToFront(const char *textEntryName);
 	void MoveToCenterOfScreen();

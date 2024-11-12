@@ -1118,7 +1118,7 @@ static void SetToneMapScale(IMatRenderContext *pRenderContext, float newvalue, f
 		int sample_pt = ssize( s_MovingAverageToneMapScale ) / 2;
 		for( int i = 0;i < ssize( s_MovingAverageToneMapScale );i ++ )
 		{
-			float weight = abs( i - sample_pt ) * ( 1.0 / ( ssize( s_MovingAverageToneMapScale ) / 2 ));
+			float weight = abs( i - sample_pt ) * ( 1.0f / ( ssize( s_MovingAverageToneMapScale ) / 2 ));
 			sumweights += weight;
 			avg += weight * s_MovingAverageToneMapScale[i];
 		}
@@ -1576,7 +1576,7 @@ static void DoPreBloomTonemapping( IMatRenderContext *pRenderContext, int nX, in
 
 				if ( IsX360() )
 				{
-					static float s_flLastTimeUpdate = 0.0f;
+					static double s_flLastTimeUpdate = 0.0;
 					if ( int( gpGlobals->curtime ) - int( s_flLastTimeUpdate ) >= 2 )
 					{
 						s_flLastTimeUpdate = gpGlobals->curtime;

@@ -43,7 +43,7 @@ struct BaseEntityRecordingState_t
 		m_vecRenderAngles.Init();
 	}
 
-	float m_flTime;
+	double m_flTime;
 	const char *m_pModelName;
 	int m_nOwner;
 	int m_nEffects;

@@ -56,10 +56,10 @@ private:
 	CNetworkString( m_lookupFilename, MAX_PATH );
 
 	float		m_LastEnterWeight;
-	float		m_LastEnterTime;
+	double		m_LastEnterTime;
 
 	float		m_LastExitWeight;
-	float		m_LastExitTime;
+	double		m_LastExitTime;
 
 	float		m_FadeDuration;
 };
@@ -194,8 +194,8 @@ void CColorCorrectionVolume::ThinkFunc( )
 		
 			if( m_Weight < 1.0f )
 			{
-				float dt = gpGlobals->curtime - m_LastEnterTime;
-				float weight = m_LastEnterWeight + dt / ((1.0f-m_LastEnterWeight)*m_FadeDuration);
+				double dt = gpGlobals->curtime - m_LastEnterTime;
+				float weight = (float)(m_LastEnterWeight + dt / ((1.0f-m_LastEnterWeight)*m_FadeDuration));
 				if( weight>1.0f )
 					weight = 1.0f;
 
@@ -208,8 +208,8 @@ void CColorCorrectionVolume::ThinkFunc( )
 		
 			if( m_Weight > 0.0f )
 			{
-				float dt = gpGlobals->curtime - m_LastExitTime;
-				float weight = (1.0f-m_LastExitWeight) + dt / (m_LastExitWeight*m_FadeDuration);
+				double dt = gpGlobals->curtime - m_LastExitTime;
+				float weight = (float)((1.0f-m_LastExitWeight) + dt / (m_LastExitWeight*m_FadeDuration));
 				if( weight>1.0f )
 					weight = 1.0f;
 

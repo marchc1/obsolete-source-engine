@@ -261,7 +261,7 @@ protected:
 	virtual void LoadMapCycleFile( void );
 	void ChangeLevelToMap( const char *pszMap );
 
-	float m_flIntermissionEndTime;
+	double m_flIntermissionEndTime;
 	static int m_nMapCycleTimeStamp;
 	static int m_nMapCycleindex;
 	static CUtlVector<char*> m_MapList;

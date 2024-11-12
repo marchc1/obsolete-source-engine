@@ -519,7 +519,7 @@ int CBaseDemoAction::GetStartTick( void ) const
 // Purpose: 
 // Output : float
 //-----------------------------------------------------------------------------
-float CBaseDemoAction::GetStartTime( void ) const
+double CBaseDemoAction::GetStartTime( void ) const
 {
 	Assert( m_Timing == ACTION_USES_TIME );
 	return m_flStartTime;
@@ -539,7 +539,7 @@ void CBaseDemoAction::SetStartTick( int tick )
 // Purpose: 
 // Input  : t - 
 //-----------------------------------------------------------------------------
-void CBaseDemoAction::SetStartTime( float t )
+void CBaseDemoAction::SetStartTime( double t )
 {
 	Assert( m_Timing == ACTION_USES_TIME );
 	m_flStartTime = t;

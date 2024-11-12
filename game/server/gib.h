@@ -88,7 +88,7 @@ public:
 
 	int		m_cBloodDecals;
 	int		m_material;
-	float	m_lifeTime;
+	double	m_lifeTime;
 	bool	m_bForceRemove;
 
 	CHandle<CBasePlayer>	m_hPhysicsAttacker;

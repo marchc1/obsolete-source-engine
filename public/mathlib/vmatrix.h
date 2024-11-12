@@ -1048,7 +1048,7 @@ inline void MatrixPerspectiveX( VMatrix& dst, float flFovX, float flAspect, floa
 	dst = temp;
 }
 
-inline void MatrixPerspectiveOffCenterX( VMatrix& dst, double flFovX, double flAspect, double flZNear, double flZFar, double bottom, double top, double left, double right )
+inline void MatrixPerspectiveOffCenterX( VMatrix& dst, float flFovX, float flAspect, float flZNear, float flZFar, float bottom, float top, float left, float right )
 {
 	VMatrix mat;
 	MatrixBuildPerspectiveOffCenterX( mat, flFovX, flAspect, flZNear, flZFar, bottom, top, left, right );

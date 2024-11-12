@@ -47,7 +47,7 @@ protected:
 	bool	m_bWasActive;
 	int		m_iCachedDesiredOverlay;
 	int		m_iCurrentOverlay;
-	float	m_flCurrentOverlayTime;
+	double	m_flCurrentOverlayTime;
 };
 
 IMPLEMENT_CLIENTCLASS_DT( C_EnvScreenOverlay, DT_EnvScreenOverlay, CEnvScreenOverlay )

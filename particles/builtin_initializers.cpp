@@ -358,7 +358,7 @@ void C_INIT_CreateWithinSphere::InitNewParticlesScalar(
 			float flStrength = 1.0;
 			if ( m_flEndCPGrowthTime != 0.0f )
 			{
-				flStrength = min ( pParticles->m_flCurTime, m_flEndCPGrowthTime ) / m_flEndCPGrowthTime ;
+				flStrength = MIN ( pParticles->m_flCurTime, m_flEndCPGrowthTime ) / m_flEndCPGrowthTime ;
 			}
 			int nHighestControlPoint = static_cast<int>(floorf ( pParticles->GetHighestControlPoint() * flStrength ));
 			nCurrentControlPoint = pParticles->RandomInt( m_nControlPointNumber, nHighestControlPoint );
@@ -477,7 +477,7 @@ void C_INIT_CreateWithinSphere::InitNewParticlesBlock( CParticleCollection *pPar
 
 		float flOODT = ( pParticles->m_flDt > 0.0f ) ? ( 1.0f / pParticles->m_flDt ) : 0.0f;
 		fltx4 fl4OODt = ReplicateX4( flOODT );
-		fltx4 fl4PrevTime = ReplicateX4( pParticles->m_flCurTime - pParticles->m_flDt );
+		fltx4 fl4PrevTime = ReplicateX4( (float)(pParticles->m_flCurTime - pParticles->m_flDt) );
 		int nContext = GetSIMDRandContext();
 
 		FourVectors v4DistanceBias;
@@ -4096,8 +4096,8 @@ void C_INIT_CreateFromParentParticles::InitNewParticlesScalar(
 		Vector vecParentPrevXYZ;
 		Vector vecScaledXYZ;
 
-		float flPrevTime = pParticles->m_flCurTime - pParticles->m_flDt;
-		float flSubFrame = RemapValClamped( *ct, flPrevTime, pParticles->m_flCurTime, 0, 1 );
+		float flPrevTime = (float)(pParticles->m_flCurTime - pParticles->m_flDt);
+		float flSubFrame = RemapValClamped( *ct, flPrevTime, (float)pParticles->m_flCurTime, 0, 1 );
 		
 
 		vecParentXYZ.x = pParent_xyz[0];

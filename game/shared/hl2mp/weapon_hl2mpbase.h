@@ -53,7 +53,7 @@ public:
 	CBasePlayer* GetPlayerOwner() const;
 	CHL2MP_Player* GetHL2MPPlayerOwner() const;
 
-	void WeaponSound( WeaponSound_t sound_type, float soundtime = 0.0f );
+	void WeaponSound( WeaponSound_t sound_type, double soundtime = 0.0f );
 	
 	CHL2MPSWeaponInfo const	&GetHL2MPWpnData() const;
 
@@ -75,8 +75,8 @@ public:
 
 	#endif
 
-	float		m_flPrevAnimTime;
-	float  m_flNextResetCheckTime;
+	double		m_flPrevAnimTime;
+	double		m_flNextResetCheckTime;
 
 	Vector	GetOriginalSpawnOrigin( void ) { return m_vOriginalSpawnOrigin;	}
 	QAngle	GetOriginalSpawnAngles( void ) { return m_vOriginalSpawnAngles;	}

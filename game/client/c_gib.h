@@ -31,7 +31,7 @@ public:
 
 protected:
 
-	float	m_flTouchDelta;		// Amount of time that must pass before another touch function can be called
+	double	m_flTouchDelta;		// Amount of time that must pass before another touch function can be called
 };
 
 #ifdef HL2_CLIENT_DLL

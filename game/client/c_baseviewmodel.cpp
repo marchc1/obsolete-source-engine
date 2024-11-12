@@ -146,7 +146,7 @@ void C_BaseViewModel::FireEvent( const Vector& origin, const QAngle& angles, int
 	}
 }
 
-bool C_BaseViewModel::Interpolate( float currentTime )
+bool C_BaseViewModel::Interpolate( double currentTime )
 {
 	CStudioHdr *pStudioHdr = GetModelPtr();
 	// Make sure we reset our animation information if we've switch sequences
@@ -155,14 +155,14 @@ bool C_BaseViewModel::Interpolate( float currentTime )
 	bool bret = BaseClass::Interpolate( currentTime );
 
 	// Hack to extrapolate cycle counter for view model
-	float elapsed_time = currentTime - m_flAnimTime;
+	double elapsed_time = currentTime - m_flAnimTime;
 	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
 
 	// Predicted viewmodels have fixed up interval
 	if ( GetPredictable() || IsClientCreated() )
 	{
 		Assert( pPlayer );
-		float curtime = pPlayer ? pPlayer->GetFinalPredictedTime() : gpGlobals->curtime;
+		double curtime = pPlayer ? pPlayer->GetFinalPredictedTime() : gpGlobals->curtime;
 		elapsed_time = curtime - m_flAnimTime;
 		// Adjust for interpolated partial frame
 		if ( !engine->IsPaused() )
@@ -177,7 +177,7 @@ bool C_BaseViewModel::Interpolate( float currentTime )
 		elapsed_time = 0;
 	}
 
-	float dt = elapsed_time * GetSequenceCycleRate( pStudioHdr, GetSequence() ) * GetPlaybackRate();
+	double dt = elapsed_time * GetSequenceCycleRate( pStudioHdr, GetSequence() ) * GetPlaybackRate();
 	if ( dt >= 1.0f )
 	{
 		if ( !IsSequenceLooping( GetSequence() ) )
@@ -190,7 +190,7 @@ bool C_BaseViewModel::Interpolate( float currentTime )
 		}
 	}
 
-	SetCycle( dt );
+	SetCycle( (float)dt );
 	return bret;
 }
 
@@ -441,7 +441,7 @@ void C_BaseViewModel::UpdateAnimationParity( void )
 	// tells us if we need to reset the animation.
 	if ( m_nOldAnimationParity != m_nAnimationParity && !GetPredictable() )
 	{
-		float curtime = (pPlayer && IsIntermediateDataAllocated()) ? pPlayer->GetFinalPredictedTime() : gpGlobals->curtime;
+		double curtime = (pPlayer && IsIntermediateDataAllocated()) ? pPlayer->GetFinalPredictedTime() : gpGlobals->curtime;
 		// FIXME: this is bad
 		// Simulate a networked m_flAnimTime and m_flCycle
 		// FIXME:  Do we need the magic 0.1?

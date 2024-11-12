@@ -383,7 +383,7 @@ AIMoveResult_t CAI_Motor::MoveJumpStop()
 
 	if (GetOuter()->GetActivity() == ACT_GLIDE)
 	{
-		float flTime = GetOuter()->GetGroundChangeTime();
+		double flTime = GetOuter()->GetGroundChangeTime();
 		GetOuter()->AddStepDiscontinuity( flTime, GetAbsOrigin(), GetAbsAngles() );
 
 		if ( SelectWeightedSequence( ACT_LAND ) == ACT_INVALID )
@@ -431,7 +431,7 @@ float CAI_Motor::MinStoppingDist( float flMinResult )
 		// assuming linear deceleration, how long till my V hits 0?
 		float t = GetCurSpeed() / flDecelRate;
 		// and how far will I travel? (V * t - 1/2 A t^2)
-		float flDist = GetCurSpeed() * t - 0.5 * flDecelRate * t * t;
+		float flDist = GetCurSpeed() * t - 0.5f * flDecelRate * t * t;
 	
 		// this should always be some reasonable non-zero distance
 		if (flDist > flMinResult)
@@ -577,7 +577,7 @@ AIMotorMoveResult_t CAI_Motor::MoveFlyExecute( const AILocalMoveGoal_t &move, AI
 	float flNewSpeed = GetIdealSpeed();
 	SetMoveVel( move.dir * flNewSpeed );
 
-	float flTotal = 0.5 * (GetCurSpeed() + flNewSpeed) * GetMoveInterval();
+	float flTotal = 0.5f * (GetCurSpeed() + flNewSpeed) * GetMoveInterval();
 
 	float distance = move.maxDist;
 
@@ -696,12 +696,12 @@ void CAI_Motor::RecalculateYawSpeed()
 
 //-----------------------------------------------------------------------------
 
-float AI_ClampYaw( float yawSpeedPerSec, float current, float target, float time )
+float AI_ClampYaw( float yawSpeedPerSec, float current, float target, double time )
 {
 	if (current != target)
 	{
-		float speed = yawSpeedPerSec * time;
-		float move = target - current;
+		double speed = yawSpeedPerSec * time;
+		double move = target - current;
 
 		if (target > current)
 		{
@@ -725,7 +725,7 @@ float AI_ClampYaw( float yawSpeedPerSec, float current, float target, float time
 				move = -speed;
 		}
 		
-		return UTIL_AngleMod(current + move);
+		return UTIL_AngleMod((float)(current + move));
 	}
 	
 	return target;

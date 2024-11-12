@@ -82,9 +82,9 @@ public:
 private:
 	virtual int		SelectSchedule();
 
-	float			m_flTimeToSafety;
-	float			m_flTimePlayerLastVisible;
-	float			m_flDeferUntil;
+	double			m_flTimeToSafety;
+	double			m_flTimePlayerLastVisible;
+	double			m_flDeferUntil;
 
 	CAI_MoveMonitor		m_SafePlaceMoveMonitor;
 	CHandle<CAI_Hint>	m_hSafePlaceHint;

@@ -454,7 +454,7 @@ public:
 	// UNDONE: Schedule / strings stuff should probably happen once each GAME, not each level
 	void LevelInitPreEntity()
 	{
-		extern double g_AINextDisabledMessageTime;
+		extern float g_AINextDisabledMessageTime;
 		g_AINextDisabledMessageTime = 0;
 	
 		g_AI_SchedulesManager.CreateStringRegistries();

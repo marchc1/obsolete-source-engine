@@ -365,7 +365,7 @@ public:
 
 	//---------------------------------
 	
-	float		GetTimePlayerStaring()		{ return ( m_flTimePlayerStartStare != 0 ) ? gpGlobals->curtime - m_flTimePlayerStartStare : 0; }
+	double		GetTimePlayerStaring()		{ return ( m_flTimePlayerStartStare != 0 ) ? gpGlobals->curtime - m_flTimePlayerStartStare : 0; }
 
 	//---------------------------------
 	// NPC Event Response System
@@ -437,15 +437,15 @@ private:
 	
 	AI_Response		m_PendingResponse;
 	std::string		m_PendingConcept;
-	float			m_TimePendingSet;
+	double			m_TimePendingSet;
 
 	//---------------------------------
 	
 	EHANDLE			m_hTalkTarget;	// who to look at while talking
-	float			m_flNextRegenTime;
-	float			m_flTimePlayerStartStare;
+	double			m_flNextRegenTime;
+	double			m_flTimePlayerStartStare;
 	EHANDLE			m_hPotentialSpeechTarget;	// NPC to tell the response rules about when trying to find a response to talk to them with
-	float			m_flNextIdleSpeechTime;
+	double			m_flNextIdleSpeechTime;
 	int				m_iQARandomNumber;
 
 	//---------------------------------
@@ -459,7 +459,7 @@ private:
 	bool m_bGameEndAlly;
 	bool m_bCanSpeakWhileScripting;	// Allows mapmakers to override NPC_STATE_SCRIPT or IsScripting() for responses.
 
-	float	m_flTimeLastRegen;		// Last time I regenerated a bit of health.
+	double	m_flTimeLastRegen;		// Last time I regenerated a bit of health.
 	float	m_flHealthAccumulator;	// Counterpart to the damage accumulator in CBaseCombatCharacter. So ally health regeneration is accurate over time.
 
 #ifdef _XBOX

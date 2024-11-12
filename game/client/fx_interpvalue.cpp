@@ -60,7 +60,7 @@ void CInterpolatedValue::InitFromCurrent( float endValue, float dt, InterpType_t
 }
 
 // Find our interpolated value at the given point in time
-float CInterpolatedValue::Interp( float curTime )
+float CInterpolatedValue::Interp( double curTime )
 {
 	switch( m_nInterpType )
 	{

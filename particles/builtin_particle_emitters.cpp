@@ -24,7 +24,7 @@ struct InstantaneousEmitterContext_t
 {
 	int m_nRemainingParticles;
 	int m_ActualParticlesToEmit;
-	float m_flTimeOffset;
+	double m_flTimeOffset;
 	bool m_bReadScaleFactor;
 };
 
@@ -89,14 +89,14 @@ class C_OP_InstantaneousEmitter : public CParticleOperatorInstance
 	}
 
 	// Called when the SFM wants to skip forward in time
-	virtual void SkipToTime( float flTime, CParticleCollection *pParticles, void *pContext ) const
+	virtual void SkipToTime( double flTime, CParticleCollection *pParticles, void *pContext ) const
 	{
 		// NOTE: This is a bit of a hack. We're saying that if we're skipping more than two seconds, that we're
 		//		 probably not going to bother emitting at all.  Really, this would have to know the maximum 
 		//		 lifetime of the child particles and only skip if past that.
 
 		InstantaneousEmitterContext_t *pCtx = reinterpret_cast<InstantaneousEmitterContext_t *>( pContext );
-		float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+		double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 		if ( flTime > ( flStartTime + 2.0f ) )
 		{
 			pCtx->m_nRemainingParticles = 0;
@@ -167,7 +167,7 @@ uint32 C_OP_InstantaneousEmitter::Emit( CParticleCollection *pParticles, float f
 		return 0;
 
 	// Wait until we're told to start emitting
-	float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+	double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 	if ( pParticles->m_flCurTime < flStartTime )
 		return 0;
 
@@ -215,7 +215,7 @@ uint32 C_OP_InstantaneousEmitter::Emit( CParticleCollection *pParticles, float f
 	for( int i = nStartParticle; i < nStartParticle + nActualParticlesToEmit; i++ )
 	{
 		float *pTimeStamp = pParticles->GetFloatAttributePtrForWrite( PARTICLE_ATTRIBUTE_CREATION_TIME, i );
-		*pTimeStamp = flStartTime;
+		*pTimeStamp = (float)flStartTime;
 	}
 
 	return PARTICLE_ATTRIBUTE_CREATION_TIME_MASK;
@@ -227,10 +227,10 @@ uint32 C_OP_InstantaneousEmitter::Emit( CParticleCollection *pParticles, float f
 //-----------------------------------------------------------------------------
 struct ContinuousEmitterContext_t
 {
-	float	m_flTotalActualParticlesSoFar;
+	double	m_flTotalActualParticlesSoFar;
 	int		m_nTotalEmittedSoFar;
-	float	m_flNextEmitTime;
-	float	m_flTimeOffset;
+	double	m_flNextEmitTime;
+	double	m_flTimeOffset;
 	bool	m_bStoppedEmission;
 };
 	  
@@ -315,10 +315,10 @@ class C_OP_ContinuousEmitter : public CParticleOperatorInstance
 	// Called when the SFM wants to skip forward in time
 	// Currently hacked for save/load pre-sim - correct solution is to serialize rather 
 	// than skip-to-time and simulate
-	virtual void SkipToTime( float flTime, CParticleCollection *pParticles, void *pContext ) const
+	virtual void SkipToTime( double flTime, CParticleCollection *pParticles, void *pContext ) const
 	{
 		ContinuousEmitterContext_t *pCtx = reinterpret_cast<ContinuousEmitterContext_t *>( pContext );
-		float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+		double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 		if ( flTime <= flStartTime )
 			return;
 	
@@ -337,8 +337,8 @@ class C_OP_ContinuousEmitter : public CParticleOperatorInstance
 			flEmissionRate *= flControlPointScale;
 		}
 
-		float flPrevDrawTime = pParticles->m_flCurTime - flTime;
-		float flCurrDrawTime = pParticles->m_flCurTime;
+		double flPrevDrawTime = pParticles->m_flCurTime - flTime;
+		double flCurrDrawTime = pParticles->m_flCurTime;
 
 		if ( !IsInfinitelyEmitting() )
 		{
@@ -351,8 +351,8 @@ class C_OP_ContinuousEmitter : public CParticleOperatorInstance
 			//	flCurrDrawTime = flStartTime + m_flEmissionDuration;
 			//}
 		}
-		float flDeltaTime = flCurrDrawTime - flPrevDrawTime;
-		flDeltaTime = min( flDeltaTime, 4.f );
+		double flDeltaTime = flCurrDrawTime - flPrevDrawTime;
+		flDeltaTime = MIN( flDeltaTime, 4.f );
 		flPrevDrawTime = flCurrDrawTime - flDeltaTime;
 		//disabled for now
 		pCtx->m_flTotalActualParticlesSoFar = flDeltaTime * flEmissionRate;
@@ -362,7 +362,7 @@ class C_OP_ContinuousEmitter : public CParticleOperatorInstance
 		//	pCtx->m_flTotalActualParticlesSoFar = min( pCtx->m_ActualParticlesToEmit, pCtx->m_flTotalActualParticlesSoFar );
 		pCtx->m_nTotalEmittedSoFar = 0;
 		//simulate a bunch
-		int nActualParticlesToEmit = floorf (pCtx->m_flTotalActualParticlesSoFar);
+		int nActualParticlesToEmit = (int)floor(pCtx->m_flTotalActualParticlesSoFar);
 		int nStartParticle = pParticles->m_nActiveParticles;
 
 		if ( pParticles->m_nMaxAllowedParticles < nStartParticle + nActualParticlesToEmit )
@@ -372,16 +372,16 @@ class C_OP_ContinuousEmitter : public CParticleOperatorInstance
 
 		pParticles->SetNActiveParticles( nActualParticlesToEmit + pParticles->m_nActiveParticles );
 		
-		float flTimeStampStep = ( flDeltaTime ) / ( nActualParticlesToEmit );
-		float flTimeStep = flPrevDrawTime + flTimeStampStep;
+		float flTimeStampStep = (float)(( flDeltaTime ) / ( nActualParticlesToEmit ));
+		double flTimeStep = flPrevDrawTime + flTimeStampStep;
 
 		// Set the particle creation time to the exact sub-frame particle emission time
 		// !! speed!! do sse init here
 		for( int i = nStartParticle; i < nStartParticle + nActualParticlesToEmit; i++ )
 		{
 			float *pTimeStamp = pParticles->GetFloatAttributePtrForWrite( PARTICLE_ATTRIBUTE_CREATION_TIME, i );
-			flTimeStep = min( flTimeStep, flCurrDrawTime );
-			*pTimeStamp = flTimeStep;
+			flTimeStep = MIN( flTimeStep, flCurrDrawTime );
+			*pTimeStamp = (float)flTimeStep;
 			flTimeStep += flTimeStampStep;
 		}
 
@@ -389,7 +389,7 @@ class C_OP_ContinuousEmitter : public CParticleOperatorInstance
 		{
 			flPrevDrawTime = max( flPrevDrawTime, flCurrDrawTime - pParticles->m_pDef->m_flNoDrawTimeToGoToSleep );
 			pParticles->m_flCurTime = flPrevDrawTime;
-			pParticles->m_fl4CurTime = ReplicateX4( flPrevDrawTime );
+			pParticles->m_fl4CurTime = ReplicateX4( (float)flPrevDrawTime );
 
 			// dimhotepus: Use int as cycle counter.
 			int maxDrawTime = static_cast<int>( flCurrDrawTime * 10 );
@@ -414,7 +414,7 @@ class C_OP_ContinuousEmitter : public CParticleOperatorInstance
 		if ( m_flEmitRate <= 0.0f )
 			return false;
 
-		float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+		double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 		if ( m_flEmissionDuration != 0.0f && ( pParticles->m_flCurTime - pParticles->m_flDt ) > ( flStartTime + m_flEmissionDuration ) )
 			return false;
 
@@ -475,15 +475,15 @@ uint32 C_OP_ContinuousEmitter::Emit( CParticleCollection *pParticles, float flCu
 	if ( !C_OP_ContinuousEmitter::MayCreateMoreParticles( pParticles, pContext ) )
 		return 0;
 
-	float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+	double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 	if ( pParticles->m_flCurTime < flStartTime )
 		return 0;
 
 	Assert( flEmissionRate != 0.0f );
 
 	// determine our previous and current draw times and clamp them to start time and emission duration
-	float flPrevDrawTime = pParticles->m_flCurTime - pParticles->m_flDt;
-	float flCurrDrawTime = pParticles->m_flCurTime;
+	double flPrevDrawTime = pParticles->m_flCurTime - pParticles->m_flDt;
+	double flCurrDrawTime = pParticles->m_flCurTime;
 
 	if ( !IsInfinitelyEmitting() )
 	{
@@ -497,16 +497,16 @@ uint32 C_OP_ContinuousEmitter::Emit( CParticleCollection *pParticles, float flCu
 		}
 	}
 	
-	float flDeltaTime = flCurrDrawTime - flPrevDrawTime;
+	double flDeltaTime = flCurrDrawTime - flPrevDrawTime;
 
 	//Calculate emission rate by delta time from last frame to determine number of particles to emit this frame as a fractional float
-	float flActualParticlesToEmit = flEmissionRate  * flDeltaTime;
+	double flActualParticlesToEmit = flEmissionRate * flDeltaTime;
 
 	//Add emitted particle to float counter to allow for fractional emission
 	pCtx->m_flTotalActualParticlesSoFar += flActualParticlesToEmit;
 
 	//Floor float accumulated value and subtract whole int emitted so far from the result to determine total whole particles to emit this frame
-	int nParticlesToEmit = 	floorf ( pCtx->m_flTotalActualParticlesSoFar ) - pCtx->m_nTotalEmittedSoFar;
+	int nParticlesToEmit = 	floor ( pCtx->m_flTotalActualParticlesSoFar ) - pCtx->m_nTotalEmittedSoFar;
 
 	//Add emitted particles to running int total.
 	pCtx->m_nTotalEmittedSoFar += nParticlesToEmit;
@@ -531,16 +531,16 @@ uint32 C_OP_ContinuousEmitter::Emit( CParticleCollection *pParticles, float flCu
 	pParticles->SetNActiveParticles( nActualParticlesToEmit + pParticles->m_nActiveParticles );
 
 
-	float flTimeStampStep = ( flDeltaTime ) / ( nActualParticlesToEmit );
-	float flTimeStep = flPrevDrawTime + flTimeStampStep;
+	float flTimeStampStep = (float)(( flDeltaTime ) / ( nActualParticlesToEmit ));
+	double flTimeStep = flPrevDrawTime + flTimeStampStep;
 	
 	// Set the particle creation time to the exact sub-frame particle emission time
 	// !! speed!! do sse init here
 	for( int i = nStartParticle; i < nStartParticle + nActualParticlesToEmit; i++ )
 	{
 		float *pTimeStamp = pParticles->GetFloatAttributePtrForWrite( PARTICLE_ATTRIBUTE_CREATION_TIME, i );
-		flTimeStep = min( flTimeStep, flCurrDrawTime );
-		*pTimeStamp = flTimeStep;
+		flTimeStep = MIN( flTimeStep, flCurrDrawTime );
+		*pTimeStamp = (float)flTimeStep;
 		flTimeStep += flTimeStampStep;
 	}
 
@@ -553,10 +553,10 @@ uint32 C_OP_ContinuousEmitter::Emit( CParticleCollection *pParticles, float flCu
 //-----------------------------------------------------------------------------
 struct NoiseEmitterContext_t
 {
-	float	m_flTotalActualParticlesSoFar;
+	double	m_flTotalActualParticlesSoFar;
 	int		m_nTotalEmittedSoFar;
-	float	m_flNextEmitTime;
-	float	m_flTimeOffset;
+	double	m_flNextEmitTime;
+	double	m_flTimeOffset;
 	bool	m_bStoppedEmission;
 };
 
@@ -636,10 +636,10 @@ class C_OP_NoiseEmitter : public CParticleOperatorInstance
 	}
 
 	// Called when the SFM wants to skip forward in time
-	virtual void SkipToTime( float flTime, CParticleCollection *pParticles, void *pContext ) const
+	virtual void SkipToTime( double flTime, CParticleCollection *pParticles, void *pContext ) const
 	{
 		NoiseEmitterContext_t *pCtx = reinterpret_cast<NoiseEmitterContext_t *>( pContext );
-		float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+		double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 		if ( flTime <= flStartTime )
 			return;
 
@@ -679,7 +679,7 @@ class C_OP_NoiseEmitter : public CParticleOperatorInstance
 		if ( m_flEmitRate <= 0.0f )
 			return false;
 
-		float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+		double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 		if ( m_flEmissionDuration != 0.0f && ( pParticles->m_flCurTime - pParticles->m_flDt ) > ( flStartTime + m_flEmissionDuration ) )
 			return false;
 
@@ -687,7 +687,7 @@ class C_OP_NoiseEmitter : public CParticleOperatorInstance
 	}
 
 	float	m_flEmissionDuration;
-	float	m_flStartTime;
+	double	m_flStartTime;
 	float	m_flEmitRate;
 	float	m_flTimePerEmission;
 	float	m_flEmissionScale;
@@ -792,15 +792,15 @@ uint32 C_OP_NoiseEmitter::Emit( CParticleCollection *pParticles, float flCurStre
 	if ( !C_OP_NoiseEmitter::MayCreateMoreParticles( pParticles, pContext ) )
 		return 0;
 
-	float flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
+	double flStartTime = m_flStartTime + pCtx->m_flTimeOffset;
 	if ( pParticles->m_flCurTime < flStartTime )
 		return 0;
 
 	Assert( flEmissionRate != 0.0f );
 
 	// determine our previous and current draw times and clamp them to start time and emission duration
-	float flPrevDrawTime = pParticles->m_flCurTime - pParticles->m_flDt;
-	float flCurrDrawTime = pParticles->m_flCurTime;
+	double flPrevDrawTime = pParticles->m_flCurTime - pParticles->m_flDt;
+	double flCurrDrawTime = pParticles->m_flCurTime;
 
 	if ( !IsInfinitelyEmitting() )
 	{
@@ -814,16 +814,16 @@ uint32 C_OP_NoiseEmitter::Emit( CParticleCollection *pParticles, float flCurStre
 		}
 	}
 
-	float flDeltaTime = flCurrDrawTime - flPrevDrawTime;
+	double flDeltaTime = flCurrDrawTime - flPrevDrawTime;
 
 	//Calculate emission rate by delta time from last frame to determine number of particles to emit this frame as a fractional float
-	float flActualParticlesToEmit = flEmissionRate  * flDeltaTime;
+	double flActualParticlesToEmit = flEmissionRate * flDeltaTime;
 
 	//Add emitted particle to float counter to allow for fractional emission
 	pCtx->m_flTotalActualParticlesSoFar += flActualParticlesToEmit;
 
 	//Floor float accumulated value and subtract whole int emitted so far from the result to determine total whole particles to emit this frame
-	int nParticlesToEmit = 	floorf ( pCtx->m_flTotalActualParticlesSoFar ) - pCtx->m_nTotalEmittedSoFar;
+	int nParticlesToEmit = 	floor ( pCtx->m_flTotalActualParticlesSoFar ) - pCtx->m_nTotalEmittedSoFar;
 
 	//Add emitted particles to running int total.
 	pCtx->m_nTotalEmittedSoFar += nParticlesToEmit;
@@ -847,16 +847,16 @@ uint32 C_OP_NoiseEmitter::Emit( CParticleCollection *pParticles, float flCurStre
 	int nStartParticle = pParticles->m_nActiveParticles;
 	pParticles->SetNActiveParticles( nActualParticlesToEmit + pParticles->m_nActiveParticles );
 
-	float flTimeStampStep = ( flCurrDrawTime - flPrevDrawTime ) / ( nActualParticlesToEmit );
-	float flTimeStep = flPrevDrawTime + flTimeStampStep;
+	double flTimeStampStep = ( flCurrDrawTime - flPrevDrawTime ) / ( nActualParticlesToEmit );
+	double flTimeStep = flPrevDrawTime + flTimeStampStep;
 
 	// Set the particle creation time to the exact sub-frame particle emission time
 	// !! speed!! do sse init here
 	for( int i = nStartParticle; i < nStartParticle + nActualParticlesToEmit; i++ )
 	{
 		float *pTimeStamp = pParticles->GetFloatAttributePtrForWrite( PARTICLE_ATTRIBUTE_CREATION_TIME, i );
-		flTimeStep = min( flTimeStep, flCurrDrawTime );
-		*pTimeStamp = flTimeStep;
+		flTimeStep = MIN( flTimeStep, flCurrDrawTime );
+		*pTimeStamp = (float)flTimeStep;
 		flTimeStep += flTimeStampStep;
 	}
 

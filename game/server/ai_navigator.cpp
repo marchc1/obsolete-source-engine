@@ -1371,7 +1371,7 @@ void CAI_Navigator::ClearNavFailCounter()
 
 //-----------------------------------------------------------------------------
 
-float CAI_Navigator::GetLastNavFailTime() const
+double CAI_Navigator::GetLastNavFailTime() const
 {
 	return m_flLastNavFailTime;
 }
@@ -1911,7 +1911,7 @@ bool CAI_Navigator::OnFailedSteer( AILocalMoveGoal_t *pMoveGoal, float distClear
 	if ( !(	pMoveGoal->flags & AILMG_TARGET_IS_TRANSITION ) )
 	{
 		float distToWaypoint = GetPathDistToCurWaypoint();
-		float halfHull 		 = GetHullWidth() * 0.5;
+		float halfHull 		 = GetHullWidth() * 0.5f;
 		
 		if ( distToWaypoint < halfHull )
 		{
@@ -2069,7 +2069,7 @@ bool CAI_Navigator::MoveUpdateWaypoint( AIMoveResult_t *pResult )
 	AI_Waypoint_t *pCurWaypoint = GetPath()->GetCurWaypoint();
 	float 		   waypointDist = ComputePathDistance( GetNavType(), GetLocalOrigin(), pCurWaypoint->GetPos() );
 	bool		   bIsGoal		= CurWaypointIsGoal();
-	float		   tolerance	= ( npc_vphysics.GetBool() ) ? 0.25 : 0.0625;
+	float		   tolerance	= ( npc_vphysics.GetBool() ) ? 0.25f : 0.0625f;
 
 	bool fHit = false;
 
@@ -2641,7 +2641,7 @@ float CAI_Navigator::CalcYawSpeed( void )
 			// If waypoint is close, aim for the waypoint
 			if (waypointDist < 100)
 			{
-				float scale = 1 + (0.01*(100 - waypointDist));
+				float scale = 1 + (0.01f*(100 - waypointDist));
 				return (maxYaw * scale);
 			}
 		}

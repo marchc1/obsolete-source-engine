@@ -163,7 +163,7 @@ public:
 	bool			m_bIsUrgent;
 	bool			m_bInputForcedClear;
 	float			m_flAssaultPointTolerance;
-	float			m_flTimeLastUsed;
+	double			m_flTimeLastUsed;
 
 	COutputEvent	m_OnArrival;
 
@@ -285,9 +285,9 @@ private:
 
 	// Diversion
 	bool			m_bDiverting;
-	float			m_flLastSawAnEnemyAt;
+	double			m_flLastSawAnEnemyAt;
 
-	float			m_flTimeDeferScheduleSelection;
+	double			m_flTimeDeferScheduleSelection;
 
 	string_t		m_AssaultPointName;
 

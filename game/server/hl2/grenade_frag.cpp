@@ -68,7 +68,7 @@ protected:
 	CHandle<CSprite>		m_pMainGlow;
 	CHandle<CSpriteTrail>	m_pGlowTrail;
 
-	float	m_flNextBlipTime;
+	double	m_flNextBlipTime;
 	bool	m_inSolid;
 	bool	m_combineSpawned;
 	bool	m_punted;

@@ -239,7 +239,7 @@ void C_Fish::ClientThink()
 			// fishy wiggle based on movement
 			if (!m_wiggleTimer.IsElapsed())
 			{
-				float swimPower = 1.0f - (m_wiggleTimer.GetElapsedTime() / m_wiggleTimer.GetCountdownDuration());
+				float swimPower = 1.0f - (float)(m_wiggleTimer.GetElapsedTime() / m_wiggleTimer.GetCountdownDuration());
 				const float amp = 6.0f * swimPower;
 				float wiggle = amp * sin( m_wigglePhase );
 

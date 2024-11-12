@@ -54,7 +54,7 @@ struct demoheader_t
 	char	clientname[ MAX_OSPATH ];		// Name of client who recorded the game
 	char	mapname[ MAX_OSPATH ];			// Name of map
 	char	gamedirectory[ MAX_OSPATH ];	// Name of game directory (com_gamedir)
-	float	playback_time;					// Time of track
+	double	playback_time;					// Time of track
 	int     playback_ticks;					// # of ticks in track
 	int     playback_frames;				// # of frames in track
 	int		signonlength;					// length of sigondata in bytes

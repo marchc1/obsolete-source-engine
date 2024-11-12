@@ -157,7 +157,7 @@ protected:
 	Color			m_clrText;
 	Color			m_clrNameColor;
 
-	float			m_flExpireTime;
+	double			m_flExpireTime;
 
 	CUtlVector< TextRange > m_textRanges;
 	wchar_t					*m_text;
@@ -165,7 +165,7 @@ protected:
 	int				m_iNameStart;
 	
 private:
-	float			m_flStartTime;
+	double			m_flStartTime;
 	int				m_nCount;
 
 	vgui::HFont		m_hFontMarlett;
@@ -269,8 +269,8 @@ public:
 	CHudChatHistory			*GetChatHistory();
 
 	void					FadeChatHistory();
-	float					m_flHistoryFadeTime;
-	float					m_flHistoryIdleTime;
+	double					m_flHistoryFadeTime;
+	double					m_flHistoryIdleTime;
 
 	virtual void			MsgFunc_SayText( bf_read &msg );
 	virtual void			MsgFunc_SayText2( bf_read &msg );

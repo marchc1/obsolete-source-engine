@@ -467,7 +467,7 @@ void CBaseGrenade ::TumbleThink( void )
 	if (m_flDetonateTime - 1 < gpGlobals->curtime)
 	{
 #if !defined( CLIENT_DLL )
-		CSoundEnt::InsertSound ( SOUND_DANGER, GetAbsOrigin() + GetAbsVelocity() * (m_flDetonateTime - gpGlobals->curtime), 400, 0.1, this );
+		CSoundEnt::InsertSound ( SOUND_DANGER, GetAbsOrigin() + GetAbsVelocity() * (float)(m_flDetonateTime - gpGlobals->curtime), 400, 0.1, this );
 #endif
 	}
 

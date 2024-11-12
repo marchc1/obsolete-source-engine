@@ -92,11 +92,11 @@ protected:
 
 	bool	m_bEnabled;
 	bool	m_bStartPolicing;
-	float	m_flNextHarassTime;
-	float	m_flAggressiveTime;
+	double	m_flNextHarassTime;
+	double	m_flAggressiveTime;
 	int		m_nNumWarnings;
 	bool	m_bTargetIsHostile;
-	float	m_flTargetHostileTime;
+	double	m_flTargetHostileTime;
 	
 	CHandle<CAI_PoliceGoal> m_hPoliceGoal;
 

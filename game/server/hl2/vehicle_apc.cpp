@@ -1090,7 +1090,7 @@ void CAPCFourWheelServerVehicle::Weapon_SecondaryRanges( float *flMinRange, floa
 //-----------------------------------------------------------------------------
 // Purpose: Return the time at which this vehicle's primary weapon can fire again
 //-----------------------------------------------------------------------------
-float CAPCFourWheelServerVehicle::Weapon_PrimaryCanFireAt( void )
+double CAPCFourWheelServerVehicle::Weapon_PrimaryCanFireAt( void )
 {
 	return ((CPropAPC*)m_pVehicle)->PrimaryWeaponFireTime();
 }
@@ -1098,7 +1098,7 @@ float CAPCFourWheelServerVehicle::Weapon_PrimaryCanFireAt( void )
 //-----------------------------------------------------------------------------
 // Purpose: Return the time at which this vehicle's secondary weapon can fire again
 //-----------------------------------------------------------------------------
-float CAPCFourWheelServerVehicle::Weapon_SecondaryCanFireAt( void )
+double CAPCFourWheelServerVehicle::Weapon_SecondaryCanFireAt( void )
 {
 	return ((CPropAPC*)m_pVehicle)->SecondaryWeaponFireTime();
 }

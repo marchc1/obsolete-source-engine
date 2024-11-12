@@ -849,7 +849,7 @@ bool CHL2MPRules::IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer )
 	return true;
 }
  
-float CHL2MPRules::GetMapRemainingTime()
+double CHL2MPRules::GetMapRemainingTime()
 {
 	// if timelimit is disabled, return 0
 	if ( mp_timelimit.GetInt() <= 0 )
@@ -857,7 +857,7 @@ float CHL2MPRules::GetMapRemainingTime()
 
 	// timelimit is in minutes
 
-	float timeleft = (m_flGameStartTime + mp_timelimit.GetInt() * 60.0f ) - gpGlobals->curtime;
+	double timeleft = (m_flGameStartTime + mp_timelimit.GetInt() * 60.0f ) - gpGlobals->curtime;
 
 	return timeleft;
 }

@@ -1047,7 +1047,7 @@ void CParticleCollection::Init( CParticleSystemDefinition *pDef, float flDelay, 
 
 	// Offset the child in time
 	m_flCurTime = -flDelay;
-	m_fl4CurTime = ReplicateX4( m_flCurTime );
+	m_fl4CurTime = ReplicateX4( (float)m_flCurTime );
 	if ( m_pDef->m_nContextDataSize )
 	{
 		m_pOperatorContextData = reinterpret_cast<uint8 *> 
@@ -1097,11 +1097,11 @@ void CParticleCollection::Init( CParticleSystemDefinition *pDef, float flDelay, 
 		const auto &child = pDef->m_Children[i];
 		if ( child.m_bUseNameBasedLookup )
 		{
-			pChild = g_pParticleSystemMgr->CreateParticleCollection( child.m_Name, -m_flCurTime + child.m_flDelay, nRandomSeed );
+			pChild = g_pParticleSystemMgr->CreateParticleCollection( child.m_Name, (float)(-m_flCurTime + child.m_flDelay), nRandomSeed );
 		}
 		else
 		{
-			pChild = g_pParticleSystemMgr->CreateParticleCollection( child.m_Id, -m_flCurTime + child.m_flDelay, nRandomSeed );
+			pChild = g_pParticleSystemMgr->CreateParticleCollection( child.m_Id, (float)(-m_flCurTime + child.m_flDelay), nRandomSeed );
 		}
 		if ( pChild )
 		{
@@ -1646,10 +1646,10 @@ bool CParticleCollection::CheckIfOperatorShouldRun(
 	CParticleOperatorInstance const * pOp ,
 	float *pflCurStrength)
 {
-	float flTime=m_flCurTime;
+	float flTime=(float)m_flCurTime;
 	if ( pOp->m_flOpFadeOscillatePeriod > 0.0 )
 	{
-		flTime=fmodf( m_flCurTime*( 1.0F/pOp->m_flOpFadeOscillatePeriod ), 1.0F );
+		flTime=fmodf( (float)m_flCurTime*( 1.0F/pOp->m_flOpFadeOscillatePeriod ), 1.0F );
 	}
 
 	float flStrength = FadeInOut( pOp->m_flOpStartFadeInTime, pOp->m_flOpEndFadeInTime,
@@ -1691,7 +1691,7 @@ void CParticleCollection::Render( IMatRenderContext *pRenderContext, bool bTrans
 	if ( !IsValid() )
 		return;
 
-	m_flNextSleepTime = Max ( m_flNextSleepTime, ( g_pParticleSystemMgr->GetLastSimulationTime() + m_pDef->m_flNoDrawTimeToGoToSleep ));
+	m_flNextSleepTime = MAX ( m_flNextSleepTime, ( g_pParticleSystemMgr->GetLastSimulationTime() + m_pDef->m_flNoDrawTimeToGoToSleep ));
 
 	if ( m_nActiveParticles != 0 )
 	{
@@ -1838,13 +1838,13 @@ void CParticleCollection::InitializeNewParticles( int nFirstParticle, int nParti
 	CopyInitialAttributeValues( nFirstParticle, nParticleCount );
 }
 
-void CParticleCollection::SkipToTime( float t )
+void CParticleCollection::SkipToTime( double t )
 {
 	if ( t > m_flCurTime )
 	{
-		UpdatePrevControlPoints( t - m_flCurTime );
+		UpdatePrevControlPoints( (float)(t - m_flCurTime) );
 		m_flCurTime = t;	
-		m_fl4CurTime = ReplicateX4( t );
+		m_fl4CurTime = ReplicateX4( (float)t );
 		m_nParticleFlags &= ~PCFLAGS_FIRST_FRAME;
 		
 		// FIXME: In future, we may have to tell operators, initializers about this too
@@ -1852,7 +1852,7 @@ void CParticleCollection::SkipToTime( float t )
 		intp i;
 		for( i = 0; i < nEmitterCount; i++ )
 		{
-			m_pDef->m_Emitters[i]->SkipToTime( t, this, m_pOperatorContextData + m_pDef->m_nEmittersCtxOffsets[i] );
+			m_pDef->m_Emitters[i]->SkipToTime( (float)t, this, m_pOperatorContextData + m_pDef->m_nEmittersCtxOffsets[i] );
 		}
 
 		CParticleCollection *pChild;
@@ -1951,7 +1951,7 @@ void CParticleCollection::Simulate( float dt, bool updateBboxOnly )
 		if ( dt >= 1.0e-22 )
 		{
 			m_flCurTime += dt;
-			m_fl4CurTime = ReplicateX4( m_flCurTime );
+			m_fl4CurTime = ReplicateX4( (float)m_flCurTime );
 			UpdatePrevControlPoints( dt );
 		}
 		return;
@@ -1996,7 +1996,7 @@ void CParticleCollection::Simulate( float dt, bool updateBboxOnly )
 			if ( ( flRemainingDt + m_flCurTime ) > m_pDef->m_flMaximumSimTime )
 			{
 				//if delta+current > checkpoint then delta = checkpoint - current
-				flRemainingDt = m_pDef->m_flMaximumSimTime - m_flCurTime;
+				flRemainingDt = (float)(m_pDef->m_flMaximumSimTime - m_flCurTime);
 				flRemainingDt = max( m_pDef->m_flMinimumSimTime, flRemainingDt );
 			}
 			m_nDrawnFrames += 1;
@@ -2010,7 +2010,7 @@ void CParticleCollection::Simulate( float dt, bool updateBboxOnly )
 			flRemainingDt -= flDT_ThisStep;
 			m_flDt = flDT_ThisStep;
 			m_flCurTime += flDT_ThisStep;
-			m_fl4CurTime = ReplicateX4( m_flCurTime );
+			m_fl4CurTime = ReplicateX4( (float)m_flCurTime );
 		
 #ifdef _DEBUG
 			m_bIsRunningOperators = true;
@@ -2161,7 +2161,7 @@ void CParticleCollection::InitParticleAttributes( int nStartParticle, int nNumPa
 			// Special case for the creation time mask
 			if ( nAttr == PARTICLE_ATTRIBUTE_CREATION_TIME )
 			{
-				*pAttrData = m_flCurTime;
+				*pAttrData = (float)m_flCurTime;
 				continue;
 			}
 
@@ -2238,7 +2238,7 @@ float CParticleCollection::RandomVectorInUnitSphere( int nRandomSampleId, Vector
 // Used to retrieve the position of a control point
 // somewhere between m_flCurTime and m_flCurTime - m_fPreviousDT
 //-----------------------------------------------------------------------------
-void CParticleCollection::GetControlPointAtTime( int nControlPoint, float flTime, Vector *pControlPoint ) const
+void CParticleCollection::GetControlPointAtTime( int nControlPoint, double flTime, Vector *pControlPoint ) const
 {
 	Assert( m_pDef->ReadsControlPoint( nControlPoint ) );
 	if ( nControlPoint > GetHighestControlPoint() )
@@ -2270,7 +2270,7 @@ void CParticleCollection::GetControlPointAtTime( int nControlPoint, float flTime
 	// and m_flCurTime will not have enough precision, but it will give results
 	// that are as accurate as possible given the inputs.
 	// flHowLongAgo stores how far before the current time flTime is.
-	const float flHowLongAgo = m_flCurTime - flTime;
+	const float flHowLongAgo = (float)(m_flCurTime - flTime);
 	float t = ( m_flDt - flHowLongAgo ) / m_flDt;
 	// The original code had a comment saying:
 	//     Precision errors can cause this problem
@@ -2312,7 +2312,7 @@ void CParticleCollection::GetControlPointTransformAtCurrentTime( int nControlPoi
 	pMat->m[3][0] = pMat->m[3][1] = pMat->m[3][2] = 0.0f; pMat->m[3][3] = 1.0f;
 }
 
-void CParticleCollection::GetControlPointOrientationAtTime( int nControlPoint, float flTime, Vector *pForward, Vector *pRight, Vector *pUp )
+void CParticleCollection::GetControlPointOrientationAtTime( int nControlPoint, double flTime, Vector *pForward, Vector *pRight, Vector *pUp )
 {
 	Assert( m_pDef->ReadsControlPoint( nControlPoint ) );
 
@@ -2322,7 +2322,7 @@ void CParticleCollection::GetControlPointOrientationAtTime( int nControlPoint, f
 	*pUp = m_ControlPoints[nControlPoint].m_UpVector;
 }
 
-void CParticleCollection::GetControlPointTransformAtTime( int nControlPoint, float flTime, matrix3x4_t *pMat )
+void CParticleCollection::GetControlPointTransformAtTime( int nControlPoint, double flTime, matrix3x4_t *pMat )
 {
 	Assert( m_pDef->ReadsControlPoint( nControlPoint ) );
 	Vector vecControlPoint;
@@ -2334,13 +2334,13 @@ void CParticleCollection::GetControlPointTransformAtTime( int nControlPoint, flo
 	pMat->Init( m_ControlPoints[nControlPoint].m_ForwardVector, left, m_ControlPoints[nControlPoint].m_UpVector, vecControlPoint );
 }
 
-void CParticleCollection::GetControlPointTransformAtTime( int nControlPoint, float flTime, VMatrix *pMat )
+void CParticleCollection::GetControlPointTransformAtTime( int nControlPoint, double flTime, VMatrix *pMat )
 {
 	GetControlPointTransformAtTime( nControlPoint, flTime, const_cast< matrix3x4_t * > ( &pMat->As3x4() ) );
 	pMat->m[3][0] = pMat->m[3][1] = pMat->m[3][2] = 0.0f; pMat->m[3][3] = 1.0f;
 }
 
-void CParticleCollection::GetControlPointTransformAtTime( int nControlPoint, float flTime, CParticleSIMDTransformation *pXForm )
+void CParticleCollection::GetControlPointTransformAtTime( int nControlPoint, double flTime, CParticleSIMDTransformation *pXForm )
 {
 	Assert( m_pDef->ReadsControlPoint( nControlPoint ) );
 	Vector vecControlPoint;
@@ -2538,7 +2538,7 @@ void CParticleCollection::StopEmission( bool bInfiniteOnly, bool bRemoveAllParti
 	{
 		// Set next sleep time - an additional fudge factor is added over the normal time
 		// so that existing particles have a chance to go away.
-		m_flNextSleepTime = Max ( m_flNextSleepTime, ( g_pParticleSystemMgr->GetLastSimulationTime() + 10 ));
+		m_flNextSleepTime = MAX ( m_flNextSleepTime, ( g_pParticleSystemMgr->GetLastSimulationTime() + 10 ));
 	}
 		 
 	m_bEmissionStopped = true;
@@ -2823,7 +2823,7 @@ void CParticleCollection::ApplyKillList( void )
 }
 
 void CParticleCollection::CalculatePathValues( CPathParameters const &PathIn,
-											   float flTimeStamp,
+											   double flTimeStamp,
 											   Vector *pStartPnt,
 											   Vector *pMidPnt,
 											   Vector *pEndPnt
@@ -3211,7 +3211,7 @@ void CParticleSystemMgr::DecommitTempMemory()
 //-----------------------------------------------------------------------------
 // Sets the last simulation time, used for particle system sleeping logic
 //-----------------------------------------------------------------------------
-void CParticleSystemMgr::SetLastSimulationTime( float flTime )
+void CParticleSystemMgr::SetLastSimulationTime( double flTime )
 {
 	m_flLastSimulationTime = flTime;
 
@@ -3239,7 +3239,7 @@ void CParticleSystemMgr::SetLastSimulationTime( float flTime )
 	m_nParticleVertexCount = m_nParticleIndexCount = 0;
 }
 
-float CParticleSystemMgr::GetLastSimulationTime() const
+double CParticleSystemMgr::GetLastSimulationTime() const
 {
 	return m_flLastSimulationTime;
 }
@@ -3614,7 +3614,7 @@ void CParticleSystemMgr::AddToRenderCache( CParticleCollection *pParticles )
 	if ( !pParticles->IsValid() || pParticles->m_pDef->GetMaterial()->IsTranslucent() )
 		return;
 
-	pParticles->m_flNextSleepTime = Max ( pParticles->m_flNextSleepTime, ( g_pParticleSystemMgr->GetLastSimulationTime() + pParticles->m_pDef->m_flNoDrawTimeToGoToSleep ));
+	pParticles->m_flNextSleepTime = MAX ( pParticles->m_flNextSleepTime, ( g_pParticleSystemMgr->GetLastSimulationTime() + pParticles->m_pDef->m_flNoDrawTimeToGoToSleep ));
 	// Find the current rope list.
 	intp iRenderCache = 0;
 	intp nRenderCacheCount = m_RenderCache.Count();

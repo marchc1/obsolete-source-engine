@@ -50,7 +50,7 @@ LINK_ENTITY_TO_CLASS( env_ragdoll_boogie, CRagdollBoogie );
 // Input  : pTarget - 
 //-----------------------------------------------------------------------------
 CRagdollBoogie *CRagdollBoogie::Create( CBaseEntity *pTarget, float flMagnitude, 
-	float flStartTime, float flLengthTime, int nSpawnFlags )
+	double flStartTime, float flLengthTime, int nSpawnFlags )
 {
 	CRagdollProp *pRagdoll = dynamic_cast< CRagdollProp* >( pTarget );
 	if ( !pRagdoll )
@@ -196,7 +196,7 @@ void CRagdollBoogie::AttachToEntity( CBaseEntity *pTarget )
 // Purpose: 
 // Input  : lifetime - 
 //-----------------------------------------------------------------------------
-void CRagdollBoogie::SetBoogieTime( float flStartTime, float flLengthTime )
+void CRagdollBoogie::SetBoogieTime( double flStartTime, float flLengthTime )
 {
 	m_flStartTime = flStartTime;
 	m_flBoogieLength = flLengthTime;

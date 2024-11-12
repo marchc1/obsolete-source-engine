@@ -40,12 +40,12 @@ public:
 	CRangeCheckedVar<float, -50, 50, 1>		m_flPlaybackRate;
 	CRangeCheckedVar<float, -2, 2, 0>		m_flCycle;
 
-	float GetFadeout( float flCurTime );
+	float GetFadeout( double flCurTime );
 
 	void BlendWeight();
 
-	float	m_flLayerAnimtime;
-	float	m_flLayerFadeOuttime;
+	double	m_flLayerAnimtime;
+	double	m_flLayerFadeOuttime;
 
 	float   m_flBlendIn;
 	float   m_flBlendOut;
@@ -81,7 +81,7 @@ inline void C_AnimationLayer::SetOrder( int order )
 	m_nOrder = order;
 }
 
-inline float C_AnimationLayer::GetFadeout( float flCurTime )
+inline float C_AnimationLayer::GetFadeout( double flCurTime )
 {
 	float s;
 
@@ -92,7 +92,7 @@ inline float C_AnimationLayer::GetFadeout( float flCurTime )
 	else
 	{
 		// blend in over 0.2 seconds
-		s = 1.0f - (flCurTime - m_flLayerAnimtime) / m_flLayerFadeOuttime;
+		s = (float)(1.0 - (flCurTime - m_flLayerAnimtime) / m_flLayerFadeOuttime);
 		if (s > 0 && s <= 1.0f)
 		{
 			// do a nice spline curve

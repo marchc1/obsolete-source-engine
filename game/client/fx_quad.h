@@ -57,7 +57,7 @@ struct FXQuadData_t
 	float			m_flStartScale;
 	float			m_flEndScale;
 	float			m_flDieTime;
-	float			m_flLifeTime;
+	double			m_flLifeTime;
 	float			m_flStartAlpha;
 	float			m_flEndAlpha;
 	Vector			m_Color;

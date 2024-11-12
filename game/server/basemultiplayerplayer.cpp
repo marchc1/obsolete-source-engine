@@ -205,11 +205,11 @@ bool CBaseMultiplayerPlayer::ShouldShowVoiceSubtitleToEnemy( void )
 int	CBaseMultiplayerPlayer::CalculateTeamBalanceScore( void )
 {
 	// base score is 0 - ( seconds on server )
-	float flTimeConnected = gpGlobals->curtime - m_flConnectionTime;
+	double flTimeConnected = gpGlobals->curtime - m_flConnectionTime;
 	int iScore = 0 - (int)flTimeConnected;
 
 	// if we were switched recently, score us way down
-	float flLastSwitchedTime = GetLastForcedChangeTeamTime();
+	double flLastSwitchedTime = GetLastForcedChangeTeamTime();
 	if ( flLastSwitchedTime > 0 && ( gpGlobals->curtime - flLastSwitchedTime ) < 300 )
 	{
 		iScore -= 10000;

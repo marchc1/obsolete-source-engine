@@ -1702,7 +1702,7 @@ void CBaseServerVehicle::Weapon_SecondaryRanges( float *flMinRange, float *flMax
 //-----------------------------------------------------------------------------
 // Purpose: Return the time at which this vehicle's primary weapon can fire again
 //-----------------------------------------------------------------------------
-float CBaseServerVehicle::Weapon_PrimaryCanFireAt( void )
+double CBaseServerVehicle::Weapon_PrimaryCanFireAt( void )
 {
 	return gpGlobals->curtime;
 }
@@ -1710,7 +1710,7 @@ float CBaseServerVehicle::Weapon_PrimaryCanFireAt( void )
 //-----------------------------------------------------------------------------
 // Purpose: Return the time at which this vehicle's secondary weapon can fire again
 //-----------------------------------------------------------------------------
-float CBaseServerVehicle::Weapon_SecondaryCanFireAt( void )
+double CBaseServerVehicle::Weapon_SecondaryCanFireAt( void )
 {
 	return gpGlobals->curtime;
 }
@@ -1916,7 +1916,7 @@ bool CBaseServerVehicle::CheckCrash( vbs_sound_update_t &params )
 
 sound_states CBaseServerVehicle::SoundState_ChooseState( vbs_sound_update_t &params )
 {
-	float timeInState = gpGlobals->curtime - m_soundStateStartTime;
+	double timeInState = gpGlobals->curtime - m_soundStateStartTime;
 	bool bInStateForMinTime = timeInState > m_vehicleSounds.minStateTime[m_soundState] ? true : false;
 
 	sound_states stateOut = m_soundState;

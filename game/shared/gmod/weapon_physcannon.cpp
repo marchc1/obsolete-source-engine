@@ -676,7 +676,7 @@ IMotionEvent::simresult_e CGrabController::Simulate( IPhysicsMotionController *p
 #ifndef CLIENT_DLL
 	m_timeToArrive = pObject->ComputeShadowControl( shadowParams, m_timeToArrive, deltaTime );
 #else
-	m_timeToArrive = pObject->ComputeShadowControl( shadowParams, (TICK_INTERVAL*2), deltaTime );
+	m_timeToArrive = pObject->ComputeShadowControl( shadowParams, (float)(TICK_INTERVAL*2), deltaTime );
 #endif
 	
 	// Slide along the current contact points to fix bouncing problems
@@ -1228,7 +1228,7 @@ protected:
 #endif	// CLIENT_DLL
 
 	int		m_nChangeState;				// For delayed state change of elements
-	float	m_flCheckSuppressTime;		// Amount of time to suppress the checking for targets
+	double	m_flCheckSuppressTime;		// Amount of time to suppress the checking for targets
 	bool	m_flLastDenySoundPlayed;	// Debounce for deny sound
 	int		m_nAttack2Debounce;
 
@@ -1238,13 +1238,13 @@ protected:
 
 	bool	m_bResetOwnerEntity;
 	
-	float	m_flElementDebounce;
+	double	m_flElementDebounce;
 
 	CSoundPatch			*m_sndMotor;		// Whirring sound for the gun
 	
 	CGrabController		m_grabController;
 
-	float	m_flRepuntObjectTime;
+	double	m_flRepuntObjectTime;
 	EHANDLE m_hLastPuntedObject;
 
 private:
@@ -2173,7 +2173,7 @@ CWeaponPhysCannon::FindObjectResult_t CWeaponPhysCannon::FindObject( void )
 	float mass = PhysGetEntityMass( pEntity );
 	if ( mass < 50.0f )
 	{
-		pullDir *= (mass + 0.5) * (1/50.0f);
+		pullDir *= (mass + 0.5f) * (1/50.0f);
 	}
 
 	// Nudge it towards us
@@ -2187,7 +2187,7 @@ CBaseEntity *CWeaponPhysCannon::FindObjectInCone( const Vector &vecOrigin, const
 {
 	// Find the nearest physics-based item in a cone in front of me.
 	CBaseEntity *list[256];
-	float flNearestDist = TraceLength() + 1.0;
+	float flNearestDist = TraceLength() + 1.0f;
 	Vector mins = vecOrigin - Vector( flNearestDist, flNearestDist, flNearestDist );
 	Vector maxs = vecOrigin + Vector( flNearestDist, flNearestDist, flNearestDist );
 
@@ -3392,7 +3392,7 @@ extern void FormatViewModelAttachment( Vector &vOrigin, bool bInverse );
 //-----------------------------------------------------------------------------
 void CWeaponPhysCannon::GetEffectParameters( EffectType_t effectID, color32 &color, float &scale, IMaterial **pMaterial, Vector &vecAttachment )
 {
-	const float dt = gpGlobals->curtime;
+	const double dt = gpGlobals->curtime;
 
 	// Get alpha
 	float alpha = m_Parameters[effectID].GetAlpha().Interp( dt );

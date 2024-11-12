@@ -60,7 +60,7 @@ public:
 	float			GetPathLength();
 	float			GetPathDistanceToGoal( const Vector &);
 
-	float			GetStartTime() const	{ return m_routeStartTime; }
+	double			GetStartTime() const	{ return m_routeStartTime; }
 
 	//---------------------------------
 	// How close do we need to get to the goal
@@ -169,7 +169,7 @@ private:
 	unsigned	m_goalFlags;				// Goal flags
 
 	//---------------------------------
-	float		m_routeStartTime;
+	double		m_routeStartTime;
 
 	//---------------------------------
 	Vector		m_goalDirection;

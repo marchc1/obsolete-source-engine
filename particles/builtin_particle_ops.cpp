@@ -1341,7 +1341,7 @@ void C_OP_Cull::Operate( CParticleCollection *pParticles, float flStrength,  voi
 			continue;
 		}
 		// Find our life percentage
-		flLifeTime = clamp( ( pParticles->m_flCurTime - *pCreationTime ) / ( *pLifeDuration ), 0.0f, 1.0f );
+		flLifeTime = clamp( (float)(( pParticles->m_flCurTime - *pCreationTime ) / ( *pLifeDuration )), 0.0f, 1.0f );
 		if ( flLifeTime >= m_flCullStart && flLifeTime <= m_flCullEnd && flLifeTime >= flCullTime  )
 		{
 			pParticles->KillParticle( i );
@@ -3283,8 +3283,8 @@ void C_OP_PerParticleEmitter::Operate( CParticleCollection *pParticles, float fl
 				Assert( flEmissionRate != 0.0f );
 
 				// determine our previous and current draw times and clamp them to start time and emission duration
-				float flPrevDrawTime = pParticles->m_flCurTime - pParticles->m_flDt;
-				float flCurrDrawTime = pParticles->m_flCurTime;
+				double flPrevDrawTime = pParticles->m_flCurTime - pParticles->m_flDt;
+				double flCurrDrawTime = pParticles->m_flCurTime;
 
 				if ( !IsInfinitelyEmitting() )
 				{
@@ -3298,10 +3298,10 @@ void C_OP_PerParticleEmitter::Operate( CParticleCollection *pParticles, float fl
 					}
 				}
 
-				float flDeltaTime = flCurrDrawTime - flPrevDrawTime;
+				double flDeltaTime = flCurrDrawTime - flPrevDrawTime;
 
 				//Calculate emission rate by delta time from last frame to determine number of particles to emit this frame as a fractional float
-				float flActualParticlesToEmit = flEmissionRate  * flDeltaTime;
+				float flActualParticlesToEmit = (float)(flEmissionRate * flDeltaTime);
 				int nParticlesEmitted = pCtx->m_nTotalEmittedSoFar;
 				//Add emitted particle to float counter to allow for fractional emission
 				pCtx->m_flTotalActualParticlesSoFar += flActualParticlesToEmit;
@@ -3331,8 +3331,8 @@ void C_OP_PerParticleEmitter::Operate( CParticleCollection *pParticles, float fl
 				pChild->SetNActiveParticles( nActualParticlesToEmit + pChild->m_nActiveParticles );
 
 
-				float flTimeStampStep = ( flDeltaTime ) / ( nActualParticlesToEmit );
-				float flTimeStep = flPrevDrawTime + flTimeStampStep;
+				double flTimeStampStep = ( flDeltaTime ) / ( nActualParticlesToEmit );
+				double flTimeStep = flPrevDrawTime + flTimeStampStep;
 				Vector vecMoveStampStep = vParticleDelta / nActualParticlesToEmit ;
 				Vector vecMoveStep = vecParticlePosition_prev + vecMoveStampStep ;
 
@@ -3350,8 +3350,8 @@ void C_OP_PerParticleEmitter::Operate( CParticleCollection *pParticles, float fl
 				for( int j = nStartParticle; j < nStartParticle + nActualParticlesToEmit; j++ )
 				{
 					float *pTimeStamp = pChild->GetFloatAttributePtrForWrite( PARTICLE_ATTRIBUTE_CREATION_TIME, j );
-					flTimeStep = min( flTimeStep, flCurrDrawTime );
-					*pTimeStamp = flTimeStep;
+					flTimeStep = MIN( flTimeStep, flCurrDrawTime );
+					*pTimeStamp = (float)flTimeStep;
 					flTimeStep += flTimeStampStep;
 					float *pXYZ_Child = pChild->GetFloatAttributePtrForWrite( PARTICLE_ATTRIBUTE_XYZ, j );
 					float *pXYZ_Prev_Child = pChild->GetFloatAttributePtrForWrite( PARTICLE_ATTRIBUTE_PREV_XYZ, j );
@@ -3441,7 +3441,7 @@ void C_OP_LockToBone::Operate( CParticleCollection *pParticles, float flStrength
 			const int nBoxIndex = *pParticles->GetIntAttributePtr( PARTICLE_ATTRIBUTE_HITBOX_INDEX, i );
 			float const *pCreationTime = pParticles->GetFloatAttributePtr( PARTICLE_ATTRIBUTE_CREATION_TIME, i );
 			
-			float flAge = pParticles->m_flCurTime -*pCreationTime;
+			double flAge = pParticles->m_flCurTime -*pCreationTime;
 
 			if ( flAge < flAgeThreshold )
 			{
@@ -3470,7 +3470,7 @@ void C_OP_LockToBone::Operate( CParticleCollection *pParticles, float flStrength
 					Vector Delta = vecWorldPosition-vecPrevWorldPosition;
 				
 					if ( flAge > m_flLifeTimeFadeStart )
-						Delta *= flStrength * ( 1.0F - ( ( flAge - m_flLifeTimeFadeStart ) * flIScale ) );
+						Delta *= flStrength * ( 1.0F - (float)( ( flAge - m_flLifeTimeFadeStart ) * flIScale ) );
 				
 					Vector xyz;
 					SetVectorFromAttribute( xyz, pXYZ );

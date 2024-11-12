@@ -393,7 +393,7 @@ public:
 
 	//- for hunting algorithm ---------------------------------------------------------------------------
 	void SetClearedTimestamp( int teamID );						// set this area's "clear" timestamp to now
-	float GetClearedTimestamp( int teamID ) const;				// get time this area was marked "clear"
+	double GetClearedTimestamp( int teamID ) const;				// get time this area was marked "clear"
 
 	//- hiding spots ------------------------------------------------------------------------------------
 	const HidingSpotVector *GetHidingSpots( void ) const	{ return &m_hidingSpots; }
@@ -686,11 +686,11 @@ private:
 	CountdownTimer m_avoidanceObstacleTimer;					// Throttle checks on our obstructed state while obstructed
 
 	//- for hunting -------------------------------------------------------------------------------------
-	float m_clearedTimestamp[ MAX_NAV_TEAMS ];					// time this area was last "cleared" of enemies
+	double m_clearedTimestamp[ MAX_NAV_TEAMS ];					// time this area was last "cleared" of enemies
 
 	//- "danger" ----------------------------------------------------------------------------------------
 	float m_danger[ MAX_NAV_TEAMS ];							// danger of this area, allowing bots to avoid areas where they died in the past - zero is no danger
-	float m_dangerTimestamp[ MAX_NAV_TEAMS ];					// time when danger value was set - used for decaying
+	double m_dangerTimestamp[ MAX_NAV_TEAMS ];					// time when danger value was set - used for decaying
 	void DecayDanger( void );
 
 	//- hiding spots ------------------------------------------------------------------------------------
@@ -893,7 +893,7 @@ inline void CNavArea::SetClearedTimestamp( int teamID )
 }
 
 //--------------------------------------------------------------------------------------------------------------
-inline float CNavArea::GetClearedTimestamp( int teamID ) const
+inline double CNavArea::GetClearedTimestamp( int teamID ) const
 { 
 	return m_clearedTimestamp[ teamID % MAX_NAV_TEAMS ];
 }

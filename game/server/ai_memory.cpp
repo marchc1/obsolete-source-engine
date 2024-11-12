@@ -472,7 +472,7 @@ const Vector &CAI_Enemies::LastSeenPosition( CBaseEntity *pEnemy )
 	return m_vecDefaultLSP;
 }
 
-float CAI_Enemies::TimeLastReacquired( CBaseEntity *pEnemy )
+double CAI_Enemies::TimeLastReacquired( CBaseEntity *pEnemy )
 {
 	// I've never seen something that doesn't exist
 	if (!pEnemy)
@@ -492,7 +492,7 @@ float CAI_Enemies::TimeLastReacquired( CBaseEntity *pEnemy )
 //			was not found returns last memory of danger position if it exists
 // Output : Returns false is no position is known
 //-----------------------------------------------------------------------------
-float CAI_Enemies::LastTimeSeen( const CBaseEntity *pEnemy, bool bCheckDangerMemory /*= true*/ )
+double CAI_Enemies::LastTimeSeen( const CBaseEntity *pEnemy, bool bCheckDangerMemory /*= true*/ )
 {
 	// I've never seen something that doesn't exist
 	if (!pEnemy)
@@ -511,7 +511,7 @@ float CAI_Enemies::LastTimeSeen( const CBaseEntity *pEnemy, bool bCheckDangerMem
 // Purpose: Get the time at which the enemy was first seen.
 // Output : Returns false is no position is known
 //-----------------------------------------------------------------------------
-float CAI_Enemies::FirstTimeSeen( CBaseEntity *pEnemy)
+double CAI_Enemies::FirstTimeSeen( CBaseEntity *pEnemy)
 {
 	// I've never seen something that doesn't exist
 	if (!pEnemy)
@@ -539,7 +539,7 @@ bool CAI_Enemies::HasFreeKnowledgeOf( CBaseEntity *pEnemy )
 	AI_EnemyInfo_t *pMemory = Find( pEnemy, true );
 	if ( pMemory )
 	{
-		float flFreeKnowledgeTime = pMemory->timeLastSeen + m_flFreeKnowledgeDuration;
+		double flFreeKnowledgeTime = pMemory->timeLastSeen + m_flFreeKnowledgeDuration;
 		return ( gpGlobals->curtime < flFreeKnowledgeTime );
 	}
 
@@ -550,7 +550,7 @@ bool CAI_Enemies::HasFreeKnowledgeOf( CBaseEntity *pEnemy )
 }
 
 //-----------------------------------------------------------------------------
-float CAI_Enemies::LastTimeTookDamageFrom( CBaseEntity *pEnemy)
+double CAI_Enemies::LastTimeTookDamageFrom( CBaseEntity *pEnemy)
 {
 	// I've never seen something that doesn't exist
 	if (!pEnemy)
@@ -570,7 +570,7 @@ float CAI_Enemies::LastTimeTookDamageFrom( CBaseEntity *pEnemy)
 // Input  : *pEnemy - 
 // Output : float
 //-----------------------------------------------------------------------------
-float CAI_Enemies::TimeAtFirstHand( CBaseEntity *pEnemy )
+double CAI_Enemies::TimeAtFirstHand( CBaseEntity *pEnemy )
 {
 	// I've never seen something that doesn't exist
 	if (!pEnemy)
@@ -598,7 +598,7 @@ bool CAI_Enemies::HasEludedMe( CBaseEntity *pEnemy )
 	return false;
 }
 
-void CAI_Enemies::SetTimeValidEnemy( CBaseEntity *pEnemy, float flTime )
+void CAI_Enemies::SetTimeValidEnemy( CBaseEntity *pEnemy, double flTime )
 {
 	AI_EnemyInfo_t *pMemory = Find( pEnemy );
 	if ( pMemory )
@@ -623,7 +623,7 @@ void CAI_Enemies::SetMobbedMe( CBaseEntity *pEnemy, bool bMobbedMe )
 
 //-----------------------------------------------------------------------------
 
-void CAI_Enemies::SetFreeKnowledgeDuration( float flDuration )
+void CAI_Enemies::SetFreeKnowledgeDuration( double flDuration )
 { 
 	m_flFreeKnowledgeDuration = flDuration;	
 
@@ -640,7 +640,7 @@ void CAI_Enemies::SetFreeKnowledgeDuration( float flDuration )
 
 //-----------------------------------------------------------------------------
 
-void CAI_Enemies::SetEnemyDiscardTime( float flTime )
+void CAI_Enemies::SetEnemyDiscardTime( double flTime )
 { 
 	m_flEnemyDiscardTime = flTime;			
 

@@ -243,7 +243,7 @@ private:
 	string_t		m_strTargetNearestPathName;
 
 	Vector			m_vecLastGoalCheckPosition;	// Last position checked for moving towards
-	float			m_flEnemyPathUpdateTime;	// Next time to update our enemies position
+	double			m_flEnemyPathUpdateTime;	// Next time to update our enemies position
 	bool			m_bForcedMove;				// Means the destination point must be reached regardless of enemy position
 	bool			m_bPatrolling;				// If set, move back and forth along the current track until we see an enemy
 	bool			m_bPatrolBreakable;			// If set, I'll stop patrolling if I see an enemy

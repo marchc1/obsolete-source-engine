@@ -187,8 +187,8 @@ public:
 	// Weapon handling
 	virtual void			Weapon_PrimaryRanges( float *flMinRange, float *flMaxRange );
 	virtual void			Weapon_SecondaryRanges( float *flMinRange, float *flMaxRange );	
-	virtual float			Weapon_PrimaryCanFireAt( void );		// Return the time at which this vehicle's primary weapon can fire again
-	virtual float			Weapon_SecondaryCanFireAt( void );		// Return the time at which this vehicle's secondary weapon can fire again
+	virtual double			Weapon_PrimaryCanFireAt( void );		// Return the time at which this vehicle's primary weapon can fire again
+	virtual double			Weapon_SecondaryCanFireAt( void );		// Return the time at which this vehicle's secondary weapon can fire again
 
 	// ----------------------------------------------------------------------------
 	// NPC passenger data
@@ -307,7 +307,7 @@ private:
 	CSoundPatch						*m_pStateSound;
 	CSoundPatch						*m_pStateSoundFade;
 	sound_states					m_soundState;
-	float							m_soundStateStartTime;
+	double							m_soundStateStartTime;
 	float							m_lastSpeed;
 	
 	void	SoundState_OnNewState( sound_states lastState );

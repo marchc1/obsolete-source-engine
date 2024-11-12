@@ -27,8 +27,8 @@ struct locksound_t					// sounds that doors and buttons make when locked/unlocke
 	int		iLockedSentence;		// which sentence in sentence group to play next
 	int		iUnlockedSentence;		// which sentence in sentence group to play next
 
-	float	flwaitSound;			// time delay between playing consecutive 'locked/unlocked' sounds
-	float	flwaitSentence;			// time delay between playing consecutive sentences
+	double	flwaitSound;			// time delay between playing consecutive 'locked/unlocked' sounds
+	double	flwaitSentence;			// time delay between playing consecutive sentences
 	byte	bEOFLocked;				// true if hit end of list of locked sentences
 	byte	bEOFUnlocked;			// true if hit end of list of unlocked sentences
 };

@@ -252,7 +252,7 @@ void CBaseHudChatLine::ApplySchemeSettings(vgui::IScheme *pScheme)
 void CBaseHudChatLine::PerformFadeout( void )
 {
 	// Flash + Extra bright when new
-	float curtime = gpGlobals->curtime;
+	double curtime = gpGlobals->curtime;
 
 	int lr = m_clrText[0];
 	int lg = m_clrText[1];
@@ -260,7 +260,7 @@ void CBaseHudChatLine::PerformFadeout( void )
 	
 	if ( curtime >= m_flStartTime && curtime < m_flStartTime + CHATLINE_FLASH_TIME )
 	{
-		float frac1 = ( curtime - m_flStartTime ) / CHATLINE_FLASH_TIME;
+		float frac1 = (float)(( curtime - m_flStartTime ) / CHATLINE_FLASH_TIME);
 		float frac = frac1;
 
 		frac *= CHATLINE_NUM_FLASHES;
@@ -1238,7 +1238,7 @@ void CBaseHudChat::OnChatEntryStopMessageMode( void )
 
 void CBaseHudChat::FadeChatHistory( void )
 {
-	float frac = ( m_flHistoryFadeTime -  gpGlobals->curtime ) / CHAT_HISTORY_FADE_TIME;
+	float frac = (float)(( m_flHistoryFadeTime -  gpGlobals->curtime ) / CHAT_HISTORY_FADE_TIME);
 
 	int alpha = frac * CHAT_HISTORY_ALPHA;
 	alpha = clamp( alpha, 0, CHAT_HISTORY_ALPHA );

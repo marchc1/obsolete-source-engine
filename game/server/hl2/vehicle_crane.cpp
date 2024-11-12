@@ -651,7 +651,7 @@ void CPropCrane::RecalculateCraneTip( void )
 	// NOTE: We need to do this because we're not using Physics...
 	if ( m_hCraneTip->VPhysicsGetObject() )
 	{
-		m_hCraneTip->VPhysicsGetObject()->UpdateShadow( vecOrigin, vec3_angle, true, TICK_INTERVAL * 2.0f );
+		m_hCraneTip->VPhysicsGetObject()->UpdateShadow( vecOrigin, vec3_angle, true, (float)(TICK_INTERVAL * 2.0) );
 	}
 }
 
@@ -687,7 +687,7 @@ void CPropCrane::RunCraneMovement( float flTime )
 	}
 	else if ( (m_flSlowRaiseTime + CRANE_SLOWRAISE_TIME) > gpGlobals->curtime )
 	{
-		float flDelta = (gpGlobals->curtime - m_flSlowRaiseTime);
+		float flDelta = (float)(gpGlobals->curtime - m_flSlowRaiseTime);
 
 		flDelta = clamp( flDelta, 0, CRANE_SLOWRAISE_TIME );
 		float flCurrentSpringConstant = RemapVal( flDelta, 0, CRANE_SLOWRAISE_TIME, CRANE_SPRING_CONSTANT_INITIAL_RAISING, CRANE_SPRING_CONSTANT_HANGING );

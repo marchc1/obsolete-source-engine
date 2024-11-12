@@ -40,7 +40,7 @@ public:
 
 private:
 	bool	m_bDisabled;
-	float	m_flTimeNextAvailable;
+	double	m_flTimeNextAvailable;
 	float	m_flMaxDist;
 };
 

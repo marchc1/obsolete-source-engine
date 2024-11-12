@@ -551,7 +551,7 @@ int CAI_Senses::LookForObjects( int iDistance )
 
 //-----------------------------------------------------------------------------
 
-float CAI_Senses::GetTimeLastUpdate( CBaseEntity *pEntity )
+double CAI_Senses::GetTimeLastUpdate( CBaseEntity *pEntity )
 {
 	if ( !pEntity )
 		return 0;

@@ -101,9 +101,9 @@ void CBaseAnimatedTextureProxy::OnBind( void *pEntity )
 	// NOTE: Must not use relative time based methods here
 	// because the bind proxy can be called many times per frame.
 	// Prevent multiple Wrap callbacks to be sent for no wrap mode
-	float startTime = GetAnimationStartTime(pEntity);
-	float deltaTime = gpGlobals->curtime - startTime;
-	float prevTime = deltaTime - gpGlobals->frametime;
+	double startTime = GetAnimationStartTime(pEntity);
+	double deltaTime = gpGlobals->curtime - startTime;
+	double prevTime = deltaTime - gpGlobals->frametime;
 
 	// Clamp..
 	if (deltaTime < 0.0f)
@@ -111,8 +111,8 @@ void CBaseAnimatedTextureProxy::OnBind( void *pEntity )
 	if (prevTime < 0.0f)
 		prevTime = 0.0f;
 
-	float frame = m_FrameRate * deltaTime;	
-	float prevFrame = m_FrameRate * prevTime;
+	double frame = m_FrameRate * deltaTime;	
+	double prevFrame = m_FrameRate * prevTime;
 
 	int intFrame = ((int)frame) % numFrames; 
 	int intPrevFrame = ((int)prevFrame) % numFrames;

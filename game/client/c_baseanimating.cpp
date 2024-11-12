@@ -462,7 +462,7 @@ void C_ClientRagdoll::HandleAnimatedFriction( void )
 
 		case RAGDOLL_FRICTION_IN:
 		{
-			float flDeltaTime = (m_flFrictionTime - gpGlobals->curtime);
+			double flDeltaTime = (m_flFrictionTime - gpGlobals->curtime);
 
 			m_iCurrentFriction = RemapValClamped( flDeltaTime , m_flFrictionModTime, 0, m_iMinFriction, m_iMaxFriction );
 
@@ -1637,7 +1637,7 @@ void C_BaseAnimating::ApplyBoneMatrixTransform( matrix3x4_t& transform )
 		break;
 	case kRenderFxExplode:
 		{
-			float scale;
+			double scale;
 			
 			scale = 1.0f + (gpGlobals->curtime - m_flAnimTime) * 10.0f;
 			if ( scale > 2 )	// Don't blow up more than 200%
@@ -1851,7 +1851,7 @@ void C_BaseAnimating::MaintainSequenceTransitions( IBoneSetup &boneSetup, float 
 	{
 		C_AnimationLayer *blend = &m_SequenceTransitioner.m_animationQueue[i];
 
-		float dt = (gpGlobals->curtime - blend->m_flLayerAnimtime);
+		double dt = (gpGlobals->curtime - blend->m_flLayerAnimtime);
 		flCycle = blend->m_flCycle + dt * blend->m_flPlaybackRate * GetSequenceCycleRate( boneSetup.GetStudioHdr(), blend->m_nSequence );
 		flCycle = ClampCycle( flCycle, IsSequenceLooping( boneSetup.GetStudioHdr(), blend->m_nSequence ) );
 
@@ -1872,7 +1872,7 @@ void C_BaseAnimating::MaintainSequenceTransitions( IBoneSetup &boneSetup, float 
 //			pos[] - 
 //			q[] - 
 //-----------------------------------------------------------------------------
-void C_BaseAnimating::UnragdollBlend( CStudioHdr *hdr, Vector pos[], Quaternion q[], float currentTime )
+void C_BaseAnimating::UnragdollBlend( CStudioHdr *hdr, Vector pos[], Quaternion q[], double currentTime )
 {
 	if ( !hdr )
 	{
@@ -1882,7 +1882,7 @@ void C_BaseAnimating::UnragdollBlend( CStudioHdr *hdr, Vector pos[], Quaternion 
 	if ( !m_pRagdollInfo || !m_pRagdollInfo->m_bActive )
 		return;
 
-	float dt = currentTime - m_pRagdollInfo->m_flSaveTime;
+	double dt = currentTime - m_pRagdollInfo->m_flSaveTime;
 	if ( dt > 0.2f )
 	{
 		m_pRagdollInfo->m_bActive = false;
@@ -1901,12 +1901,12 @@ void C_BaseAnimating::UnragdollBlend( CStudioHdr *hdr, Vector pos[], Quaternion 
 	}
 }
 
-void C_BaseAnimating::AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], float currentTime )
+void C_BaseAnimating::AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], double currentTime )
 {
 	// Nothing here
 }
 
-void C_BaseAnimating::ChildLayerBlend( Vector pos[], Quaternion q[], float currentTime, int boneMask )
+void C_BaseAnimating::ChildLayerBlend( Vector pos[], Quaternion q[], double currentTime, int boneMask )
 {
 	return;
 
@@ -1953,7 +1953,7 @@ void C_BaseAnimating::ChildLayerBlend( Vector pos[], Quaternion q[], float curre
 //-----------------------------------------------------------------------------
 // Purpose: Do the default sequence blending rules as done in HL1
 //-----------------------------------------------------------------------------
-void C_BaseAnimating::StandardBlendingRules( CStudioHdr *hdr, Vector pos[], Quaternion q[], float currentTime, int boneMask )
+void C_BaseAnimating::StandardBlendingRules( CStudioHdr *hdr, Vector pos[], Quaternion q[], double currentTime, int boneMask )
 {
 	VPROF( "C_BaseAnimating::StandardBlendingRules" );
 
@@ -2695,7 +2695,7 @@ void C_BaseAnimating::ControlMouth( CStudioHdr *pstudiohdr )
 
 	if ( index_ != -1 )
 	{
-		float value = GetMouth()->mouthopen / 64.0;
+		float value = GetMouth()->mouthopen / 64.0f;
 
 		float raw = value;
 
@@ -4765,7 +4765,7 @@ bool C_BaseAnimating::GetRagdollInitBoneArrays( matrix3x4_t *pDeltaBones0, matri
 	if ( !ForceSetupBonesAtTime( pDeltaBones1, gpGlobals->curtime ) )
 		bSuccess = false;
 
-	float ragdollCreateTime = PhysGetSyncCreateTime();
+	double ragdollCreateTime = PhysGetSyncCreateTime();
 	if ( ragdollCreateTime != gpGlobals->curtime )
 	{
 		// The next simulation frame begins before the end of this frame
@@ -5456,7 +5456,7 @@ float C_BaseAnimating::FrameAdvance( float flInterval )
 	bool bWatch = false; // Q_strstr( hdr->name, "medkit_large" ) ? true : false;
 #endif
 
-	float curtime = gpGlobals->curtime;
+	double curtime = gpGlobals->curtime;
 
 	if (flInterval == 0.0f)
 	{
@@ -6157,7 +6157,7 @@ void C_BaseAnimating::UpdateModelScale()
 	float dt = mvs->m_flModelScaleFinishTime - mvs->m_flModelScaleStartTime;
 	Assert( dt > 0.0f );
 
-	float frac = ( gpGlobals->curtime - mvs->m_flModelScaleStartTime ) / dt;
+	double frac = ( gpGlobals->curtime - mvs->m_flModelScaleStartTime ) / dt;
 	frac = clamp( frac, 0.0f, 1.0f );
 
 	if ( gpGlobals->curtime >= mvs->m_flModelScaleFinishTime )

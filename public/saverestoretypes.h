@@ -167,7 +167,7 @@ struct saverestorelevelinfo_t
 	int			fUseLandmark;
 	char		szLandmarkName[20];	// landmark we'll spawn near in next level
 	Vector		vecLandmarkOffset;	// for landmark transitions
-	float		time;
+	double		time;
 	char		szCurrentMapName[MAX_MAP_NAME_SAVE];	// To check global entities
 	int			mapVersion;
 };
@@ -208,7 +208,7 @@ public:
 
 	int NumEntities()						{ return tableCount; }
 	entitytable_t *GetEntityInfo( int i )	{ return (pTable + i); }
-	float GetBaseTime() const				{ return levelInfo.time; }
+	double GetBaseTime() const				{ return levelInfo.time; }
 	Vector GetLandmark() const				{ return ( levelInfo.fUseLandmark ) ? levelInfo.vecLandmarkOffset : vec3_origin; }
 
 	void BuildEntityHash()

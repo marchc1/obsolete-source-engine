@@ -173,8 +173,8 @@ public:
 	DECLARE_SERVERCLASS_NOBASE(); // This makes datatables able to access our private vars.
 #endif
 
-	float GetLastRoundStateChangeTime( void ) const { return m_flLastRoundStateChangeTime; }
-	float m_flLastRoundStateChangeTime;
+	double GetLastRoundStateChangeTime( void ) const { return m_flLastRoundStateChangeTime; }
+	double m_flLastRoundStateChangeTime;
 
 	// Data accessors
 	inline gamerules_roundstate_t State_Get( void ) { return m_iRoundState; }

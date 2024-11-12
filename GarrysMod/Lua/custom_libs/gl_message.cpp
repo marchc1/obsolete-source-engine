@@ -192,7 +192,7 @@ LUA_FUNCTION_STATIC( umsg_VectorNormal )
 
 LUA_FUNCTION_STATIC( umsg_Float )
 {
-	CurrentMessage->bf->WriteFloat( LUA->CheckNumber( 1 ) );
+	CurrentMessage->bf->WriteFloat( (float)LUA->CheckNumber( 1 ) );
 
 	return 0;
 }

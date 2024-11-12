@@ -203,7 +203,7 @@ private:
 	Vector				m_MinColor;
 	Vector				m_MaxColor;
 
-	float				m_ExpandTimeCounter;	// How long since we started expanding.	
+	double				m_ExpandTimeCounter;	// How long since we started expanding.	
 	float				m_ExpandRadius;			// How large is our radius.
 
 	C_SmokeTrail		m_SmokeTrail;
@@ -383,7 +383,7 @@ void C_ParticleSmokeGrenade::ClientThink()
 		float fadeEnd = m_ExpandRadius;
 
 		// The center of the smoke cloud that always gives full fog overlay
-		float flCoreDistance = fadeEnd * 0.3;
+		float flCoreDistance = fadeEnd * 0.3f;
 		
 		if(testDist < fadeEnd)
 		{			
@@ -528,7 +528,7 @@ void C_ParticleSmokeGrenade::UpdateParticleAndFindTrade( int iParticle, float fT
 
 void C_ParticleSmokeGrenade::Update(float fTimeDelta)
 {
-	float flLifetime = gpGlobals->curtime - m_flSpawnTime;
+	double flLifetime = gpGlobals->curtime - m_flSpawnTime;
 
 	// Update the smoke trail.
 	UpdateSmokeTrail( fTimeDelta );
@@ -907,7 +907,7 @@ void C_ParticleSmokeGrenade::CleanupToolRecordingState( KeyValues *msg )
 		KeyValues *oldmsg = new KeyValues( "OldParticleSystem_Create" );
 		oldmsg->SetString( "name", "C_ParticleSmokeGrenade" );
 		oldmsg->SetInt( "id", nId );
-		oldmsg->SetFloat( "time", gpGlobals->curtime );
+		oldmsg->SetDouble( "time", gpGlobals->curtime );
 
 		KeyValues *pEmitter = oldmsg->FindKey( "DmeSpriteEmitter", true );
 		pEmitter->SetInt( "count", NUM_PARTICLES_PER_DIMENSION * NUM_PARTICLES_PER_DIMENSION * NUM_PARTICLES_PER_DIMENSION );

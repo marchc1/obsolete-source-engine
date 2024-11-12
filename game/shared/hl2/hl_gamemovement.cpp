@@ -233,7 +233,7 @@ bool CHL2GameMovement::ContinueForcedMove()
 	mv->m_flUpMove = 0.0f;
 
 	// How far along are we
-	float frac = ( gpGlobals->curtime - lm->m_flStartTime ) / ( lm->m_flArrivalTime - lm->m_flStartTime );
+	float frac = (float)(( gpGlobals->curtime - lm->m_flStartTime ) / ( lm->m_flArrivalTime - lm->m_flStartTime ));
 	if ( frac > 1.0f )
 	{
 		lm->m_bForceLadderMove = false;

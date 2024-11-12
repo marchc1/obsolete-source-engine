@@ -38,7 +38,7 @@ public:
 	void ReloadScriptFile();
 
 	// runs a frame of animation (time is passed in so slow motion, etc. works)
-	void UpdateAnimations( float curtime );
+	void UpdateAnimations( double curtime );
 	
 	int	 GetNumActiveAnimations( void ) { return m_ActiveAnimations.Count(); }
 
@@ -89,7 +89,7 @@ private:
 	void UpdateActiveAnimations(bool bRunToCompletion);
 
 	bool m_bAutoReloadScript;
-	float m_flCurrentTime;
+	double m_flCurrentTime;
 
 	enum AnimCommandType_e
 	{
@@ -199,8 +199,8 @@ private:
 		Value_t endValue;
 		int interpolator;
 		float interpolatorParam;
-		float startTime;
-		float endTime;
+		double startTime;
+		double endTime;
 		bool canBeCancelled;
 
 		AnimAlign_t align;
@@ -215,7 +215,7 @@ private:
 		UtlSymId_t event;
 		UtlSymId_t variable;
 		UtlSymId_t variable2;
-		float startTime;
+		double startTime;
 		PHandle parent;
 		bool canBeCancelled;
 	};
@@ -263,7 +263,7 @@ private:
 	void SetValue(ActiveAnimation_t& anim, Panel *panel, UtlSymId_t var, Value_t &value);
 
 	// interpolation
-	Value_t GetInterpolatedValue(int interpolator, float interpolatorParam, float currentTime, float startTime, float endTime, Value_t &startValue, Value_t &endValue);
+	Value_t GetInterpolatedValue(int interpolator, float interpolatorParam, double currentTime, double startTime, double endTime, Value_t &startValue, Value_t &endValue);
 
 	void	SetupPosition( AnimCmdAnimate_t& cmd, float *output, char const *psz, int screendimension );
 	static RelativeAlignment LookupAlignment( char const *token );

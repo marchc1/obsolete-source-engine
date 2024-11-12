@@ -31,8 +31,8 @@ public:
 	// Weaponry
 	void		Weapon_PrimaryRanges( float *flMinRange, float *flMaxRange );
 	void		Weapon_SecondaryRanges( float *flMinRange, float *flMaxRange );
-	float		Weapon_PrimaryCanFireAt( void );		// Return the time at which this vehicle's primary weapon can fire again
-	float		Weapon_SecondaryCanFireAt( void );		// Return the time at which this vehicle's secondary weapon can fire again
+	double		Weapon_PrimaryCanFireAt( void );		// Return the time at which this vehicle's primary weapon can fire again
+	double		Weapon_SecondaryCanFireAt( void );		// Return the time at which this vehicle's secondary weapon can fire again
 };
 
 
@@ -63,8 +63,8 @@ public:
 	const Vector	&GetPrimaryGunOrigin( void );
 	void			AimPrimaryWeapon( const Vector &vecForward );
 	void			AimSecondaryWeaponAt( CBaseEntity *pTarget );
-	float			PrimaryWeaponFireTime( void ) { return m_flMachineGunTime; }
-	float			SecondaryWeaponFireTime( void ) { return m_flRocketTime; }
+	double			PrimaryWeaponFireTime( void ) { return m_flMachineGunTime; }
+	double			SecondaryWeaponFireTime( void ) { return m_flRocketTime; }
 	float			MaxAttackRange() const;
 	bool			IsInPrimaryFiringCone() const { return m_bInFiringCone; }
 
@@ -123,10 +123,10 @@ private:
 
 private:
 	// Danger sounds made by the APC
-	float	m_flDangerSoundTime;
+	double	m_flDangerSoundTime;
 
 	// handbrake after the fact to keep vehicles from rolling
-	float	m_flHandbrakeTime;
+	double	m_flHandbrakeTime;
 	bool	m_bInitialHandbrake;
 
 	// Damage effects
@@ -135,7 +135,7 @@ private:
 	// Machine gun attacks
 	int		m_nMachineGunMuzzleAttachment;
 	int		m_nMachineGunBaseAttachment;
-	float	m_flMachineGunTime;
+	double	m_flMachineGunTime;
 	int		m_iMachineGunBurstLeft;
 	Vector	m_vecBarrelPos;
 	bool	m_bInFiringCone;
@@ -144,7 +144,7 @@ private:
 	EHANDLE	m_hLaserDot;
 	EHANDLE m_hRocketTarget;
 	int		m_iRocketSalvoLeft;
-	float	m_flRocketTime;
+	double	m_flRocketTime;
 	int		m_nRocketAttachment;
 	int		m_nRocketSide;
 	EHANDLE m_hSpecificRocketTarget;

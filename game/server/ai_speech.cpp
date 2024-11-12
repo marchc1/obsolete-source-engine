@@ -193,7 +193,7 @@ bool CAI_Expresser::SemaphoreIsAvailable( CBaseEntity *pTalker )
 
 //-------------------------------------
 
-float CAI_Expresser::GetSemaphoreAvailableTime( CBaseEntity *pTalker )
+double CAI_Expresser::GetSemaphoreAvailableTime( CBaseEntity *pTalker )
 {
 	CAI_TimedSemaphore *pSemaphore = GetMySpeechSemaphore( pTalker->MyNPCPointer() );
 	return (pSemaphore ? pSemaphore->GetReleaseTime() : 0);
@@ -730,7 +730,7 @@ bool CAI_Expresser::SpokeConcept( AIConcept_t concept )
 
 //-------------------------------------
 
-float CAI_Expresser::GetTimeSpokeConcept( AIConcept_t concept )
+double CAI_Expresser::GetTimeSpokeConcept( AIConcept_t concept )
 {
 	int iter = m_ConceptHistories.Find( concept );
 	if ( iter == m_ConceptHistories.InvalidIndex() ) 

@@ -110,7 +110,7 @@ void KillFlare( CBaseEntity *pOwnerEntity, CBaseEntity *pEntity, float flKillTim
 
 	if ( pFlare )
 	{
-		float flDieTime = (pFlare->m_flTimeBurnOut - gpGlobals->curtime) - flKillTime;
+		double flDieTime = (pFlare->m_flTimeBurnOut - gpGlobals->curtime) - flKillTime;
 
 		if ( flDieTime > 1.0f )
 		{
@@ -306,7 +306,7 @@ unsigned int CFlare::PhysicsSolidMaskForEntity( void ) const
 //-----------------------------------------------------------------------------
 void CFlare::FlareThink( void )
 {
-	float	deltaTime = ( m_flTimeBurnOut - gpGlobals->curtime );
+	float	deltaTime = (float)( m_flTimeBurnOut - gpGlobals->curtime );
 
 	if ( !m_bInActiveList && ( ( deltaTime > FLARE_BLIND_TIME ) || ( m_flTimeBurnOut == -1.0f ) ) )
 	{

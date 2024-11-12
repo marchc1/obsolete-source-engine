@@ -160,7 +160,7 @@ public:
 	virtual		 ~IInterpolatedVar() {}
 
 	virtual void Setup( void *pValue, int type ) = 0;
-	virtual void SetInterpolationAmount( float seconds ) = 0;
+	virtual void SetInterpolationAmount( double seconds ) = 0;
 	
 	// Returns true if the new value is different from the prior most recent value.
 	virtual void NoteLastNetworkedValue() = 0;
@@ -451,7 +451,7 @@ public:
 public:
 	
 	virtual void Setup( void *pValue, int type );
-	virtual void SetInterpolationAmount( float seconds );
+	virtual void SetInterpolationAmount( double seconds );
 	virtual void NoteLastNetworkedValue();
 	virtual bool NoteChanged( double changetime, bool bUpdateLastNetworkedValue );
 	virtual void Reset();
@@ -574,7 +574,7 @@ protected:
 	byte								m_fType;
 	byte								m_nMaxCount;
 	byte *								m_bLooping;
-	float								m_InterpolationAmount;
+	double								m_InterpolationAmount;
 	const char *						m_pDebugName;
 	bool								m_bDebug : 1;
 };
@@ -610,7 +610,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::Setup( void *pValue, int 
 }
 
 template< typename Type, bool IS_ARRAY >
-inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::SetInterpolationAmount( float seconds )
+inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::SetInterpolationAmount( double seconds )
 {
 	m_InterpolationAmount = seconds;
 }
@@ -848,7 +848,7 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo(
 		double dt = newer_change_time - older_change_time;
 		if ( dt > 0.0001f )
 		{
-			pInfo->frac = ( targettime - older_change_time ) / ( newer_change_time - older_change_time );
+			pInfo->frac = (float)(( targettime - older_change_time ) / ( newer_change_time - older_change_time ));
 			pInfo->frac = MIN( pInfo->frac, 2.0f );
 
 			int oldestindex = i+1;
@@ -915,7 +915,7 @@ inline bool CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetInterpolationInfo( dou
 template< typename Type, bool IS_ARRAY >
 inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::DebugInterpolate( Type *pOut, double currentTime )
 {
-	float interpolation_amount = m_InterpolationAmount;
+	double interpolation_amount = m_InterpolationAmount;
 
 	int noMoreChanges = 0;
 
@@ -1132,7 +1132,7 @@ void CInterpolatedVarArrayBase<Type, IS_ARRAY>::GetDerivative_SmoothVelocity( Ty
 		_Derivative_Linear( pOut, &history[realOlder], &history[info.newer] );
 
 		// Now ramp it to zero after cl_extrapolate_amount..
-		float flDestTime = currentTime - m_InterpolationAmount;
+		double flDestTime = currentTime - m_InterpolationAmount;
 		float diff = flDestTime - history[info.newer].changetime;
 		diff = clamp( diff, 0.f, cl_extrapolate_amount.GetFloat() * 2 );
 		if ( diff > cl_extrapolate_amount.GetFloat() )
@@ -1388,7 +1388,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::TimeFixup2_Hermite(
 		dt2 > 0.0001f )
 	{
 		// Renormalize
-		float frac = dt1 / dt2;
+		float frac = (float)(dt1 / dt2);
 
 		// Fixed interval into past
 		fixup.changetime = start->changetime - dt1;
@@ -1505,8 +1505,8 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::_Derivative_Hermite_Smoot
 	TimeFixup_Hermite( fixup, b, c, d );
 	for ( int i=0; i < m_nMaxCount; i++ )
 	{
-		Type prevVel = (c->GetValue()[i] - b->GetValue()[i]) / (c->changetime - b->changetime);
-		Type curVel  = (d->GetValue()[i] - c->GetValue()[i]) / (d->changetime - c->changetime);
+		Type prevVel = (c->GetValue()[i] - b->GetValue()[i]) / (Type)(c->changetime - b->changetime);
+		Type curVel  = (d->GetValue()[i] - c->GetValue()[i]) / (Type)(d->changetime - c->changetime);
 		out[i] = Lerp( frac, prevVel, curVel );
 	}
 }

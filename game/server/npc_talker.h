@@ -219,7 +219,7 @@ public:
 	void OnResumeMonolog() 		{	Speak( TLK_RESUME ); }
 	
 	int			m_nSpeak;						// number of times initiated talking
-	float		m_flNextIdleSpeechTime;
+	double		m_flNextIdleSpeechTime;
 
 	static const char *m_szFriends[TLK_CFRIENDS];		// array of friend names
 	CBaseEntity		*EnumFriends( CBaseEntity *pentPrevious, int listNumber, bool bTrace );
@@ -233,7 +233,7 @@ public:
 
 protected:
 	CAI_FollowBehavior m_FollowBehavior;
-	float		m_useTime;						// Don't allow +USE until this time
+	double		m_useTime;						// Don't allow +USE until this time
 
 	//---------------------------------
 

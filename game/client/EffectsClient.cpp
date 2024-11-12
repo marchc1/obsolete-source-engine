@@ -37,7 +37,7 @@ public:
 
 	// FIXME: Should these methods remain in this interface? Or go in some 
 	// other client-server neutral interface?
-	virtual float Time();
+	virtual double Time();
 	virtual bool IsServer();
 	virtual void SuppressEffectsSounds( bool bSuppress );
 
@@ -217,7 +217,7 @@ void CEffectsClient::Ricochet( const Vector &position, const Vector &direction )
 
 // FIXME: Should these methods remain in this interface? Or go in some 
 // other client-server neutral interface?
-float CEffectsClient::Time()
+double CEffectsClient::Time()
 {
 	return gpGlobals->curtime;
 }

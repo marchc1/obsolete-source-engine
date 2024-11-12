@@ -519,7 +519,7 @@ public:
 		}
 #endif
 
-		float st = ep.m_flSoundTime;
+		double st = ep.m_flSoundTime;
 		if ( !st && 
 			params.delay_msec != 0 )
 		{
@@ -808,7 +808,7 @@ public:
 		EmitCloseCaption( filter, entindex, fromplayer, ep.m_pSoundName, ep.m_UtlVecSoundOrigin, duration, ep.m_bWarnOnMissingCloseCaption );
 	}
 
-	void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, float flVolume, int iFlags, int iPitch, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
+	void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, float flVolume, int iFlags, int iPitch, double soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
 	{
 		// Pull data from parameters
 		CSoundParameters params;
@@ -1157,7 +1157,7 @@ static ConCommand Command_Playgamesound( "playgamesound", Playgamesound_f, "Play
 // Purpose:  Non-static override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
 // Input  : *soundname - 
 //-----------------------------------------------------------------------------
-void CBaseEntity::EmitSound( const char *soundname, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
+void CBaseEntity::EmitSound( const char *soundname, double soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
 {
 	//VPROF( "CBaseEntity::EmitSound" );
 	VPROF_BUDGET( "CBaseEntity::EmitSound", _T( "CBaseEntity::EmitSound" ) );
@@ -1177,7 +1177,7 @@ void CBaseEntity::EmitSound( const char *soundname, float soundtime /*= 0.0f*/, 
 // Purpose:  Non-static override for doing the general case of CPASAttenuationFilter( this ), and EmitSound( filter, entindex(), etc. );
 // Input  : *soundname - 
 //-----------------------------------------------------------------------------
-void CBaseEntity::EmitSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
+void CBaseEntity::EmitSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, double soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
 {
 	VPROF_BUDGET( "CBaseEntity::EmitSound", _T( "CBaseEntity::EmitSound" ) );
 
@@ -1200,7 +1200,7 @@ void CBaseEntity::EmitSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, 
 //			*soundname - 
 //			*pOrigin - 
 //-----------------------------------------------------------------------------
-void CBaseEntity::EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin /*= NULL*/, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
+void CBaseEntity::EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin /*= NULL*/, double soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
 {
 	if ( !soundname )
 		return;
@@ -1225,7 +1225,7 @@ void CBaseEntity::EmitSound( IRecipientFilter& filter, int iEntIndex, const char
 //			*soundname - 
 //			*pOrigin - 
 //-----------------------------------------------------------------------------
-void CBaseEntity::EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHANDLE& handle, const Vector *pOrigin /*= NULL*/, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
+void CBaseEntity::EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHANDLE& handle, const Vector *pOrigin /*= NULL*/, double soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
 {
 	VPROF_BUDGET( "CBaseEntity::EmitSound", _T( "CBaseEntity::EmitSound" ) );
 
@@ -1359,7 +1359,7 @@ soundlevel_t CBaseEntity::LookupSoundLevel( const char *soundname, HSOUNDSCRIPTH
 //			flags - 
 //			*soundname - 
 //-----------------------------------------------------------------------------
-void CBaseEntity::EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags, float soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
+void CBaseEntity::EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags, double soundtime /*= 0.0f*/, float *duration /*=NULL*/ )
 {
 	g_SoundEmitterSystem.EmitAmbientSound( entindex, origin, soundname, 0.0, flags, 0, soundtime, duration );
 }

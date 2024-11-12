@@ -132,7 +132,7 @@ public:
 
 	virtual void			SetServerHibernation( bool bHibernating ) override;
 
-	float	m_fAutoSaveDangerousTime;
+	double	m_fAutoSaveDangerousTime;
 	float	m_fAutoSaveDangerousMinHealthToCommit;
 	bool	m_bIsHibernating;
 

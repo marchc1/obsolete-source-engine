@@ -1220,7 +1220,7 @@ int CAsyncWavDataCache::CopyStreamedDataIntoMemory( int hStream, void *pBuffer, 
 			// a faster audio rate or smaller block size implies a smaller interval
 			// latency is the actual block delivery time
 			// latency must not exceed the delivery interval or stariving occurs and audio pops
-			float nowTime = Plat_FloatTime();
+			double nowTime = Plat_FloatTime();
 			int interval = (int)(1000.0f*(nowTime-pFront->m_start));
 			int latency;
 			if ( bCompleted && pFront->m_bLoaded )

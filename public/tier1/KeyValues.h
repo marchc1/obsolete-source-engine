@@ -179,6 +179,7 @@ public:
 	int   GetInt( const char *keyName = nullptr, int defaultValue = 0 );
 	uint64 GetUint64( const char *keyName = nullptr, uint64 defaultValue = 0 );
 	float GetFloat( const char *keyName = nullptr, float defaultValue = 0.0f );
+	double GetDouble( const char *keyName = nullptr, double defaultValue = 0.0 );
 	const char *GetString( const char *keyName = nullptr, const char *defaultValue = "" );
 	const wchar_t *GetWString( const char *keyName = nullptr, const wchar_t *defaultValue = L"" );
 	void *GetPtr( const char *keyName = nullptr, void *defaultValue = nullptr );
@@ -189,6 +190,7 @@ public:
 	// Data access
 	int   GetInt( HKeySymbol keySymbol, int defaultValue = 0 ) const;
 	float GetFloat( HKeySymbol keySymbol, float defaultValue = 0.0f ) const;
+	double GetDouble( HKeySymbol keySymbol, double defaultValue = 0.0 ) const;
 	const char *GetString( HKeySymbol keySymbol, const char *defaultValue = "" ) const;
 	const wchar_t *GetWString( HKeySymbol keySymbol, const wchar_t *defaultValue = L"" ) const;
 	void *GetPtr( HKeySymbol keySymbol, void *defaultValue = nullptr ) const;
@@ -201,6 +203,7 @@ public:
 	void SetInt( const char *keyName, int value );
 	void SetUint64( const char *keyName, uint64 value );
 	void SetFloat( const char *keyName, float value );
+	void SetDouble( const char *keyName, double value );
 	void SetPtr( const char *keyName, void *value );
 	void SetColor( const char *keyName, Color value);
 	void SetBool( const char *keyName, bool value ) { SetInt( keyName, value ? 1 : 0 ); }
@@ -327,7 +330,7 @@ private:
 	union
 	{
 		int m_iValue;
-		float m_flValue;
+		double m_flValue;
 		void *m_pValue;
 		unsigned char m_Color[4];
 	};
@@ -401,6 +404,12 @@ inline float KeyValues::GetFloat( HKeySymbol keySymbol, float defaultValue ) con
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetFloat( (const char *)nullptr, defaultValue ) : defaultValue;
+}
+
+inline double KeyValues::GetDouble( HKeySymbol keySymbol, double defaultValue ) const
+{
+	KeyValues *dat = FindKey( keySymbol );
+	return dat ? dat->GetDouble( (const char *)nullptr, defaultValue ) : defaultValue;
 }
 
 inline const char *KeyValues::GetString( HKeySymbol keySymbol, const char *defaultValue ) const

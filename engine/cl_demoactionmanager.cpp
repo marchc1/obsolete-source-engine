@@ -36,7 +36,7 @@ public:
 	virtual void		StartPlaying( char const *demfilename );
 	virtual void		StopPlaying();
 
-	virtual void		Update( bool newframe, int demotick, float demotime );
+	virtual void		Update( bool newframe, int demotick, double demotime );
 
 	virtual void		SaveToBuffer( CUtlBuffer& buf );
 	virtual void		SaveToFile( void );
@@ -260,7 +260,7 @@ void CDemoActionManager::StopPlaying()
 // Input  : demoframe - 
 //			demotime - 
 //-----------------------------------------------------------------------------
-void CDemoActionManager::Update(  bool newframe, int demotick, float demotime )
+void CDemoActionManager::Update(  bool newframe, int demotick, double demotime )
 {
 	// Nothing to do?
 	int count = m_ActionStack.Count();

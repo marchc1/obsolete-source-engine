@@ -85,7 +85,7 @@ private:
 	// To check if they are rotating in place
 	float				m_flLastYaw;
 	// Time when we stopped moving
-	float				m_flLastTurnTime;
+	double				m_flLastTurnTime;
 
 	// One of the above enums
 	int					m_nTurningInPlace;

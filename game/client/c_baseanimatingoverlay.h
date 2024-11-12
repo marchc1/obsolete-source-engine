@@ -35,10 +35,10 @@ public:
 
 	virtual void	GetRenderBounds( Vector& theMins, Vector& theMaxs );
 
-	void			CheckForLayerChanges( CStudioHdr *hdr, float currentTime );
+	void			CheckForLayerChanges( CStudioHdr *hdr, double currentTime );
 
 	// model specific
-	virtual void	AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], float currentTime );
+	virtual void	AccumulateLayers( IBoneSetup &boneSetup, Vector pos[], Quaternion q[], double currentTime );
 	virtual void DoAnimationEvents( CStudioHdr *pStudioHdr );
 
 	enum

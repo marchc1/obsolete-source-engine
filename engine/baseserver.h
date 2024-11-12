@@ -236,7 +236,7 @@ protected:
 	int			m_nSpawnCount;			// Number of servers spawned since start,
 									// used to check late spawns (e.g., when d/l'ing lots of
 									// data)
-	float		m_flTickInterval;		// time for 1 tick in seconds
+	double		m_flTickInterval;		// time for 1 tick in seconds. Has to be a double so that it will calculate the CurTime properly.
 
 
 	CUtlVector<CBaseClient*>	m_Clients;		// array of up to [maxclients] client slots.

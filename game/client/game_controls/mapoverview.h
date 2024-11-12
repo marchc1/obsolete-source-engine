@@ -99,7 +99,7 @@ protected:	// private structures & types
 		char	name[MAX_PLAYER_NAME_LENGTH];	// show text under icon
 		Vector	position;	// current x,y pos
 		QAngle	angle;		// view origin 0..360
-		float	endtime;	// time stop showing object
+		double	endtime;	// time stop showing object
 		float	size;		// object size
 		float	status;		// green status bar [0..1], -1 = disabled
 		Color	statusColor;	// color of status bar
@@ -260,10 +260,10 @@ protected:
 	Vector2D m_ViewOrigin;	// map coordinates that are in the center of the pverview panel
 	Vector2D m_MapCenter;	// map coordinates that are in the center of the pverview panel
 
-	float	m_fNextUpdateTime;
+	double	m_fNextUpdateTime;
 	float	m_fViewAngle;	// rotation of overview map
-	float	m_fWorldTime;	// current world time
-	float   m_fNextTrailUpdate; // next time to update player trails
+	double	m_fWorldTime;	// current world time
+	double   m_fNextTrailUpdate; // next time to update player trails
 	float	m_fTrailUpdateInterval; // if -1 don't show trails
 	bool	m_bFollowAngle;	// if true, map rotates with view angle
 

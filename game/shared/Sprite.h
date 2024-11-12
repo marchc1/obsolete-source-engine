@@ -258,20 +258,20 @@ private:
 	CNetworkVar( float, m_flBrightnessTime );
 	
 	CNetworkVar( float, m_flSpriteScale );
-	CNetworkVar( float, m_flScaleTime );
+	CNetworkVar( double, m_flScaleTime );
 	CNetworkVar( bool, m_bWorldSpaceScale );
 	CNetworkVar( float, m_flGlowProxySize );
 	CNetworkVar( float, m_flHDRColorScale );
 
-	float		m_flLastTime;
+	double		m_flLastTime;
 	float		m_flMaxFrame;
 
 	float		m_flStartScale;
 	float		m_flDestScale;		//Destination scale
-	float		m_flScaleTimeStart;	//Real time for start of scale
+	double		m_flScaleTimeStart;	//Real time for start of scale
 	int			m_nStartBrightness;
 	int			m_nDestBrightness;		//Destination brightness
-	float		m_flBrightnessTimeStart;//Real time for brightness
+	double		m_flBrightnessTimeStart;//Real time for brightness
 };
 
 

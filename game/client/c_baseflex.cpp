@@ -1034,7 +1034,7 @@ void C_BaseFlex::GetToolRecordingState( KeyValues *msg )
 
 	// FIXME: this needs a better algorithm
 	// blink the eyes
-	float t = (m_blinktime - gpGlobals->curtime) * M_PI_F * 0.5F * (1.0F/g_CV_BlinkDuration.GetFloat());
+	double t = (m_blinktime - gpGlobals->curtime) * M_PI_F * 0.5F * (1.0F/g_CV_BlinkDuration.GetFloat());
 	if (t > 0)
 	{
 		// do eyeblink falloff curve
@@ -1243,7 +1243,7 @@ bool C_BaseFlex::SetupGlobalWeights( const matrix3x4_t *pBoneToWorld, int nFlexW
 	// blink the eyes
 	float flBlinkDuration = g_CV_BlinkDuration.GetFloat();
 	float flOOBlinkDuration = ( flBlinkDuration > 0 ) ? 1.0f / flBlinkDuration : 0.0f;
-	float t = ( m_blinktime - gpGlobals->curtime ) * M_PI_F * 0.5f * flOOBlinkDuration;
+	double t = ( m_blinktime - gpGlobals->curtime ) * M_PI_F * 0.5f * flOOBlinkDuration;
 	if (t > 0)
 	{
 		// do eyeblink falloff curve
@@ -1265,7 +1265,7 @@ bool C_BaseFlex::SetupGlobalWeights( const matrix3x4_t *pBoneToWorld, int nFlexW
 	return true;
 }
 
-void C_BaseFlex::RunFlexDelay( int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights, float &flFlexDelayTime )
+void C_BaseFlex::RunFlexDelay( int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights, double &flFlexDelayTime )
 {
 	// process the delayed version of the flexweights
 	if ( flFlexDelayTime > 0.0f && flFlexDelayTime < gpGlobals->curtime )

@@ -241,9 +241,9 @@ bool CAI_BaseNPC::ValidateNavGoal()
 // Input  :
 // Output :
 //-----------------------------------------------------------------------------
-float CAI_BaseNPC::OpenDoorAndWait( CBaseEntity *pDoor )
+double CAI_BaseNPC::OpenDoorAndWait( CBaseEntity *pDoor )
 {
-	float flTravelTime = 0;
+	double flTravelTime = 0;
 
 	//DevMsg( 2, "A door. ");
 	if (pDoor && !pDoor->IsLockedByMaster())

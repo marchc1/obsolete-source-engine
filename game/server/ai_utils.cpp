@@ -160,7 +160,7 @@ bool CAI_ShotRegulator::IsInRestInterval() const
 //-----------------------------------------------------------------------------
 // When will I shoot next?
 //-----------------------------------------------------------------------------
-float CAI_ShotRegulator::NextShotTime() const
+double CAI_ShotRegulator::NextShotTime() const
 {
 	return m_flNextShotTime;
 }
@@ -169,7 +169,7 @@ float CAI_ShotRegulator::NextShotTime() const
 //-----------------------------------------------------------------------------
 // Causes us to potentially delay our shooting time
 //-----------------------------------------------------------------------------
-void CAI_ShotRegulator::FireNoEarlierThan( float flTime )
+void CAI_ShotRegulator::FireNoEarlierThan( double flTime )
 {
 	if ( flTime > m_flNextShotTime )
 	{
@@ -299,7 +299,7 @@ float CAI_AccelDecay::Update( float flCurrent, float flTarget, float flInterval 
 			}
 		}
 
-		float newValue = flCurrent + (curVelocity + m_velocity) * 0.5 * flInterval;
+		float newValue = flCurrent + (curVelocity + m_velocity) * 0.5f * flInterval;
 		return newValue;
 	}
 
@@ -397,8 +397,8 @@ void CAI_FreePass::Update( )
 	// This works with old data because need to do before base class so as to not choose as enemy
 	if ( !HasPass() )
 	{
-		float timePlayerLastSeen = (pTargetInfo) ? pTargetInfo->timeLastSeen : AI_INVALID_TIME;
-		float lastTimeDamagedBy = (pTargetInfo) ? pTargetInfo->timeLastReceivedDamageFrom : AI_INVALID_TIME;
+		double timePlayerLastSeen = (pTargetInfo) ? pTargetInfo->timeLastSeen : AI_INVALID_TIME;
+		double lastTimeDamagedBy = (pTargetInfo) ? pTargetInfo->timeLastReceivedDamageFrom : AI_INVALID_TIME;
 
 		if ( timePlayerLastSeen == AI_INVALID_TIME || gpGlobals->curtime - timePlayerLastSeen > .15 ) // If didn't see the player last think
 		{
@@ -478,8 +478,8 @@ bool CAI_FreePass::ShouldAllowFVisible(bool bBaseResult )
 	// Peek logic
 	if ( m_Params.peekTime > 0.1 )
 	{
-		float lastTimeSeen = (pTargetInfo) ? pTargetInfo->timeLastSeen : AI_INVALID_TIME;
-		float lastTimeDamagedBy = (pTargetInfo) ? pTargetInfo->timeLastReceivedDamageFrom : AI_INVALID_TIME;
+		double lastTimeSeen = (pTargetInfo) ? pTargetInfo->timeLastSeen : AI_INVALID_TIME;
+		double lastTimeDamagedBy = (pTargetInfo) ? pTargetInfo->timeLastReceivedDamageFrom : AI_INVALID_TIME;
 		
 		if ( ( lastTimeSeen == AI_INVALID_TIME || gpGlobals->curtime - lastTimeSeen > m_Params.peekTime ) &&
 			 ( lastTimeDamagedBy == AI_INVALID_TIME || gpGlobals->curtime - lastTimeDamagedBy > m_Params.peekTimeAfterDamage ) )

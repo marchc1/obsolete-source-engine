@@ -148,10 +148,10 @@ public:
 	// Method to update the wind speed
 	// Time passed in here is global time, not delta time
 	// The function returns the time at which it must be called again
-	float WindThink( float flTime );
+	float WindThink( double flTime );
 
 	// FIXME: These really should be private
-	CNetworkVar( float, m_flStartTime );
+	CNetworkVar( double, m_flStartTime );
 
 	CNetworkVar( int, m_iWindSeed );		// random number seed...
 
@@ -191,14 +191,14 @@ private:
 		float m_flWindSpeedVariation;
 	};
 
-	void ComputeWindVariation( float flTime );
+	void ComputeWindVariation( double flTime );
 
 	// Updates the wind sound
 	void UpdateWindSound( float flTotalWindSpeed );
 
-	float	m_flVariationTime;
-	float	m_flSimTime;		// What's the time I last simulated up to?
-	float	m_flSwitchTime;		// when do I actually switch from gust to not gust
+	double	m_flVariationTime;
+	double	m_flSimTime;		// What's the time I last simulated up to?
+	double	m_flSwitchTime;		// when do I actually switch from gust to not gust
 	float	m_flAveWindSpeed;	// the average wind speed
 	bool	m_bGusting;			// is the wind gusting right now?
 
@@ -231,7 +231,7 @@ private:
 //-----------------------------------------------------------------------------
 // Method to sample the windspeed at a particular time
 //-----------------------------------------------------------------------------
-void GetWindspeedAtTime( float flTime, Vector &vecVelocity );
+void GetWindspeedAtTime( double flTime, Vector &vecVelocity );
 
 
 //-----------------------------------------------------------------------------

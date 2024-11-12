@@ -51,11 +51,11 @@ typedef struct
 	// Last bit peak
 	int				peak;
 	// Time at which peak was last reset
-	float			peaktime;
+	double			peaktime;
 	// Event info
 	int				flags;
 	// If doing effect, when it will finish
-	float			effectfinishtime;
+	double			effectfinishtime;
 	// If event was deletion, remember client class for a little bit
 	ClientClass		*deletedclientclass;
 } ENTITYBITS;
@@ -363,7 +363,7 @@ void CEntityReportPanel::ApplyEffect( ENTITYBITS *entry, int& r, int& g, int& b 
 
 	float frequency = 3.0f;
 
-	float frac = ( EFFECT_TIME - ( entry->effectfinishtime - realtime ) ) / EFFECT_TIME;
+	float frac = ( EFFECT_TIME - (float)( entry->effectfinishtime - realtime ) ) / EFFECT_TIME;
 	frac = min( 1.f, frac );
 	frac = max( 0.f, frac );
 

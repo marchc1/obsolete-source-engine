@@ -29,7 +29,7 @@ public:
 	CBaseEntity*	m_pPathTarget;				// path corner we are heading towards
 	float			m_flFlySpeed;
 	string_t		m_sFlySound;
-	float			m_flNextFlySoundTime;
+	double			m_flNextFlySoundTime;
 
 	Class_T			Classify( void);
 	void			Spawn( void );

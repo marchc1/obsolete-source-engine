@@ -891,7 +891,7 @@ public:
 	//Alpha
 	virtual float UpdateAlpha( const SimpleParticle *pParticle )
 	{
-		float	tLifetime = pParticle->m_flLifetime / pParticle->m_flDieTime;
+		float	tLifetime = (float)(pParticle->m_flLifetime / pParticle->m_flDieTime);
 		float	ramp = 1.0f - tLifetime;
 
 		//Non-linear fade

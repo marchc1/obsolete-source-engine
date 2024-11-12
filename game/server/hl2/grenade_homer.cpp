@@ -563,8 +563,8 @@ void CGrenadeHomer::AimThink( void )
 		// ----------
 		else if (gpGlobals->curtime < flHomingSustainStartTime)
 		{
-			float flAge			= gpGlobals->curtime - flHomingRampUpStartTime;
-			flCurHomingStrength = m_flHomingStrength * (flAge/m_flHomingRampUp);
+			double flAge			= gpGlobals->curtime - flHomingRampUpStartTime;
+			flCurHomingStrength = m_flHomingStrength * (float)(flAge/m_flHomingRampUp);
 			flTargetSpeed		= flCurHomingStrength * m_flHomingSpeed;
 		}
 		// ----------
@@ -580,8 +580,8 @@ void CGrenadeHomer::AimThink( void )
 		// -----------
 		else if (gpGlobals->curtime < flHomingEndHomingTime)
 		{
-			float flAge			= gpGlobals->curtime - flHomingRampDownStartTime;
-			flCurHomingStrength = m_flHomingStrength * (1-(flAge/m_flHomingRampDown));
+			double flAge			= gpGlobals->curtime - flHomingRampDownStartTime;
+			flCurHomingStrength = m_flHomingStrength * (float)(1-(flAge/m_flHomingRampDown));
 			flTargetSpeed		= m_flHomingSpeed;
 		}
 		// ---------------
@@ -622,9 +622,9 @@ void CGrenadeHomer::AimThink( void )
 	Vector vecImpulse( 0, 0, 0 );
 	if (m_flSpinMagnitude > 0)
 	{
-		vecImpulse.x += m_flSpinMagnitude*sinf(m_flSpinSpeed * gpGlobals->curtime + m_flSpinOffset);
-		vecImpulse.y += m_flSpinMagnitude*cosf(m_flSpinSpeed * gpGlobals->curtime + m_flSpinOffset);
-		vecImpulse.z -= m_flSpinMagnitude*cosf(m_flSpinSpeed * gpGlobals->curtime + m_flSpinOffset);
+		vecImpulse.x += m_flSpinMagnitude*(float)sin(m_flSpinSpeed * gpGlobals->curtime + m_flSpinOffset);
+		vecImpulse.y += m_flSpinMagnitude*(float)cos(m_flSpinSpeed * gpGlobals->curtime + m_flSpinOffset);
+		vecImpulse.z -= m_flSpinMagnitude*(float)cos(m_flSpinSpeed * gpGlobals->curtime + m_flSpinOffset);
 	}
 
 	// Add in gravity

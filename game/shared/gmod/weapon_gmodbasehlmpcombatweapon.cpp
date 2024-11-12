@@ -240,8 +240,8 @@ static ConVar	v_ipitch_level( "v_ipitch_level", "0.3", FCVAR_REPLICATED | FCVAR_
 //-----------------------------------------------------------------------------
 float CBaseHL2MPCombatWeapon::CalcViewmodelBob( void )
 {
-	static	float bobtime;
-	static	float lastbobtime;
+	static	double bobtime;
+	static	double lastbobtime;
 	float	cycle;
 	
 	CBasePlayer *player = ToBasePlayer( GetOwner() );
@@ -269,38 +269,38 @@ float CBaseHL2MPCombatWeapon::CalcViewmodelBob( void )
 	lastbobtime = gpGlobals->curtime;
 
 	//Calculate the vertical bob
-	cycle = bobtime - (int)(bobtime/HL2_BOB_CYCLE_MAX)*HL2_BOB_CYCLE_MAX;
+	cycle = (float)(bobtime - (int)(bobtime/HL2_BOB_CYCLE_MAX)*HL2_BOB_CYCLE_MAX);
 	cycle /= HL2_BOB_CYCLE_MAX;
 
 	if ( cycle < HL2_BOB_UP )
 	{
-		cycle = M_PI * cycle / HL2_BOB_UP;
+		cycle = (float)(M_PI * cycle / HL2_BOB_UP);
 	}
 	else
 	{
-		cycle = M_PI + M_PI*(cycle-HL2_BOB_UP)/(1.0 - HL2_BOB_UP);
+		cycle = (float)(M_PI + M_PI*(cycle-HL2_BOB_UP)/(1.0 - HL2_BOB_UP));
 	}
 	
 	g_verticalBob = speed*0.005f;
-	g_verticalBob = g_verticalBob*0.3 + g_verticalBob*0.7*sin(cycle);
+	g_verticalBob = g_verticalBob*0.3f + g_verticalBob*0.7f*sin(cycle);
 
 	g_verticalBob = clamp( g_verticalBob, -7.0f, 4.0f );
 
 	//Calculate the lateral bob
-	cycle = bobtime - (int)(bobtime/HL2_BOB_CYCLE_MAX*2)*HL2_BOB_CYCLE_MAX*2;
+	cycle = (float)(bobtime - (int)(bobtime/HL2_BOB_CYCLE_MAX*2)*HL2_BOB_CYCLE_MAX*2);
 	cycle /= HL2_BOB_CYCLE_MAX*2;
 
 	if ( cycle < HL2_BOB_UP )
 	{
-		cycle = M_PI * cycle / HL2_BOB_UP;
+		cycle = (float)(M_PI * cycle / HL2_BOB_UP);
 	}
 	else
 	{
-		cycle = M_PI + M_PI*(cycle-HL2_BOB_UP)/(1.0 - HL2_BOB_UP);
+		cycle = (float)(M_PI + M_PI*(cycle-HL2_BOB_UP)/(1.0 - HL2_BOB_UP));
 	}
 
 	g_lateralBob = speed*0.005f;
-	g_lateralBob = g_lateralBob*0.3 + g_lateralBob*0.7*sin(cycle);
+	g_lateralBob = g_lateralBob*0.3f + g_lateralBob*0.7f*sin(cycle);
 	g_lateralBob = clamp( g_lateralBob, -7.0f, 4.0f );
 	
 	//NOTENOTE: We don't use this return value in our case (need to restructure the calculation function setup!)

@@ -120,7 +120,7 @@ Vector CThirdPersonManager::GetDistanceFraction( void )
 	float flFraction = m_flFraction;
 	float flUpFraction = m_flUpFraction;
 
-	float flFrac = RemapValClamped( gpGlobals->curtime - m_flLerpTime, 0, CAMERA_OFFSET_LERP_TIME, 0, 1 );
+	float flFrac = RemapValClamped( (float)(gpGlobals->curtime - m_flLerpTime), 0, CAMERA_OFFSET_LERP_TIME, 0, 1 );
 
 	flFraction = Lerp( flFrac, m_flFraction, m_flTargetFraction );
 
@@ -129,7 +129,7 @@ Vector CThirdPersonManager::GetDistanceFraction( void )
 		m_flFraction = m_flTargetFraction;
 	}
 
-	flFrac = RemapValClamped( gpGlobals->curtime - m_flUpLerpTime, 0, CAMERA_UP_OFFSET_LERP_TIME, 0, 1 );
+	flFrac = RemapValClamped( (float)(gpGlobals->curtime - m_flUpLerpTime), 0, CAMERA_UP_OFFSET_LERP_TIME, 0, 1 );
 
 	flUpFraction = 1.0f - Lerp( flFrac, m_flUpFraction, m_flTargetUpFraction );
 

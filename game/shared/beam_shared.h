@@ -102,7 +102,7 @@ public:
 	void SetBrightness( int brightness );
 	void SetFrame( float frame );
 	void SetScrollRate( int speed );
-	void SetFireTime( float flFireTime );
+	void SetFireTime( double flFireTime );
 	void SetFrameRate( float flFrameRate ) { m_flFrameRate = flFrameRate; }
 
 	void SetMinDXLevel( int nMinDXLevel ) { m_nMinDXLevel = nMinDXLevel; }
@@ -257,7 +257,7 @@ inline int CBeam::ObjectCaps( void )
 }
 #endif
 
-inline void	CBeam::SetFireTime( float flFireTime )		
+inline void	CBeam::SetFireTime( double flFireTime )		
 { 
 	m_flFireTime = flFireTime; 
 }

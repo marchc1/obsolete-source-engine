@@ -69,10 +69,10 @@ public:
 
 	CBaseEntity *m_pOwner;
 	int			m_nBounces;			// how many times has this flare bounced?
-	CNetworkVar( float, m_flTimeBurnOut );	// when will the flare burn out?
+	CNetworkVar( double, m_flTimeBurnOut );	// when will the flare burn out?
 	CNetworkVar( float, m_flScale );
 	float		m_flDuration;
-	float		m_flNextDamage;
+	double		m_flNextDamage;
 	
 	CSoundPatch	*m_pBurnSound;
 	bool		m_bFading;

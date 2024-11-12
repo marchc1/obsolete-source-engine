@@ -145,7 +145,7 @@ bool CResultProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 //-----------------------------------------------------------------------------
 // A little code to allow us to set single components of vectors
 //-----------------------------------------------------------------------------
-void CResultProxy::SetFloatResult( float result )
+void CResultProxy::SetFloatResult( double result )
 {
 	if (m_pResult->GetType() == MATERIAL_VAR_TYPE_VECTOR)
 	{		

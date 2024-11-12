@@ -116,9 +116,9 @@ public:
 
 	void					AddToSquad(CAI_BaseNPC *pNPC);
 	bool					FOkToMakeSound( int soundPriority );
-	void					JustMadeSound( int soundPriority, float time );
-	float					GetSquadSoundWaitTime() const		{ return m_flSquadSoundWaitTime; }
-	void					SetSquadSoundWaitTime( float time ) { m_flSquadSoundWaitTime = time; }
+	void					JustMadeSound( int soundPriority, double time );
+	double					GetSquadSoundWaitTime() const		{ return m_flSquadSoundWaitTime; }
+	void					SetSquadSoundWaitTime( double time ) { m_flSquadSoundWaitTime = time; }
 	void					SquadRemember( int iMemory );
 
 	void					SetSquadInflictor( CBaseEntity *pInflictor );
@@ -169,7 +169,7 @@ private:
 	string_t										m_Name;
 	CUtlVectorFixed<AIHANDLE, MAX_SQUAD_MEMBERS>	m_SquadMembers;
 
-	float											m_flSquadSoundWaitTime;			// Time when I'm allowed to make another sound
+	double											m_flSquadSoundWaitTime;			// Time when I'm allowed to make another sound
 	int												m_nSquadSoundPriority;			// if we're still waiting, this is the priority of the current sound
 
 	EHANDLE											m_hSquadInflictor;
@@ -184,7 +184,7 @@ private:
 	AISquadEnemyInfo_t *			m_pLastFoundEnemyInfo; // Occupy/Vacate need to be reworked to not want this
 	
 	CUtlVector<AISquadEnemyInfo_t>	m_EnemyInfos;
-	float							m_flEnemyInfoCleanupTime;
+	double							m_flEnemyInfoCleanupTime;
 
 #else
 	

@@ -2440,7 +2440,7 @@ void MIX_PaintChannels( int endtime, bool bIsUnderwater )
 			// Mix IFACING buffer with SOUND_BUFFER_ROOM
 			// (SOUND_BUFFER_FACINGAWAY contains no data, IFACINGBBUFFER has full dry mix based on distance from listener)
 			// if dsp disabled, mix 100% facingbuffer, otherwise, mix 75% facingbuffer + roombuffer
-			float mix = g_bDspOff ? 1.0 : DSP_ROOM_MIX;
+			float mix = g_bDspOff ? 1.0f : DSP_ROOM_MIX;
 			MIX_MixPaintbuffers( SOUND_BUFFER_ROOM, SOUND_BUFFER_FACING, SOUND_BUFFER_PAINT, count, mix );	
 		}
 

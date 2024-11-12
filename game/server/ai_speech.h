@@ -40,12 +40,12 @@ public:
 	
 	// Current owner of the semaphore is always allowed to talk
 	bool IsAvailable( CBaseEntity *pTalker ) const		{ return ((gpGlobals->curtime > m_ReleaseTime) || (m_hCurrentTalker == pTalker)); }
-	float GetReleaseTime() const 	{ return m_ReleaseTime; }
+	double GetReleaseTime() const 	{ return m_ReleaseTime; }
 
 	CBaseEntity *GetOwner()	{ return m_hCurrentTalker; }
 
 private:
-	float		m_ReleaseTime;
+	double		m_ReleaseTime;
 	EHANDLE		m_hCurrentTalker;
 };
 
@@ -126,7 +126,7 @@ struct ConceptHistory_t
 {
 	DECLARE_SIMPLE_DATADESC();
 
-	ConceptHistory_t(float timeSpoken = -1 )
+	ConceptHistory_t(double timeSpoken = -1 )
 	 : timeSpoken( timeSpoken ), response( NULL )
 	{
 	}
@@ -136,7 +136,7 @@ struct ConceptHistory_t
 
 	~ConceptHistory_t();
 
-	float		timeSpoken;
+	double		timeSpoken;
 	AI_Response *response;
 };
 //-------------------------------------
@@ -166,21 +166,21 @@ public:
 	virtual int SpeakRawSentence( const char *pszSentence, float delay, float volume = VOL_NORM, soundlevel_t soundlevel = SNDLVL_TALKING, CBaseEntity *pListener = NULL );
 	
 	bool SemaphoreIsAvailable( CBaseEntity *pTalker );
-	float GetSemaphoreAvailableTime( CBaseEntity *pTalker );
+	double GetSemaphoreAvailableTime( CBaseEntity *pTalker );
 
 	// --------------------------------
 	
 	virtual bool IsSpeaking();
 	bool CanSpeak();
 	bool CanSpeakAfterMyself();
-	float GetTimeSpeechComplete() const 	{ return m_flStopTalkTime; }
+	double GetTimeSpeechComplete() const 	{ return m_flStopTalkTime; }
 	void  BlockSpeechUntil( float time );
 
 	// --------------------------------
 	
 	bool CanSpeakConcept( AIConcept_t concept );
 	bool SpokeConcept( AIConcept_t concept );
-	float GetTimeSpokeConcept( AIConcept_t concept ); // returns -1 if never
+	double GetTimeSpokeConcept( AIConcept_t concept ); // returns -1 if never
 	void SetSpokeConcept( AIConcept_t concept, AI_Response *response, bool bCallback = true );
 	void ClearSpokeConcept( AIConcept_t concept );
 	
@@ -230,11 +230,11 @@ private:
 	// Speaking states
 	//
 
-	float				m_flStopTalkTime;				// when in the future that I'll be done saying this sentence.
-	float				m_flStopTalkTimeWithoutDelay;	// same as the above, but minus the delay before other people can speak
-	float				m_flBlockedTalkTime;
+	double				m_flStopTalkTime;				// when in the future that I'll be done saying this sentence.
+	double				m_flStopTalkTimeWithoutDelay;	// same as the above, but minus the delay before other people can speak
+	double				m_flBlockedTalkTime;
 	int					m_voicePitch;					// pitch of voice for this head
-	float				m_flLastTimeAcceptedSpeak;		// because speech may not be blocked until NoteSpeaking called by scene ent, this handles in-think blocking
+	double				m_flLastTimeAcceptedSpeak;		// because speech may not be blocked until NoteSpeaking called by scene ent, this handles in-think blocking
 	
 	DECLARE_SIMPLE_DATADESC();
 

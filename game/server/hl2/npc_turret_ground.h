@@ -91,14 +91,14 @@ protected:
 
 	bool		m_bEnabled;
 
-	float		m_flTimeNextShoot;
-	float		m_flTimeLastSawEnemy;
+	double		m_flTimeNextShoot;
+	double		m_flTimeLastSawEnemy;
 	Vector		m_vecSpread;
 	bool		m_bHasExploded;
 	int			m_iDeathSparks;
 	float		m_flSensingDist;
 	bool		m_bSeeEnemy;
-	float		m_flTimeNextPing;
+	double		m_flTimeNextPing;
 
 	Vector		m_vecClosedPos;
 

@@ -46,7 +46,7 @@ ConVar soundscape_fadetime( "soundscape_fadetime", "3.0", FCVAR_CHEAT, "Time to 
 struct randomsound_t
 {
 	Vector		position;
-	float		nextPlayTime;	// time to play a sound from the set
+	double		nextPlayTime;	// time to play a sound from the set
 	interval_t	time;
 	interval_t	volume;
 	interval_t	pitch;
@@ -177,7 +177,7 @@ public:
 		soundlevel_t soundLevel, int pitch, const Vector &position );
 	int AddRandomSound( const randomsound_t &sound );
 	void PlayRandomSound( randomsound_t &sound );
-	void UpdateRandomSounds( float gameClock );
+	void UpdateRandomSounds( double gameClock );
 	Vector GenerateRandomSoundPosition();
 
 	void ForceSoundscape( const char *pSoundscapeName, float radius );
@@ -231,7 +231,7 @@ private:
 	audioparams_t				m_params;				// current player audio params
 	CUtlVector<loopingsound_t>	m_loopingSounds;		// list of currently playing sounds
 	CUtlVector<randomsound_t>	m_randomSounds;			// list of random sound commands
-	float						m_nextRandomTime;		// next time to play a random sound
+	double						m_nextRandomTime;		// next time to play a random sound
 	int							m_loopingSoundId;		// marks when the sound was issued
 	int							m_forcedSoundscapeIndex;// >= 0 if this a "forced" soundscape? i.e. debug mode?
 	float						m_forcedSoundscapeRadius;// distance to spatialized sounds
@@ -1287,7 +1287,7 @@ void C_SoundscapeSystem::PlayRandomSound( randomsound_t &sound )
 }
 
 // walk the list of random sound commands and update
-void C_SoundscapeSystem::UpdateRandomSounds( float gameTime )
+void C_SoundscapeSystem::UpdateRandomSounds( double gameTime )
 {
 	if ( gameTime < m_nextRandomTime )
 		return;

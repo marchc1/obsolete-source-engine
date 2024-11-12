@@ -159,7 +159,7 @@ public:
 	int							AddHudRenderGroup( const char *pszGroupName );
 	bool						DoesRenderGroupExist( int iGroupIndex );
 
-	void						SetScreenShotTime( float flTime ){ m_flScreenShotTime = flTime; }
+	void						SetScreenShotTime( double flTime ){ m_flScreenShotTime = flTime; }
 
 	// Walk through all the HUD elements. Handler should be an object taking a CHudElement*
 	template<typename THandler> void ForEachHudElement( THandler handler )
@@ -198,7 +198,7 @@ private:
 	CUtlVector< const char * >				m_RenderGroupNames;
 	CUtlMap< int, CHudRenderGroup * >		m_RenderGroups;
 
-	float						m_flScreenShotTime; // used to take end-game screenshots
+	double						m_flScreenShotTime; // used to take end-game screenshots
 };
 
 extern CHud gHUD;

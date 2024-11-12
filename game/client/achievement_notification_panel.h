@@ -37,7 +37,7 @@ private:
 	void ShowNextNotification();
 	void SetXAndWide( Panel *pPanel, int x, int wide );
 
-	float m_flHideTime;
+	double m_flHideTime;
 
 	Label *m_pLabelHeading;
 	Label *m_pLabelTitle;

@@ -293,7 +293,7 @@ CAssaultPoint *CAI_AssaultBehavior::FindAssaultPoint( string_t iszAssaultPointNa
 
 	// We found several! First throw out the one most recently used.
 	// This prevents picking the same point at this branch twice in a row.
-	float flMostRecentTime = -1.0f; // Impossibly old
+	double flMostRecentTime = -1.0; // Impossibly old
 	int iMostRecentIndex = -1;
 	for( int i = 0 ; i < pClearAssaultPoints.Count() ; i++ )
 	{

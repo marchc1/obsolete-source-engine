@@ -81,8 +81,8 @@ struct DemoActionTimingContext
 {
 	int		prevtick;
 	int		curtick;
-	float	prevtime;
-	float	curtime;
+	double	prevtime;
+	double	curtime;
 };
 
 typedef CBaseDemoAction * (*DEMOACTIONFACTORY_FUNC)( void );
@@ -121,8 +121,8 @@ public:
 
 	int						GetStartTick( void ) const;
 	void					SetStartTick( int tick );
-	float					GetStartTime( void ) const;
-	void					SetStartTime( float time );
+	double					GetStartTime( void ) const;
+	void					SetStartTime( double time );
 
 	void					SetFinishedAction( bool finished );
 	bool					HasActionFinished( void ) const;
@@ -175,7 +175,7 @@ private:
 
 	DEMOACTIONTIMINGTYPE	m_Timing;
 	int						m_nStartTick;
-	float					m_flStartTime;
+	double					m_flStartTime;
 };
 
 #define DECLARE_DEMOACTION( type, classname )			\

@@ -526,10 +526,10 @@ void CAI_PlayerAlly::PrescheduleThink( void )
 	}
 	else if ( ShouldRegenerateHealth() )
 	{
-		float flDelta = gpGlobals->curtime - m_flTimeLastRegen;
+		double flDelta = gpGlobals->curtime - m_flTimeLastRegen;
 		float flHealthPerSecond = 1.0f / sk_ally_regen_time.GetFloat();
 
-		float flHealthRegen = flHealthPerSecond * flDelta;
+		double flHealthRegen = flHealthPerSecond * flDelta;
 
 		if ( g_pGameRules->IsSkillLevel(SKILL_HARD) )
 			flHealthRegen *= 0.5f;
@@ -538,7 +538,7 @@ void CAI_PlayerAlly::PrescheduleThink( void )
 
 		m_flTimeLastRegen = gpGlobals->curtime;
 
-		TakeHealth( flHealthRegen, DMG_GENERIC );
+		TakeHealth( (float)flHealthRegen, DMG_GENERIC );
 	}
 
 #ifdef HL2_EPISODIC

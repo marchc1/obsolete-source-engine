@@ -436,7 +436,7 @@ inline float C_AlyxEmpEffect::GetStateDurationPercentage( void )
 	if ( m_flDuration == 0 )
 		return 0.0f;
 
-	return RemapValClamped( ( gpGlobals->curtime - m_flStartTime ), 0, m_flDuration, 0, 1.0f );;
+	return RemapValClamped( (float)( gpGlobals->curtime - m_flStartTime ), 0, m_flDuration, 0, 1.0f );;
 }
 
 //-----------------------------------------------------------------------------

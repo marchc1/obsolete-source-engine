@@ -31,7 +31,7 @@ class CAI_Navigator;
 
 //-----------------------------------------------------------------------------
 
-float AI_ClampYaw( float yawSpeedPerSec, float current, float target, float time );
+float AI_ClampYaw( float yawSpeedPerSec, float current, float target, double time );
 
 //-----------------------------------------------------------------------------
 // CAI_Motor

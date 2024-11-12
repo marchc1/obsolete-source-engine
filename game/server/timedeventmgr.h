@@ -59,7 +59,7 @@ private:
 private:
 	
 	CTimedEventMgr *m_pEventMgr;
-	float m_flNextEventTime;
+	double m_flNextEventTime;
 	float m_flUpdateInterval;
 	IEventRegisterCallback *m_pCallback;
 	bool m_bRegistered;

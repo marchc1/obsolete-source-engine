@@ -114,7 +114,7 @@ protected:
 	//vec3 m_lookat
 
 	float m_prevZoom;
-	float m_prevAltitude, m_prevAzimuth;
+	double m_prevAltitude, m_prevAzimuth;
 
 	double m_flLastMouseTime;
 	double m_flLastTickTime;

@@ -314,7 +314,7 @@ public:
 	virtual void			SetAnimation( PLAYER_ANIM playerAnim );
 
 	double					GetTimeBase( void ) const;
-	float					GetFinalPredictedTime() const;
+	double					GetFinalPredictedTime() const;
 
 	bool					IsInVGuiInputMode() const;
 	bool					IsInViewModelVGuiInputMode() const;
@@ -483,7 +483,7 @@ protected:
 	EHANDLE			m_hObserverTarget;	// current observer target
 	float			m_flObserverChaseDistance; // last distance to observer traget
 	Vector			m_vecFreezeFrameStart;
-	float			m_flFreezeFrameStartTime;	// Time at which we entered freeze frame observer mode
+	double			m_flFreezeFrameStartTime;	// Time at which we entered freeze frame observer mode
 	float			m_flFreezeFrameDistance;
 	bool			m_bWasFreezeFraming; 
 	float			m_flDeathTime;		// last time player died
@@ -588,7 +588,7 @@ protected:
 	virtual bool IsDucked( void ) const { return m_Local.m_bDucked; }
 	virtual bool IsDucking( void ) const { return m_Local.m_bDucking; }
 	virtual float GetFallVelocity( void ) { return m_Local.m_flFallVelocity; }
-	bool ForceSetupBonesAtTimeFakeInterpolation( matrix3x4_t *pBonesOut, float curtimeOffset );
+	bool ForceSetupBonesAtTimeFakeInterpolation( matrix3x4_t *pBonesOut, double curtimeOffset );
 
 	float m_flLaggedMovementValue;
 
@@ -596,7 +596,7 @@ protected:
 	// vphysics objects. The server will be sending constant prediction corrections, and these can help
 	// the errors not be so jerky.
 	Vector m_vecPredictionError;
-	float m_flPredictionErrorTime;
+	double m_flPredictionErrorTime;
 	
 	Vector m_vecPreviouslyPredictedOrigin; // Used to determine if non-gamemovement game code has teleported, or tweaked the player's origin
 

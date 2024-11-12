@@ -3157,7 +3157,7 @@ void CBasePlayer::RunNullCommand( void )
 
 	// Store off the globals.. they're gonna get whacked
 	float flOldFrametime = gpGlobals->frametime;
-	float flOldCurtime = gpGlobals->curtime;
+	double flOldCurtime = gpGlobals->curtime;
 
 	pl.fixangle = FIXANGLE_NONE;
 
@@ -3170,7 +3170,7 @@ void CBasePlayer::RunNullCommand( void )
 		cmd.viewangles = EyeAngles();
 	}
 
-	float flTimeBase = gpGlobals->curtime;
+	double flTimeBase = gpGlobals->curtime;
 	SetTimeBase( flTimeBase );
 
 	MoveHelperServer()->SetHost( this );
@@ -3228,7 +3228,7 @@ void CBasePlayer::PhysicsSimulate( void )
 	}
 
 	// Store off true server timestamps
-	float savetime		= gpGlobals->curtime;
+	double savetime		= gpGlobals->curtime;
 	float saveframetime = gpGlobals->frametime;
 
 	int command_context_count = GetCommandContextCount();
@@ -9244,7 +9244,7 @@ void CPlayerInfo::RunPlayerMove( CBotCmd *ucmd )
 
 		// Store off the globals.. they're gonna get whacked
 		float flOldFrametime = gpGlobals->frametime;
-		float flOldCurtime = gpGlobals->curtime;
+		double flOldCurtime = gpGlobals->curtime;
 
 		m_pParent->SetTimeBase( gpGlobals->curtime );
 

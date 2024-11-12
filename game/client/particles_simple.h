@@ -140,8 +140,8 @@ public:
 	// AddSimpleParticle automatically initializes these fields.
 	Vector		m_vecVelocity;
 	float		m_flRoll;
-	float		m_flDieTime;	// How long it lives for.
-	float		m_flLifetime;	// How long it has been alive for so far.
+	double		m_flDieTime;	// How long it lives for.
+	double		m_flLifetime;	// How long it has been alive for so far.
 	unsigned char	m_uchColor[3];
 	unsigned char	m_uchStartAlpha;
 	unsigned char	m_uchEndAlpha;

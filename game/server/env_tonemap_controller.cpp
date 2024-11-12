@@ -45,8 +45,8 @@ public:
 private:
 	float	m_flBlendTonemapStart;		// HDR Tonemap at the start of the blend
 	float	m_flBlendTonemapEnd;		// Target HDR Tonemap at the end of the blend
-	float	m_flBlendEndTime;			// Time at which the blend ends
-	float	m_flBlendStartTime;			// Time at which the blend started
+	double	m_flBlendEndTime;			// Time at which the blend ends
+	double	m_flBlendStartTime;			// Time at which the blend started
 
 	CNetworkVar( bool, m_bUseCustomAutoExposureMin );
 	CNetworkVar( bool, m_bUseCustomAutoExposureMax );
@@ -191,7 +191,7 @@ void CEnvTonemapController::InputSetTonemapRate( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CEnvTonemapController::UpdateTonemapScaleBlend( void )
 { 
-	float flRemapped = RemapValClamped( gpGlobals->curtime, m_flBlendStartTime, m_flBlendEndTime, m_flBlendTonemapStart, m_flBlendTonemapEnd );
+	float flRemapped = RemapValClampedD( gpGlobals->curtime, m_flBlendStartTime, m_flBlendEndTime, m_flBlendTonemapStart, m_flBlendTonemapEnd );
 	mat_hdr_tonemapscale.SetValue( flRemapped );
 
 	//Msg("Setting tonemap scale to %f (curtime %f, %f -> %f)\n", flRemapped, gpGlobals->curtime, m_flBlendStartTime, m_flBlendEndTime ); 

@@ -1441,8 +1441,8 @@ float KeyValues::GetFloat( const char *keyName, float defaultValue )
 			AssertMsg( false, "impl me" );
 			return 0.0;
 #endif
-			case TYPE_FLOAT:
-			return dat->m_flValue;
+		case TYPE_FLOAT:
+			return (float)dat->m_flValue;
 		case TYPE_INT:
 			return (float)dat->m_iValue;
 		case TYPE_UINT64:
@@ -1450,6 +1450,41 @@ float KeyValues::GetFloat( const char *keyName, float defaultValue )
 		case TYPE_PTR:
 		default:
 			return 0.0f;
+		}
+	}
+	return defaultValue;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Get the float value of a keyName. Default value is returned
+//			if the keyName can't be found.
+//-----------------------------------------------------------------------------
+double KeyValues::GetDouble( const char *keyName, double defaultValue )
+{
+	KeyValues *dat = FindKey( keyName, false );
+	if ( dat )
+	{
+		switch ( dat->m_iDataType )
+		{
+		case TYPE_STRING:
+			// dimhotepus: atof -> strtof
+			return strtof(dat->m_sValue, nullptr);
+		case TYPE_WSTRING:
+#ifdef WIN32
+			return _wtof(dat->m_wsValue);		// no wtof
+#else
+			AssertMsg( false, "impl me" );
+			return 0.0;
+#endif
+		case TYPE_FLOAT:
+			return dat->m_flValue;
+		case TYPE_INT:
+			return (double)dat->m_iValue;
+		case TYPE_UINT64:
+			return (double)(*((uint64 *)dat->m_sValue));
+		case TYPE_PTR:
+		default:
+			return 0.0;
 		}
 	}
 	return defaultValue;
@@ -1772,6 +1807,20 @@ void KeyValues::SetFloat( const char *keyName, float value )
 	{
 		dat->m_flValue = value;
 		dat->m_iDataType = TYPE_FLOAT;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Set the float value of a keyName. 
+//-----------------------------------------------------------------------------
+void KeyValues::SetDouble( const char *keyName, double value )
+{
+	KeyValues *dat = FindKey( keyName, true );
+
+	if ( dat )
+	{
+		dat->m_flValue = value;
+		dat->m_iDataType = TYPE_FLOAT; // A float is now a double :^
 	}
 }
 
@@ -2719,7 +2768,7 @@ bool KeyValues::WriteAsBinary( CUtlBuffer &buffer )
 
 		case TYPE_FLOAT:
 			{
-				buffer.PutFloat( dat->m_flValue );
+				buffer.PutFloat( (float)dat->m_flValue );
 				break;
 			}
 		case TYPE_COLOR:

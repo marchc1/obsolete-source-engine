@@ -42,7 +42,7 @@ private:
 
 	vgui::HFont		m_hFont;
 	int				m_iLastEntIndex;
-	float			m_flLastChangeTime;
+	double			m_flLastChangeTime;
 };
 
 DECLARE_HUDELEMENT( CTargetID );

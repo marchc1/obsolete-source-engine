@@ -1462,7 +1462,7 @@ double CSentence::GetIntensity( double time, double endtime )
 	Vector vEnd( esEnd->time, esEnd->value, 0 );
 	Vector vNext( esNext->time, esNext->value, 0 );
 
-	float f2 = ( time - esStart->time ) / ( dt );
+	float f2 = (float)( time - esStart->time ) / ( dt );
 	f2 = clamp( f2, 0.0f, 1.0f );
 
 	Vector vOut;

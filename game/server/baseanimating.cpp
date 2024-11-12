@@ -401,12 +401,12 @@ float CBaseAnimating::GetAnimTimeInterval( void ) const
 	if (m_flAnimTime < gpGlobals->curtime)
 	{
 		// estimate what it'll be this frame
-		flInterval = clamp( gpGlobals->curtime - m_flAnimTime, 0.f, MAX_ANIMTIME_INTERVAL );
+		flInterval = clamp( (float)(gpGlobals->curtime - m_flAnimTime), 0.f, MAX_ANIMTIME_INTERVAL );
 	}
 	else
 	{
 		// report actual
-		flInterval = clamp( m_flAnimTime - m_flPrevAnimTime, 0.f, MAX_ANIMTIME_INTERVAL );
+		flInterval = clamp( (float)(m_flAnimTime - m_flPrevAnimTime), 0.f, MAX_ANIMTIME_INTERVAL );
 	}
 	return flInterval;
 }
@@ -495,7 +495,7 @@ void CBaseAnimating::StudioFrameAdvance()
 	}
 
 	// Time since last animation
-	float flInterval = gpGlobals->curtime - m_flAnimTime;
+	float flInterval = (float)(gpGlobals->curtime - m_flAnimTime);
 	flInterval = clamp( flInterval, 0.f, MAX_ANIMTIME_INTERVAL );
 
 	//Msg( "%i %s interval %f\n", entindex(), GetClassname(), flInterval );
@@ -1596,7 +1596,7 @@ QAngle CBaseAnimating::GetStepAngles( void ) const
 // Output :	fills out m_pIk targets, calcs floor offset for rendering
 //-----------------------------------------------------------------------------
 
-void CBaseAnimating::CalculateIKLocks( float currentTime )
+void CBaseAnimating::CalculateIKLocks( double currentTime )
 {
 	if ( m_pIk )
 	{
@@ -2194,7 +2194,7 @@ void CBaseAnimating::SetSequenceBox( void )
 	{
 		// expand box for rotation
 		// find min / max for rotations
-		float yaw = GetLocalAngles().y * (M_PI / 180.0);
+		float yaw = (float)(GetLocalAngles().y * (M_PI / 180.0));
 		
 		Vector xvector, yvector;
 		xvector.x = cos(yaw);
@@ -3329,10 +3329,10 @@ void CBaseAnimating::UpdateModelScale()
 		return;
 	}
 
-	float dt = mvs->m_flModelScaleFinishTime - mvs->m_flModelScaleStartTime;
+	double dt = mvs->m_flModelScaleFinishTime - mvs->m_flModelScaleStartTime;
 	Assert( dt > 0.0f );
 
-	float frac = ( gpGlobals->curtime - mvs->m_flModelScaleStartTime ) / dt;
+	float frac = (float)(( gpGlobals->curtime - mvs->m_flModelScaleStartTime ) / dt);
 	frac = clamp( frac, 0.0f, 1.0f );
 
 	if ( gpGlobals->curtime >= mvs->m_flModelScaleFinishTime )
@@ -3440,7 +3440,7 @@ void CBaseAnimating::IgniteHitboxFireScale( float flHitboxFireScale )
 //-----------------------------------------------------------------------------
 // Fades out!
 //-----------------------------------------------------------------------------
-bool CBaseAnimating::Dissolve( const char *pMaterialName, float flStartTime, bool bNPCOnly, int nDissolveType, Vector vDissolverOrigin, int iMagnitude )
+bool CBaseAnimating::Dissolve( const char *pMaterialName, double flStartTime, bool bNPCOnly, int nDissolveType, Vector vDissolverOrigin, int iMagnitude )
 {
 	// Right now this prevents stuff we don't want to catch on fire from catching on fire.
 	if( bNPCOnly && !(GetFlags() & FL_NPC) )

@@ -46,7 +46,7 @@ private:
 			DisplayTime = 0.0f; 
 		}
 		int type;
-		float DisplayTime;  // the time at which this item should be removed from the history
+		double DisplayTime;  // the time at which this item should be removed from the history
 		int iCount;
 		int iId;
 		CHandle< C_BaseCombatWeapon > m_hWeapon;

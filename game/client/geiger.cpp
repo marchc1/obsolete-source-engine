@@ -43,7 +43,7 @@ public:
 	
 private:
 	int m_iGeigerRange;
-	float m_flLastSoundTestTime;
+	double m_flLastSoundTestTime;
 };
 
 DECLARE_HUDELEMENT( CHudGeiger );

@@ -262,12 +262,12 @@ public:
 	virtual int				OnTakeDamage_Dying( const CTakeDamageInfo &info );
 	virtual int				OnTakeDamage_Dead( const CTakeDamageInfo &info );
 
-	virtual float			GetAliveDuration( void ) const;			// return time we have been alive (only valid when alive)
+	virtual double			GetAliveDuration( void ) const;			// return time we have been alive (only valid when alive)
 
 	virtual void 			OnFriendDamaged( CBaseCombatCharacter *, CBaseEntity * ) {}
 	virtual void 			NotifyFriendsOfDamage( CBaseEntity * ) {}
 	virtual bool			HasEverBeenInjured( int team = TEAM_ANY ) const;			// return true if we have ever been injured by a member of the given team
-	virtual float			GetTimeSinceLastInjury( int team = TEAM_ANY ) const;		// return time since we were hurt by a member of the given team
+	virtual double			GetTimeSinceLastInjury( int team = TEAM_ANY ) const;		// return time since we were hurt by a member of the given team
 
 
 	virtual void			OnPlayerKilledOther( CBaseEntity *, const CTakeDamageInfo & ) {}
@@ -394,8 +394,8 @@ public:
 	// This is a hack to copy the relationship strings used by monstermaker
 	void SetRelationshipString( string_t theString ) { m_RelationshipString = theString; }
 
-	float				GetNextAttack() const { return m_flNextAttack; }
-	void				SetNextAttack( float flWait ) { m_flNextAttack = flWait; }
+	double				GetNextAttack() const { return m_flNextAttack; }
+	void				SetNextAttack( double flWait ) { m_flNextAttack = flWait; }
 
 	bool				m_bForceServerRagdoll;
 
@@ -547,7 +547,7 @@ protected:
 };
 
 
-inline float CBaseCombatCharacter::GetAliveDuration( void ) const
+inline double CBaseCombatCharacter::GetAliveDuration( void ) const
 {
 	return m_aliveTimer.GetElapsedTime();
 }

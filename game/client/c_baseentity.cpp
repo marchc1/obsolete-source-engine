@@ -578,7 +578,7 @@ void SpewInterpolatedVar( CInterpolatedVar< Vector > *pVar )
 	int i = pVar->GetHead();
 	Vector v0(0, 0, 0);
 	CApparentVelocity<Vector> apparent(v0);
-	float prevtime = 0.0f;
+	double prevtime = 0.0f;
 	while ( 1 )
 	{
 		double changetime;
@@ -586,7 +586,7 @@ void SpewInterpolatedVar( CInterpolatedVar< Vector > *pVar )
 		if ( !pVal )
 			break;
 
-		float vel = apparent.AddSample( changetime, *pVal );
+		float vel = apparent.AddSample( (float)changetime, *pVal );
 		Msg( "%6.6f: (%.2f %.2f %.2f), vel: %.2f [dt %.1f]\n", changetime, VectorExpand( *pVal ), vel, prevtime == 0.0f ? 0.0f : 1000.0f * ( changetime - prevtime ) );
 		i = pVar->GetNext( i );
 		prevtime = changetime;
@@ -2783,7 +2783,7 @@ void C_BaseEntity::OnStoreLastNetworkedValue()
 
 void C_BaseEntity::OnLatchInterpolatedVariables( int flags )
 {
-	float changetime = GetLastChangeTime( flags );
+	double changetime = GetLastChangeTime( flags );
 
 	bool bUpdateLastNetworkedValue = !(flags & INTERPOLATE_OMIT_UPDATE_LAST_NETWORKED) ? true : false;
 
@@ -5891,8 +5891,8 @@ static double AdjustInterpolationAmount( C_BaseEntity *pEntity, double baseInter
 {
 	if ( cl_interp_npcs.GetFloat() > 0 )
 	{
-		const float minNPCInterpolationTime = cl_interp_npcs.GetFloat();
-		const float minNPCInterpolation = TICK_INTERVAL * ( TIME_TO_TICKS( minNPCInterpolationTime ) + 1 );
+		const double minNPCInterpolationTime = cl_interp_npcs.GetFloat();
+		const double minNPCInterpolation = TICK_INTERVAL * ( TIME_TO_TICKS( minNPCInterpolationTime ) + 1 );
 
 		if ( minNPCInterpolation > baseInterpolation )
 		{
@@ -5975,7 +5975,7 @@ double C_BaseEntity::GetLastChangeTime( int flags )
 
 	if ( flags & LATCH_SIMULATION_VAR )
 	{
-		float st = GetSimulationTime();
+		double st = GetSimulationTime();
 		if ( st == 0.0f )
 		{
 			return gpGlobals->curtime;

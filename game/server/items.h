@@ -76,7 +76,7 @@ public:
 
 #if defined( HL2MP ) || defined( TF_DLL )
 	void	FallThink( void );
-	float  m_flNextResetCheckTime;
+	double  m_flNextResetCheckTime;
 #endif
 
 	DECLARE_DATADESC();

@@ -211,19 +211,19 @@ protected:
 	bool	m_bNoAlarmSounds;
 	bool	m_bSelfDestructing;	// Going to blow up
 
-	float	m_flDestructStartTime;
-	float	m_flShotTime;
-	float	m_flLastSight;
-	float	m_flThrashTime;
-	float	m_flPingTime;
-	float	m_flNextActivateSoundTime;
+	double	m_flDestructStartTime;
+	double	m_flShotTime;
+	double	m_flLastSight;
+	double	m_flThrashTime;
+	double	m_flPingTime;
+	double	m_flNextActivateSoundTime;
 	bool	m_bCarriedByPlayer;
 	bool	m_bUseCarryAngles;
-	float	m_flPlayerDropTime;
+	double	m_flPlayerDropTime;
 	int		m_iKeySkin;
 
 	CHandle<CBaseCombatCharacter> m_hLastNPCToKickMe;		// Stores the last NPC who tried to knock me over
-	float	m_flKnockOverFailedTime;						// Time at which we should tell the NPC that he failed to knock me over
+	double	m_flKnockOverFailedTime;						// Time at which we should tell the NPC that he failed to knock me over
 
 	QAngle	m_vecGoalAngles;
 
@@ -239,7 +239,7 @@ protected:
 
 	// physics influence
 	CHandle<CBasePlayer>	m_hPhysicsAttacker;
-	float					m_flLastPhysicsInfluenceTime;
+	double					m_flLastPhysicsInfluenceTime;
 
 	static const char		*m_pShotSounds[];
 

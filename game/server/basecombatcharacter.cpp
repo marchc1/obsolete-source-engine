@@ -310,7 +310,7 @@ struct VisibilityCacheEntry_t
 	CBaseEntity *pEntity1;
 	CBaseEntity *pEntity2;
 	EHANDLE		pBlocker;
-	float		time;
+	double		time;
 };
 
 class CVisibilityCacheEntryLess
@@ -1093,7 +1093,7 @@ CBaseEntity *CBaseCombatCharacter::CheckTraceHullAttack( float flDist, const Vec
 	// The ideal place to start the trace is in the center of the attacker's bounding box.
 	// however, we need to make sure there's enough clearance. Some of the smaller monsters aren't 
 	// as big as the hull we try to trace with. (SJB)
-	float flVerticalOffset = WorldAlignSize().z * 0.5;
+	float flVerticalOffset = WorldAlignSize().z * 0.5f;
 
 	if( flVerticalOffset < maxs.z )
 	{
@@ -3545,13 +3545,13 @@ bool CBaseCombatCharacter::HasEverBeenInjured( int team /*= TEAM_ANY */ ) const
 //-----------------------------------------------------------------------------
 // Return time since we were hurt by a member of the given team
 //-----------------------------------------------------------------------------
-float CBaseCombatCharacter::GetTimeSinceLastInjury( int team /*= TEAM_ANY */ ) const
+double CBaseCombatCharacter::GetTimeSinceLastInjury( int team /*= TEAM_ANY */ ) const
 {
-	const float never = 999999999999.9f;
+	const double never = 999999999999.9f;
 
 	if ( team == TEAM_ANY )
 	{
-		float time = never;
+		double time = never;
 
 		// find most recent injury time
 		for( int i=0; i<MAX_DAMAGE_TEAMS; ++i )

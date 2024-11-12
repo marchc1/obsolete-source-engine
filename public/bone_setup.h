@@ -54,8 +54,8 @@ public:
 	IBoneSetup( const CStudioHdr *pStudioHdr, int boneMask, const float poseParameter[], IPoseDebugger *pPoseDebugger = NULL );
 	~IBoneSetup( void );
 	void InitPose( Vector pos[], Quaternion[] );
-	void AccumulatePose( Vector pos[], Quaternion q[], int sequence, float cycle, float flWeight, float flTime, CIKContext *pIKContext );
-	void CalcAutoplaySequences(	Vector pos[], Quaternion q[], float flRealTime, CIKContext *pIKContext );
+	void AccumulatePose( Vector pos[], Quaternion q[], int sequence, float cycle, float flWeight, double flTime, CIKContext *pIKContext );
+	void CalcAutoplaySequences(	Vector pos[], Quaternion q[], double flRealTime, CIKContext *pIKContext );
 	void CalcBoneAdj( Vector pos[], Quaternion q[], const float controllers[] );
 	CStudioHdr *GetStudioHdr();
 private:
@@ -193,8 +193,8 @@ private:
 		Quaternion	debounceQ;
 	} latched;
 	struct x6 {
-		float		flTime; // time last error was detected
-		float		flErrorTime;
+		double		flTime; // time last error was detected
+		double		flErrorTime;
 		float		ramp;
 		bool		bInError;
 	} error;
@@ -269,7 +269,7 @@ class CIKContext
 {
 public:
 	CIKContext( );
-	void Init( const CStudioHdr *pStudioHdr, const QAngle &angles, const Vector &pos, float flTime, int iFramecounter, int boneMask );
+	void Init( const CStudioHdr *pStudioHdr, const QAngle &angles, const Vector &pos, double flTime, int iFramecounter, int boneMask );
 	void AddDependencies(  mstudioseqdesc_t &seqdesc, int iSequence, float flCycle, const float poseParameters[], float flWeight = 1.0f );
 
 	void ClearTargets( void );
@@ -303,7 +303,7 @@ private:
 	matrix3x4_t m_rootxform;
 
 	int m_iFramecounter;
-	float m_flTime;
+	double m_flTime;
 	int m_boneMask;
 };
 
@@ -384,7 +384,7 @@ struct bonecacheparams_t
 {
 	CStudioHdr		*pStudioHdr;
 	matrix3x4_t		*pBoneToWorld;
-	float			curtime;
+	double			curtime;
 	int				boneMask;
 };
 
@@ -406,15 +406,15 @@ public:
 	// dimhotepus: Init -> ctor.
 					CBoneCache( const bonecacheparams_t &params, unsigned int size, unsigned short *pStudioToCached, unsigned short *pCachedToStudio, unsigned short cachedBoneCount );
 
-	void			UpdateBones( const matrix3x4_t *pBoneToWorld, int numbones, float curtime );
+	void			UpdateBones( const matrix3x4_t *pBoneToWorld, int numbones, double curtime );
 	matrix3x4_t		*GetCachedBone( int studioIndex );
 	void			ReadCachedBones( matrix3x4_t *pBoneToWorld );
 	void			ReadCachedBonePointers( matrix3x4_t **bones, int numbones );
 
-	bool			IsValid( float curtime, float dt = 0.1f ) const;
+	bool			IsValid( double curtime, float dt = 0.1f ) const;
 
 public:
-	float			m_timeValid;
+	double			m_timeValid;
 	int				m_boneMask;
 
 private:

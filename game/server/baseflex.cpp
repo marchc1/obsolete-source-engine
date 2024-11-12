@@ -134,7 +134,7 @@ void CBaseFlex::SetViewtarget( const Vector &viewtarget )
 	m_viewtarget = viewtarget;	// bah
 }
 
-void CBaseFlex::SetFlexWeight( LocalFlexController_t index, float value )
+void CBaseFlex::SetFlexWeight( LocalFlexController_t index, double value )
 {
 	if (index >= 0 && index < GetNumFlexControllers())
 	{
@@ -147,14 +147,14 @@ void CBaseFlex::SetFlexWeight( LocalFlexController_t index, float value )
 		if (pflexcontroller->max != pflexcontroller->min)
 		{
 			value = (value - pflexcontroller->min) / (pflexcontroller->max - pflexcontroller->min);
-			value = clamp( value, 0.0f, 1.0f );
+			value = clamp( (float)value, 0.0f, 1.0f );
 		}
 
 		m_flexWeight.Set( index, value );
 	}
 }
 
-float CBaseFlex::GetFlexWeight( LocalFlexController_t index )
+double CBaseFlex::GetFlexWeight( LocalFlexController_t index )
 {
 	if (index >= 0 && index < GetNumFlexControllers())
 	{
@@ -2127,7 +2127,7 @@ void CBaseFlex::DoBodyLean( void )
 		vecDelta.y = clamp( vecDelta.y, -50, 50 );
 		vecDelta.z = clamp( vecDelta.z, -50, 50 );
 
-		float dt = gpGlobals->curtime - GetLastThink();
+		float dt = (float)(gpGlobals->curtime - GetLastThink());
 		bool bSkip = ((GetFlags() & (FL_FLY | FL_SWIM)) != 0) || (GetMoveParent() != NULL) || (GetGroundEntity() == NULL) || (GetGroundEntity()->IsMoving());
 		bSkip |= myNpc->TaskRanAutomovement() || (myNpc->GetVehicleEntity() != NULL);
 
@@ -2233,13 +2233,13 @@ public:
 	// Don't treat as a live target
 	virtual bool IsAlive( void ) { return FALSE; }
 
-	float m_flextime;
+	double m_flextime;
 	LocalFlexController_t m_flexnum;
-	float m_flextarget[64];
-	float m_blinktime;
-	float m_looktime;
+	double m_flextarget[64];
+	double m_blinktime;
+	double m_looktime;
 	Vector m_lookTarget;
-	float m_speaktime;
+	double m_speaktime;
 	int	m_istalking;
 	int	m_phoneme;
 
@@ -2503,8 +2503,8 @@ void CFlexCycler::Think( void )
 			for ( LocalFlexController_t i = LocalFlexController_t(0); i < GetNumFlexControllers(); i++ )
 			{
 				// Throw a differently offset sine wave on all of the flex controllers
-				float fFlexTime = i * (1.0f / (float)GetNumFlexControllers()) + gpGlobals->curtime;
-				m_flextarget[i] = sinf( fFlexTime ) * 0.5f + 0.5f;
+				double fFlexTime = i * (1.0f / (float)GetNumFlexControllers()) + gpGlobals->curtime;
+				m_flextarget[i] = sin( fFlexTime ) * 0.5f + 0.5f;
 				SetFlexWeight( i, m_flextarget[i] );
 			}
 		}

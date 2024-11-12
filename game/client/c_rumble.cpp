@@ -30,7 +30,7 @@ typedef struct
 //=========================================================
 typedef struct
 {
-	float			starttime;			// When did this effect start playing? (gpGlobals->curtime)
+	double			starttime;			// When did this effect start playing? (gpGlobals->curtime)
 	int				waveformIndex;		// Type of effect waveform used (an enum from rumble_shared.h)
 	int				priority;			// How important this effect is (for making replacement decisions)
 	bool			in_use;				// Is this channel in use?? (true if effect is currently playing, false if done or otherwise available)
@@ -258,8 +258,8 @@ public:
 	void StartEffect( unsigned char effectIndex, unsigned char rumbleData, unsigned char rumbleFlags );
 	void StopEffect( int effectIndex );
 	void StopAllEffects();
-	void ComputeAmplitudes( RumbleChannel_t *pChannel, float curtime, float *pLeft, float *pRight );
-	void UpdateEffects( float curtime );
+	void ComputeAmplitudes( RumbleChannel_t *pChannel, double curtime, float *pLeft, float *pRight );
+	void UpdateEffects( double curtime );
 	void UpdateScreenShakeRumble( float shake, float balance );
 
 	RumbleChannel_t *FindExistingChannel( int index );
@@ -485,7 +485,7 @@ RumbleChannel_t	*CRumbleEffects::FindAvailableChannel( int priority )
 			if( pBestChannel )
 			{
 				// If we already have a channel of the same priority to discard, make sure we discard the oldest.
-				float age = gpGlobals->curtime - pChannel->starttime;
+				double age = gpGlobals->curtime - pChannel->starttime;
 
 				if( age > oldestChannel )
 				{
@@ -497,7 +497,7 @@ RumbleChannel_t	*CRumbleEffects::FindAvailableChannel( int priority )
 			{
 				// Take it.
 				pBestChannel = pChannel;
-				oldestChannel = gpGlobals->curtime - pChannel->starttime;
+				oldestChannel = (float)(gpGlobals->curtime - pChannel->starttime);
 			}
 		}
 	}
@@ -627,10 +627,10 @@ void CRumbleEffects::StopAllEffects()
 
 //---------------------------------------------------------
 //---------------------------------------------------------
-void CRumbleEffects::ComputeAmplitudes( RumbleChannel_t *pChannel, float curtime, float *pLeft, float *pRight )
+void CRumbleEffects::ComputeAmplitudes( RumbleChannel_t *pChannel, double curtime, float *pLeft, float *pRight )
 {
 	// How long has this waveform been playing?
-	float elapsed = curtime - pChannel->starttime;
+	double elapsed = curtime - pChannel->starttime;
 	
 	if( elapsed >= (NUM_WAVE_SAMPLES/10) )
 	{
@@ -723,7 +723,7 @@ void CRumbleEffects::UpdateScreenShakeRumble( float shake, float balance )
 
 //---------------------------------------------------------
 //---------------------------------------------------------
-void CRumbleEffects::UpdateEffects( float curtime )
+void CRumbleEffects::UpdateEffects( double curtime )
 {
 	float fLeftMotor = 0.0f;
 	float fRightMotor = 0.0f;

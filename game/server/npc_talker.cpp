@@ -578,7 +578,7 @@ void CNPCSimpleTalker::DeferAllIdleSpeech( float flDelay, CAI_BaseNPC *pIgnore )
 	CAI_BaseNPC **ppAIs = g_AI_Manager.AccessAIs();
 	CNPCSimpleTalker *pTalker;
 
-	float flTime = gpGlobals->curtime + flDelay;
+	double flTime = gpGlobals->curtime + flDelay;
 
 	for ( int i = 0; i < g_AI_Manager.NumAIs(); i++ )
 	{

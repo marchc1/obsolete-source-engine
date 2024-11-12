@@ -35,7 +35,7 @@ struct BeamTrail_t
 {
 	// NOTE:  Don't add user defined fields except after these four fields.
 	BeamTrail_t*	next;
-	float			die;
+	double			die;
 	Vector			org;
 	Vector			vel;
 };

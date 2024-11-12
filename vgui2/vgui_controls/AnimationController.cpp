@@ -896,7 +896,7 @@ bool AnimationController::UpdateScreenSize()
 //-----------------------------------------------------------------------------
 // Purpose: runs a frame of animation
 //-----------------------------------------------------------------------------
-void AnimationController::UpdateAnimations( float currentTime )
+void AnimationController::UpdateAnimations( double currentTime )
 {
 	m_flCurrentTime = currentTime;
 
@@ -943,10 +943,10 @@ void AnimationController::CancelAllAnimations()
 //-----------------------------------------------------------------------------
 // Purpose: produces an interpolated value
 //-----------------------------------------------------------------------------
-AnimationController::Value_t AnimationController::GetInterpolatedValue(int interpolator, float interpolatorParam, float currentTime, float startTime, float endTime, Value_t &startValue, Value_t &endValue)
+AnimationController::Value_t AnimationController::GetInterpolatedValue(int interpolator, float interpolatorParam, double currentTime, double startTime, double endTime, Value_t &startValue, Value_t &endValue)
 {
 	// calculate how far we are into the animation
-	float pos = (currentTime - startTime) / (endTime - startTime);
+	float pos = (float)((currentTime - startTime) / (endTime - startTime));
 
 	// adjust the percentage through by the interpolation function
 	switch (interpolator)

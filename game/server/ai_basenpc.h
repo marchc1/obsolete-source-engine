@@ -279,8 +279,8 @@ struct AIScheduleState_t
 {
 	int					 iCurTask;
 	TaskStatus_e		 fTaskStatus;
-	float				 timeStarted;
-	float				 timeCurTaskStarted;
+	double				 timeStarted;
+	double				 timeCurTaskStarted;
 	AI_TaskFailureCode_t taskFailureCode;
 	int					 iTaskInterrupt;
 	bool 				 bTaskRanAutomovement;
@@ -297,7 +297,7 @@ struct AIScheduleState_t
 struct UnreachableEnt_t
 {
 	EHANDLE	hUnreachableEnt;	// Entity that's unreachable
-	float	fExpireTime;		// Time to forget this information
+	double	fExpireTime;		// Time to forget this information
 	Vector	vLocationWhenUnreachable;
 	
 	DECLARE_SIMPLE_DATADESC();
@@ -413,7 +413,7 @@ struct ScriptedNPCInteraction_t
 	VMatrix		matDesiredLocalToWorld;		// Desired relative position / angles of the other NPC
 	bool		bValidOnCurrentEnemy;
 
-	float		flNextAttemptTime;
+	double		flNextAttemptTime;
 
 	DECLARE_SIMPLE_DATADESC();
 };
@@ -674,7 +674,7 @@ public:
 	virtual int			GetLocalScheduleId( int globalScheduleID )	{ return AI_IdIsLocal( globalScheduleID ) ? globalScheduleID : GetClassScheduleIdSpace()->ScheduleGlobalToLocal( globalScheduleID ); }
 	virtual int			GetGlobalScheduleId( int localScheduleID )	{ return AI_IdIsGlobal( localScheduleID ) ? localScheduleID : GetClassScheduleIdSpace()->ScheduleLocalToGlobal( localScheduleID ); }
 
-	float				GetTimeScheduleStarted() const				{ return m_ScheduleState.timeStarted; }
+	double				GetTimeScheduleStarted() const				{ return m_ScheduleState.timeStarted; }
 	
 	//---------------------------------
 	
@@ -694,7 +694,7 @@ public:
 
 	virtual const char *TaskName(int taskID);
 
-	float				GetTimeTaskStarted() const					{ return m_ScheduleState.timeCurTaskStarted; }
+	double				GetTimeTaskStarted() const					{ return m_ScheduleState.timeCurTaskStarted; }
 	virtual int			GetLocalTaskId( int globalTaskId)			{ return GetClassScheduleIdSpace()->TaskGlobalToLocal( globalTaskId ); }
 
 	virtual const char *GetSchedulingErrorName()					{ return "CAI_BaseNPC"; }
@@ -765,12 +765,12 @@ private:
 	bool				m_bDoPostRestoreRefindPath;
 
 	bool				m_bUsingStandardThinkTime;
-	float				m_flLastRealThinkTime;
+	double				m_flLastRealThinkTime;
 	int					m_iFrameBlocked;
 	bool				m_bInChoreo;
 
 	static int			gm_iNextThinkRebalanceTick;
-	static float		gm_flTimeLastSpawn;
+	static double		gm_flTimeLastSpawn;
 	static int			gm_nSpawnedThisFrame;
 
 protected: // pose parameters
@@ -903,13 +903,13 @@ public:
 	//---------------------------------
 
 	NPC_STATE			m_NPCState;				// npc's current state
-	float				m_flLastStateChangeTime;
+	double				m_flLastStateChangeTime;
 
 private:
 	NPC_STATE			m_IdealNPCState;		// npc should change to this state
 	AI_Efficiency_t		m_Efficiency;
 	AI_MoveEfficiency_t m_MoveEfficiency;
-	float				m_flNextDecisionTime;
+	double				m_flNextDecisionTime;
 
 	AI_SleepState_t		m_SleepState;
 	int					m_SleepFlags;
@@ -1016,11 +1016,11 @@ public:
 
 	CBaseEntity*		GetEnemy() override							{ return m_hEnemy.Get(); }
 	CBaseEntity*		GetEnemy() const override					{ return m_hEnemy.Get(); }
-	float				GetTimeEnemyAcquired()				{ return m_flTimeEnemyAcquired; }
+	double				GetTimeEnemyAcquired()				{ return m_flTimeEnemyAcquired; }
 	void				SetEnemy( CBaseEntity *pEnemy, bool bSetCondNewEnemy = true );
 
 	const Vector &		GetEnemyLKP() const;
-	float				GetEnemyLastTimeSeen() const;
+	double				GetEnemyLastTimeSeen() const;
 	void				MarkEnemyAsEluded();
 	void				ClearEnemyMemory();
 	bool				EnemyHasEludedMe() const;
@@ -1048,7 +1048,7 @@ public:
 	CBaseEntity*		GetTarget()								{ return m_hTargetEnt.Get(); }
 	void				SetTarget( CBaseEntity *pTarget );
 	void				CheckTarget( CBaseEntity *pTarget );
-	float				GetAcceptableTimeSeenEnemy( void )		{ return m_flAcceptableTimeSeenEnemy; }
+	double				GetAcceptableTimeSeenEnemy( void )		{ return m_flAcceptableTimeSeenEnemy; }
 	virtual	CAI_BaseNPC *CreateCustomTarget( const Vector &vecOrigin, float duration = -1 );
 
 	void				SetDeathPose( const int &iDeathPose ) { m_iDeathPose = iDeathPose; }
@@ -1074,14 +1074,14 @@ private:
 	//---------------------------------
 	
 	EHANDLE				m_hEnemy;		// the entity that the npc is fighting.
-	float				m_flTimeEnemyAcquired; // The time at which the entity the NPC is fighting became the NPC's enemy.
+	double				m_flTimeEnemyAcquired; // The time at which the entity the NPC is fighting became the NPC's enemy.
 	EHANDLE				m_hTargetEnt;	// the entity that the npc is trying to reach
 
 	CRandStopwatch		m_GiveUpOnDeadEnemyTimer;
 	CSimpleSimTimer		m_FailChooseEnemyTimer;
 	int					m_EnemiesSerialNumber;
 
-	float				m_flAcceptableTimeSeenEnemy;
+	double				m_flAcceptableTimeSeenEnemy;
 
 	CSimpleSimTimer		m_UpdateEnemyPosTimer;
 	static CSimpleSimTimer m_AnyUpdateEnemyPosTimer;
@@ -1155,7 +1155,7 @@ private:
 	// Forced interactions
 	CHandle<CAI_BaseNPC>				 m_hForcedInteractionPartner;
 	Vector								 m_vecForcedWorldPosition;
-	float								m_flForcedInteractionTimeout; // Abort the interaction if it hasn't started by this time.
+	double								m_flForcedInteractionTimeout; // Abort the interaction if it hasn't started by this time.
 
 	CHandle<CAI_BaseNPC>				 m_hInteractionPartner;
 	EHANDLE								 m_hLastInteractionTestTarget;
@@ -1211,7 +1211,7 @@ public:
 	void		ModifyOrAppendCriteria( AI_CriteriaSet& set ) override;
 
 protected:
-	float		SoundWaitTime() const { return m_flSoundWaitTime; }
+	double		SoundWaitTime() const { return m_flSoundWaitTime; }
 
 public:
 	//-----------------------------------------------------
@@ -1357,7 +1357,7 @@ public:
 	
 	void				DelayMoveStart( float delay )	{ m_flMoveWaitFinished = gpGlobals->curtime + delay; }
 	
-	float				m_flMoveWaitFinished;
+	double				m_flMoveWaitFinished;
 	
 
 	//
@@ -1385,7 +1385,7 @@ private:
 
 	EHANDLE				m_hGoalEnt;					// path corner we are heading towards
 
-	float				m_flTimeLastMovement;
+	double				m_flTimeLastMovement;
 
 
 	CSimpleSimTimer		m_CheckOnGroundTimer;
@@ -1430,7 +1430,7 @@ public:
 
 protected:
 	Vector				m_vDefaultEyeOffset;
-	float				m_flNextEyeLookTime;	// Next time a pick a new place to look
+	double				m_flNextEyeLookTime;	// Next time a pick a new place to look
 	
 	float				m_flEyeIntegRate;		 // How fast does eye move to target
 
@@ -1520,7 +1520,7 @@ public:
 	void				AddSceneLock( float flDuration = 0.2f ) { m_flSceneTime = MAX( gpGlobals->curtime + flDuration, m_flSceneTime ); };
 	void				ClearSceneLock( float flDuration = 0.2f ) { m_flSceneTime = gpGlobals->curtime + flDuration; };
 	bool				IsInLockedScene( void ) { return m_flSceneTime > gpGlobals->curtime; };
-	float				m_flSceneTime;
+	double				m_flSceneTime;
 	string_t			m_iszSceneCustomMoveSeq;
 
 public:
@@ -1541,12 +1541,12 @@ public:
 	virtual bool		UpdateEnemyMemory( CBaseEntity *pEnemy, const Vector &position, CBaseEntity *pInformer = NULL );
 	virtual float		GetReactionDelay( CBaseEntity *pEnemy );
 	
-	void				SetLastAttackTime( float time)	{ m_flLastAttackTime = time; }
+	void				SetLastAttackTime( double time)	{ m_flLastAttackTime = time; }
 
-	float				GetLastAttackTime() const { return m_flLastAttackTime; }
-	float				GetLastDamageTime() const { return m_flLastDamageTime; }
-	float				GetLastPlayerDamageTime() const { return m_flLastPlayerDamageTime; }
-	float				GetLastEnemyTime() const { return m_flLastEnemyTime; }
+	double				GetLastAttackTime() const { return m_flLastAttackTime; }
+	double				GetLastDamageTime() const { return m_flLastDamageTime; }
+	double				GetLastPlayerDamageTime() const { return m_flLastPlayerDamageTime; }
+	double				GetLastEnemyTime() const { return m_flLastEnemyTime; }
 
 	// Set up the shot regulator based on the equipped weapon
 	void		OnChangeActiveWeapon( CBaseCombatWeapon *pOldWeapon, CBaseCombatWeapon *pNewWeapon ) override;
@@ -1576,12 +1576,12 @@ protected:
 	EHANDLE				m_hEnemyOccluder;	// The entity my enemy is hiding behind.
 
 	float				m_flSumDamage;				// How much consecutive damage I've received
-	float				m_flLastDamageTime;			// Last time I received damage
-	float				m_flLastPlayerDamageTime;	// Last time I received damage from the player
-	float				m_flLastSawPlayerTime;		// Last time I saw the player
-	float				m_flLastAttackTime;			// Last time that I attacked my current enemy
-	float				m_flLastEnemyTime;
-	float				m_flNextWeaponSearchTime;	// next time to search for a better weapon
+	double				m_flLastDamageTime;			// Last time I received damage
+	double				m_flLastPlayerDamageTime;	// Last time I received damage from the player
+	double				m_flLastSawPlayerTime;		// Last time I saw the player
+	double				m_flLastAttackTime;			// Last time that I attacked my current enemy
+	double				m_flLastEnemyTime;
+	double				m_flNextWeaponSearchTime;	// next time to search for a better weapon
 	string_t			m_iszPendingWeapon;			// THe NPC should create and equip this weapon.
 	bool				m_bIgnoreUnseenEnemies;
 
@@ -1733,7 +1733,7 @@ public:
 	bool				UpdateTurnGesture( void );
 
 	// Returns the time when the door will be open
-	float				OpenDoorAndWait( CBaseEntity *pDoor );
+	double				OpenDoorAndWait( CBaseEntity *pDoor );
 
 	bool				BBoxFlat( void );
 
@@ -1830,9 +1830,9 @@ public:
 
 	//---------------------------------
 
-	float SetWait( float minWait, float maxWait = 0.0 );
+	double SetWait( float minWait, float maxWait = 0.0 );
 	void ClearWait();
-	float GetWaitFinishTime()	{ return m_flWaitFinished; }
+	double GetWaitFinishTime()	{ return m_flWaitFinished; }
 	bool IsWaitFinished();
 	bool IsWaitSet();
 	
@@ -1844,10 +1844,10 @@ public:
 	void			SetHintNode( CAI_Hint *pHintNode );
 	void			ClearHintNode( float reuseDelay = 0.0 );
 
-	float				m_flWaitFinished;			// if we're told to wait, this is the time that the wait will be over.
+	double				m_flWaitFinished;			// if we're told to wait, this is the time that the wait will be over.
 
-	float				m_flNextFlinchTime;			// Time at which we'll flinch fully again (as opposed to just doing gesture flinches)
-	float				m_flNextDodgeTime;			// Time at which I can dodge again. Used so that the behavior doesn't happen over and over.
+	double				m_flNextFlinchTime;			// Time at which we'll flinch fully again (as opposed to just doing gesture flinches)
+	double				m_flNextDodgeTime;			// Time at which I can dodge again. Used so that the behavior doesn't happen over and over.
 
 	CAI_MoveAndShootOverlay m_MoveAndShootOverlay;
 
@@ -2081,9 +2081,9 @@ public:
 	bool				m_bSelected;
 #endif
 
-	float				m_flSoundWaitTime;	// Time when I'm allowed to make another sound
+	double				m_flSoundWaitTime;	// Time when I'm allowed to make another sound
 	int					m_nSoundPriority;
-	float				m_flIgnoreDangerSoundsUntil;
+	double				m_flIgnoreDangerSoundsUntil;
 
 #ifdef AI_MONITOR_FOR_OSCILLATION
 	CUtlVector<AIScheduleChoice_t>	m_ScheduleHistory;
@@ -3067,7 +3067,7 @@ inline edict_t *CAI_Component::GetEdict()
 
 //-----------------------------------------------------------------------------
 
-inline float CAI_Component::GetLastThink( const char *szContext )
+inline double CAI_Component::GetLastThink( const char *szContext )
 {
 	return GetOuter()->GetLastThink( szContext );
 }

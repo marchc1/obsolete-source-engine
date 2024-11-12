@@ -76,8 +76,8 @@ public:
 	void ResetAchievements();
 	void ResetAchievement( int iAchievementID );
 	void PrintAchievementStatus();
-	float GetLastClassChangeTime() { return m_flLastClassChangeTime; }
-	float GetTeamplayStartTime() { return m_flTeamplayStartTime; }
+	double GetLastClassChangeTime() { return m_flLastClassChangeTime; }
+	double GetTeamplayStartTime() { return m_flTeamplayStartTime; }
 	int	  GetMiniroundsCompleted() { return m_iMiniroundsCompleted; }
 	const char *GetMapName() { return m_szMap; }
 	void OnAchievementEvent( int iAchievementID, int iCount = 1 );
@@ -106,7 +106,7 @@ public:
 		return false;
 #endif
 	}
-	float GetTimeLastUpload() { return m_flTimeLastSaved; }			// time we last uploaded to Steam
+	double GetTimeLastUpload() { return m_flTimeLastSaved; }			// time we last uploaded to Steam
 
 	bool WereCheatsEverOn( void ) { return m_bCheatsEverOn; }
 
@@ -132,22 +132,22 @@ private:
 
 	struct achievementthink_t
 	{
-		float			 m_flThinkTime;
+		double			 m_flThinkTime;
 		CBaseAchievement *pAchievement;
 	};
 	CUtlVector<achievementthink_t> m_vecThinkListeners;					// vector of achievements that are actively thinking
 
-	float m_flLevelInitTime;
+	double m_flLevelInitTime;
 
-	float m_flLastClassChangeTime;		// Time when player last changed class
-	float m_flTeamplayStartTime;		// Time when player joined a non-spectating team.  Not updated if she switches game teams; cleared if she joins spectator
+	double m_flLastClassChangeTime;		// Time when player last changed class
+	double m_flTeamplayStartTime;		// Time when player joined a non-spectating team.  Not updated if she switches game teams; cleared if she joins spectator
 	float m_iMiniroundsCompleted;		// # of minirounds played since game start (for maps that have minirounds)
 	char  m_szMap[MAX_PATH];			// file base of map name, cached since we access it frequently in this form
 	bool  m_bGlobalStateDirty;			// do we have interesting state changes that needs to be saved?
 	bool  m_bSteamDataDirty;			// do we have changes to upload to Steamworks?
 	bool  m_bGlobalStateLoaded;			// have we loaded global state
 	bool  m_bCheatsEverOn;				// have cheats ever been turned on in this level
-	float m_flTimeLastSaved;			// last time we uploaded to Steam
+	double m_flTimeLastSaved;			// last time we uploaded to Steam
 
     //=============================================================================
     // HPE_BEGIN

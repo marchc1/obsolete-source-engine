@@ -1175,11 +1175,11 @@ void CMomentaryRotButton::InputSetPosition( inputdata_t &inputdata )
 	float dt = flAngleDelta / m_flSpeed;
 	if ( dt < TICK_INTERVAL )
 	{
-		dt = TICK_INTERVAL;
-		float speed = flAngleDelta / TICK_INTERVAL;
+		dt = (float)TICK_INTERVAL;
+		float speed = flAngleDelta / (float)TICK_INTERVAL;
 		SetLocalAngularVelocity( speed * m_vecMoveAng * m_direction );
 	}
-	dt = clamp( dt, TICK_INTERVAL, TICK_INTERVAL * 6);
+	dt = clamp( dt, (float)TICK_INTERVAL, (float)TICK_INTERVAL * 6);
 
 	SetMoveDoneTime( dt );
 }
@@ -1294,11 +1294,11 @@ void CMomentaryRotButton::SetPositionMoveDone(void)
 	float dt = flAngleDelta / m_flSpeed;
 	if ( dt < TICK_INTERVAL )
 	{
-		dt = TICK_INTERVAL;
-		float speed = flAngleDelta / TICK_INTERVAL;
+		dt = (float)TICK_INTERVAL;
+		float speed = flAngleDelta / (float)TICK_INTERVAL;
 		SetLocalAngularVelocity( speed * m_vecMoveAng * m_direction );
 	}
-	dt = clamp( dt, TICK_INTERVAL, TICK_INTERVAL * 6);
+	dt = clamp( dt, (float)TICK_INTERVAL, (float)TICK_INTERVAL * 6);
 
 	SetMoveDoneTime( dt );
 }
@@ -1321,7 +1321,7 @@ void CMomentaryRotButton::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, US
 		if ( OnUseLocked( pActivator ) && HasSpawnFlags( SF_BUTTON_JIGGLE_ON_USE_LOCKED ) )
 		{
 			// Jiggle two degrees.
-			float flDist = 2.0 / m_flMoveDistance;
+			float flDist = 2.0f / m_flMoveDistance;
 
 			// Must be first!
 			g_EventQueue.AddEvent( this, "_DisableUpdateTarget", 0, this, this );

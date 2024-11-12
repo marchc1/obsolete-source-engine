@@ -358,8 +358,8 @@ public:
 	float			m_Opacity;
 
 	float			m_ParticleLifetime;		// How long do the particles live?
-	float			m_StartEmitTime;		// When did I start emitting particles?
-	float			m_StopEmitTime;			// When do I stop emitting particles? (-1 = never)
+	double			m_StartEmitTime;		// When did I start emitting particles?
+	double			m_StopEmitTime;			// When do I stop emitting particles? (-1 = never)
 	
 	float			m_MinSpeed;				// Speed range.
 	float			m_MaxSpeed;

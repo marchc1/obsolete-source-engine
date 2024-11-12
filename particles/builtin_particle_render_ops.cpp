@@ -313,7 +313,7 @@ void C_OP_RenderSprites::InitParams( CParticleSystemDefinition *pDef, CDmxElemen
 {
 }
 
-const SheetSequenceSample_t *GetSampleForSequence( CSheet *pSheet, float flCreationTime, float flCurTime, float flAgeScale, int nSequence )
+const SheetSequenceSample_t *GetSampleForSequence( CSheet *pSheet, float flCreationTime, double flCurTime, float flAgeScale, int nSequence )
 {
 	if ( pSheet == NULL )
 		return NULL;
@@ -321,7 +321,7 @@ const SheetSequenceSample_t *GetSampleForSequence( CSheet *pSheet, float flCreat
 	if ( pSheet->m_nNumFrames[nSequence] == 1 )
 		return (const SheetSequenceSample_t *) &pSheet->m_pSamples[nSequence][0];
 
-	float flAge = flCurTime - flCreationTime;
+	double flAge = flCurTime - flCreationTime;
 
 	flAge *= flAgeScale;
 	unsigned int nFrame = flAge;
@@ -1473,7 +1473,7 @@ void C_OP_RenderSpritesTrail::RenderSpriteTrail( CMeshBuilder &meshBuilder,
 	const SequenceSampleTextureCoords_t *pSample0 = &(pSample->m_TextureCoordData[0]);
 
 	int nCreationTimeIndex = nGroup * info.m_nCreationTimeStride;
-	float flAge = info.m_pParticles->m_flCurTime - SubFloat( info.m_pCreationTimeStamp[ nCreationTimeIndex ], nOffset );
+	float flAge = (float)(info.m_pParticles->m_flCurTime - SubFloat( info.m_pCreationTimeStamp[ nCreationTimeIndex ], nOffset ));
 
 	float flLengthScale = ( flAge >= m_flLengthFadeInTime ) ? 1.0f : ( flAge / m_flLengthFadeInTime );
 
@@ -1849,8 +1849,8 @@ void C_OP_RenderRope::RenderSpriteCard( CParticleCollection *pParticles, void *p
 	
 	bool bFirstPoint = true;
 
-	float flTexOffset = m_flTextureScrollRate * pParticles->m_flCurTime;
-	float flU = flTexOffset;
+	double flTexOffset = m_flTextureScrollRate * pParticles->m_flCurTime;
+	float flU = (float)flTexOffset;
 
 	// initialize first spline segment
 	Vector4D vecP1( pXYZ[0], pXYZ[4], pXYZ[8], pRadius[0] );
@@ -2033,7 +2033,7 @@ void C_OP_RenderRope::RenderUnsorted( CParticleCollection *pParticles, void *pCo
 		pCtx->m_flRenderedRopeLength = 0.0f;
 	}
 
-	float flTexOffset = m_flTextureScrollRate * pParticles->m_flCurTime;
+	float flTexOffset = (float)(m_flTextureScrollRate * pParticles->m_flCurTime);
 
 	RopeRenderInfo_t info;
 	info.Init( pParticles );

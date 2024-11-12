@@ -98,8 +98,8 @@ public:
 	void SetPlayerTeamModel( void );
 	Activity TranslateTeamActivity( Activity ActToTranslate );
 	
-	float GetNextModelChangeTime( void ) { return m_flNextModelChangeTime; }
-	float GetNextTeamChangeTime( void ) { return m_flNextTeamChangeTime; }
+	double GetNextModelChangeTime( void ) { return m_flNextModelChangeTime; }
+	double GetNextTeamChangeTime( void ) { return m_flNextTeamChangeTime; }
 	void  PickDefaultSpawnTeam( void );
 	void  SetupPlayerSoundsByModel( const char *pModelName );
 	const char *GetPlayerModelSoundPrefix( void );
@@ -148,10 +148,10 @@ private:
 	CNetworkVar( int, m_iSpawnInterpCounter );
 	CNetworkVar( int, m_iPlayerSoundType );
 
-	float m_flNextModelChangeTime;
-	float m_flNextTeamChangeTime;
+	double m_flNextModelChangeTime;
+	double m_flNextTeamChangeTime;
 
-	float m_flSlamProtectTime;	
+	double m_flSlamProtectTime;	
 
 	HL2MPPlayerState m_iPlayerState;
 	CHL2MPPlayerStateInfo *m_pCurStateInfo;

@@ -104,7 +104,7 @@ void TE_DynamicLight( IRecipientFilter& filter, float delay,
 
  		msg->SetInt( "te", TE_DYNAMIC_LIGHT );
  		msg->SetString( "name", "TE_DynamicLight" );
-		msg->SetFloat( "time", gpGlobals->curtime );
+		msg->SetDouble( "time", gpGlobals->curtime );
 		msg->SetFloat( "duration", time );
 		msg->SetFloat( "originx", org->x );
 		msg->SetFloat( "originy", org->y );

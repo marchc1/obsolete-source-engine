@@ -71,7 +71,7 @@ private:
 
 protected:
 
-	float					m_flDelayedFire;
+	double					m_flDelayedFire;
 	bool					m_bShotDelayed;
 	int						m_nVentPose;
 	

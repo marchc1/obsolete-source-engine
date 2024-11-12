@@ -163,9 +163,9 @@ static void RunPlayerMove( CGMOD_Player *fakeclient, const QAngle& viewangles, f
 
 	// Store off the globals.. they're gonna get whacked
 	float flOldFrametime = gpGlobals->frametime;
-	float flOldCurtime = gpGlobals->curtime;
+	double flOldCurtime = gpGlobals->curtime;
 
-	float flTimeBase = gpGlobals->curtime + gpGlobals->frametime - frametime;
+	double flTimeBase = gpGlobals->curtime + gpGlobals->frametime - frametime;
 	fakeclient->SetTimeBase( flTimeBase );
 
 	Q_memset( &cmd, 0, sizeof( cmd ) );

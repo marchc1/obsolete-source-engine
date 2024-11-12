@@ -25,7 +25,7 @@ struct TrailPoint_t
 	DECLARE_SIMPLE_DATADESC();
 
 	Vector	m_vecScreenPos;
-	float	m_flDieTime;
+	double	m_flDieTime;
 	float	m_flTexCoord;
 	float	m_flWidthVariance;
 };
@@ -95,7 +95,7 @@ private:
 	TrailPoint_t	m_vecSteps[MAX_SPRITE_TRAIL_POINTS];
 	int	m_nFirstStep;
 	int m_nStepCount;
-	float m_flUpdateTime;
+	double m_flUpdateTime;
 	Vector m_vecPrevSkyboxOrigin;
 	float m_flPrevSkyboxScale;
 	Vector m_vecRenderMins;

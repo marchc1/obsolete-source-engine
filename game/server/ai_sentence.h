@@ -84,7 +84,7 @@ private:
 
 	int		m_voicePitch;
 	int		m_nQueuedSentenceIndex;
-	float	m_flQueueTimeout;
+	double	m_flQueueTimeout;
 	int		m_nQueueSoundPriority;
 };
 

@@ -798,7 +798,7 @@ void CAI_ActBusyBehavior::GatherConditions( void )
 		}
 		else if( m_hActBusyGoal )
 		{
-			float fDelta = gpGlobals->curtime - m_fTimeLastSawSeeEntity;
+			double fDelta = gpGlobals->curtime - m_fTimeLastSawSeeEntity;
 			if( fDelta >= m_hActBusyGoal->m_flSeeEntityTimeout )
 			{
 				SetCondition( COND_ACTBUSY_LOST_SEE_ENTITY );

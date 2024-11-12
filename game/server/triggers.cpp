@@ -732,10 +732,10 @@ void CTriggerHurt::RadiationThink( void )
 		pPlayer->NotifyNearbyRadiationSource(flRange);
 	}
 
-	float dt = gpGlobals->curtime - m_flLastDmgTime;
+	double dt = gpGlobals->curtime - m_flLastDmgTime;
 	if ( dt >= 0.5 )
 	{
-		HurtAllTouchers( dt );
+		HurtAllTouchers( (float)dt );
 	}
 
 	SetNextThink( gpGlobals->curtime + 0.25f );
@@ -1048,9 +1048,9 @@ public:
 
 	EHANDLE m_hLookTarget;
 	float m_flFieldOfView;
-	float m_flLookTime;			// How long must I look for
-	float m_flLookTimeTotal;	// How long have I looked
-	float m_flLookTimeLast;		// When did I last look
+	double m_flLookTime;			// How long must I look for
+	double m_flLookTimeTotal;	// How long have I looked
+	double m_flLookTimeLast;		// When did I last look
 	float m_flTimeoutDuration;	// Number of seconds after start touch to fire anyway
 	bool m_bTimeoutFired;		// True if the OnTimeout output fired since the last StartTouch.
 	EHANDLE m_hActivator;		// The entity that triggered us.
@@ -2890,8 +2890,8 @@ private:
 	CBaseEntity *m_pPath;
 	string_t m_sPath;
 	float m_flWait;
-	float m_flReturnTime;
-	float m_flStopTime;
+	double m_flReturnTime;
+	double m_flStopTime;
 	float m_moveDistance;
 	float m_targetSpeed;
 	float m_initialSpeed;
@@ -4560,9 +4560,9 @@ private:
 	float						m_addAirDensity;
 	float						m_linearLimit;
 	float						m_linearLimitDelta;
-	float						m_linearLimitTime;
+	double						m_linearLimitTime;
 	float						m_linearLimitStart;
-	float						m_linearLimitStartTime;
+	double						m_linearLimitStartTime;
 	float						m_linearScale;
 	float						m_angularLimit;
 	float						m_angularScale;
@@ -4629,7 +4629,7 @@ float CTriggerVPhysicsMotion::LinearLimit()
 	if ( m_linearLimitTime == 0.0f )
 		return m_linearLimit;
 
-	float dt = gpGlobals->curtime - m_linearLimitStartTime;
+	double dt = gpGlobals->curtime - m_linearLimitStartTime;
 	if ( dt >= m_linearLimitTime )
 	{
 		m_linearLimitTime = 0.0;

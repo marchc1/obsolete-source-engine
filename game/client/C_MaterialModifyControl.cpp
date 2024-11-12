@@ -81,7 +81,7 @@ public:
 	// FloatLerp usage
 	void	GetFloatLerpCommands( materialfloatlerpcommands_t *pCommands );
 
-	void	SetAnimationStartTime( float flTime )
+	void	SetAnimationStartTime( double flTime )
 	{
 		m_flAnimationStartTime = flTime;
 	}
@@ -116,7 +116,7 @@ private:
 	float	m_flFloatLerpEndValue;
 	float	m_flFloatLerpTransitionTime;
 	bool	m_bFloatLerpWrap;
-	float	m_flAnimationStartTime;
+	double	m_flAnimationStartTime;
 
 	int		m_nModifyMode;
 };
@@ -238,8 +238,8 @@ private:
 	IMaterialVar *m_pMaterialVar;
 	int			m_flStartValue;
 	int			m_flEndValue;
-	float		m_flStartTime;
-	float		m_flTransitionTime;
+	double		m_flStartTime;
+	double		m_flTransitionTime;
 };
 
 //-----------------------------------------------------------------------------
@@ -452,7 +452,7 @@ void CMaterialModifyProxy::OnBindAnimatedTexture( C_MaterialModifyControl *pCont
 	// NOTE: Must not use relative time based methods here
 	// because the bind proxy can be called many times per frame.
 	// Prevent multiple Wrap callbacks to be sent for no wrap mode
-	float startTime;
+	double startTime;
 	if ( m_iFrameStart != MATERIAL_MODIFY_ANIMATION_UNSET )
 	{
 		startTime = m_flStartTime;
@@ -461,8 +461,8 @@ void CMaterialModifyProxy::OnBindAnimatedTexture( C_MaterialModifyControl *pCont
 	{
 		startTime = GetAnimationStartTime(pControl);
 	}
-	float deltaTime = gpGlobals->curtime - startTime;
-	float prevTime = deltaTime - gpGlobals->frametime;
+	double deltaTime = gpGlobals->curtime - startTime;
+	double prevTime = deltaTime - gpGlobals->frametime;
 
 	// Clamp..
 	if (deltaTime < 0.0f)
@@ -603,7 +603,7 @@ private:
 	int			m_iFrameStart;
 	int			m_iFrameEnd;
 	bool		m_bReachedEnd;
-	float		m_flStartTime;
+	double		m_flStartTime;
 	bool		m_bCustomWrap;
 	float		m_flCustomFramerate;
 };
@@ -703,7 +703,7 @@ void CMaterialModifyAnimatedProxy::OnBind( void *pEntity )
 	// NOTE: Must not use relative time based methods here
 	// because the bind proxy can be called many times per frame.
 	// Prevent multiple Wrap callbacks to be sent for no wrap mode
-	float startTime;
+	double startTime;
 	if ( m_iFrameStart != MATERIAL_MODIFY_ANIMATION_UNSET )
 	{
 		startTime = m_flStartTime;
@@ -712,8 +712,8 @@ void CMaterialModifyAnimatedProxy::OnBind( void *pEntity )
 	{
 		startTime = GetAnimationStartTime(pEntity);
 	}
-	float deltaTime = gpGlobals->curtime - startTime;
-	float prevTime = deltaTime - gpGlobals->frametime;
+	double deltaTime = gpGlobals->curtime - startTime;
+	double prevTime = deltaTime - gpGlobals->frametime;
 
 	// Clamp..
 	if (deltaTime < 0.0f)

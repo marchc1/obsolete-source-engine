@@ -805,7 +805,7 @@ void CEventQueue::Dump( void )
 //-----------------------------------------------------------------------------
 // Purpose: adds the action into the correct spot in the priority queue, targeting entity via string name
 //-----------------------------------------------------------------------------
-void CEventQueue::AddEvent( const char *target, const char *targetInput, variant_t Value, float fireDelay, CBaseEntity *pActivator, CBaseEntity *pCaller, int outputID )
+void CEventQueue::AddEvent( const char *target, const char *targetInput, variant_t Value, double fireDelay, CBaseEntity *pActivator, CBaseEntity *pCaller, int outputID )
 {
 	// build the new event
 	EventQueuePrioritizedEvent_t *newEvent = new EventQueuePrioritizedEvent_t;
@@ -828,7 +828,7 @@ void CEventQueue::AddEvent( const char *target, const char *targetInput, variant
 //-----------------------------------------------------------------------------
 // Purpose: adds the action into the correct spot in the priority queue, targeting entity via pointer
 //-----------------------------------------------------------------------------
-void CEventQueue::AddEvent( CBaseEntity *target, const char *targetInput, variant_t Value, float fireDelay, CBaseEntity *pActivator, CBaseEntity *pCaller, int outputID )
+void CEventQueue::AddEvent( CBaseEntity *target, const char *targetInput, variant_t Value, double fireDelay, CBaseEntity *pActivator, CBaseEntity *pCaller, int outputID )
 {
 	// build the new event
 	EventQueuePrioritizedEvent_t *newEvent = new EventQueuePrioritizedEvent_t;
@@ -848,7 +848,7 @@ void CEventQueue::AddEvent( CBaseEntity *target, const char *targetInput, varian
 	AddEvent( newEvent );
 }
 
-void CEventQueue::AddEvent( CBaseEntity *target, const char *action, float fireDelay, CBaseEntity *pActivator, CBaseEntity *pCaller, int outputID )
+void CEventQueue::AddEvent( CBaseEntity *target, const char *action, double fireDelay, CBaseEntity *pActivator, CBaseEntity *pCaller, int outputID )
 {
 	variant_t Value;
 	Value.Set( FIELD_VOID, NULL );

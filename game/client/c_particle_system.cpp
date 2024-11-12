@@ -160,7 +160,7 @@ void C_ParticleSystem::ClientThink( void )
 				ParticleProp()->OnParticleSystemUpdated( pEffect, 0.0f );
 
 				// Skip the effect ahead if we're restarting it
-				float flTimeDelta = gpGlobals->curtime - m_flStartTime;
+				double flTimeDelta = gpGlobals->curtime - m_flStartTime;
 				if ( flTimeDelta > 0.01f )
 				{
 					VPROF_BUDGET( "C_ParticleSystem::ClientThink SkipToTime", "Particle Simulation" );

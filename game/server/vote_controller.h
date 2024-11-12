@@ -76,7 +76,7 @@ protected:
 	struct FailedVote
 	{
 		char	szFailedVoteParameter[MAX_VOTE_DETAILS_LENGTH];
-		float	flLockoutTime;					
+		double	flLockoutTime;					
 	};
 
 	CUtlVector< FailedVote* > m_FailedVotes;
@@ -85,7 +85,7 @@ protected:
 	int m_iNumYesVotes;
 	int m_iNumNoVotes;
 	int m_iNumPotentialVotes;
-	float m_flNextCallTime;
+	double m_flNextCallTime;
 	bool m_bGCNotified;
 	bool m_bGCApproved;
 	bool m_bGCResponded;

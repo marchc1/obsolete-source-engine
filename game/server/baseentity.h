@@ -1313,10 +1313,10 @@ public:
 	float					GetShadowCastDistance( void ) const;
 	void					SetShadowCastDistance( float flDesiredDistance, float flDelay );
 
-	float					GetLocalTime( void ) const;
+	double					GetLocalTime( void ) const;
 	void					IncrementLocalTime( float flTimeDelta );
-	float					GetMoveDoneTime( ) const;
-	void					SetMoveDoneTime( float flTime );
+	double					GetMoveDoneTime( ) const;
+	void					SetMoveDoneTime( double flTime );
 	
 	// Used by the PAS filters to ask the entity where in world space the sounds it emits come from.
 	// This is used right now because if you have something sitting on an incline, using our axis-aligned 
@@ -1336,8 +1336,8 @@ public:
 	void					SetLocalTransform( const matrix3x4_t &localTransform );
 
 	// See CSoundEmitterSystem
-	void					EmitSound( const char *soundname, float soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
-	void					EmitSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, float soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
+	void					EmitSound( const char *soundname, double soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
+	void					EmitSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, double soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
 	void					StopSound( const char *soundname );
 	void					StopSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle );
 	void					GenderExpandString( char const *in, char *out, int maxlen );
@@ -1349,8 +1349,8 @@ public:
 	static bool	GetParametersForSound( const char *soundname, CSoundParameters &params, char const *actormodel );
 	static bool	GetParametersForSound( const char *soundname, HSOUNDSCRIPTHANDLE& handle, CSoundParameters &params, char const *actormodel );
 
-	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin = NULL, float soundtime = 0.0f, float *duration = NULL );
-	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHANDLE& handle, const Vector *pOrigin = NULL, float soundtime = 0.0f, float *duration = NULL );
+	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin = NULL, double soundtime = 0.0f, float *duration = NULL );
+	static void EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHANDLE& handle, const Vector *pOrigin = NULL, double soundtime = 0.0f, float *duration = NULL );
 	static void StopSound( int iEntIndex, const char *soundname );
 	static soundlevel_t LookupSoundLevel( const char *soundname );
 	static soundlevel_t LookupSoundLevel( const char *soundname, HSOUNDSCRIPTHANDLE& handle );
@@ -1360,7 +1360,7 @@ public:
 
 	static void StopSound( int iEntIndex, int iChannel, const char *pSample );
 
-	static void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags = 0, float soundtime = 0.0f, float *duration = NULL );
+	static void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags = 0, double soundtime = 0.0f, float *duration = NULL );
 
 	// These files need to be listed in scripts/game_sounds_manifest.txt
 	static HSOUNDSCRIPTHANDLE PrecacheScriptSound( const char *soundname );
@@ -1554,7 +1554,7 @@ public:
 
 public:
 	// Add a discontinuity to a step
-	bool					AddStepDiscontinuity( float flTime, const Vector &vecOrigin, const QAngle &vecAngles );
+	bool					AddStepDiscontinuity( double flTime, const Vector &vecOrigin, const QAngle &vecAngles );
 	int						GetFirstThinkTick();	// get first tick thinking on any context
 private:
 	// origin and angles to use in step calculations
@@ -2146,7 +2146,7 @@ inline bool CBaseEntity::IsEFlagSet( int nEFlagMask ) const
 
 inline void	CBaseEntity::SetNavIgnore( float duration )
 {
-	float flNavIgnoreUntilTime = ( duration == FLT_MAX ) ? FLT_MAX : gpGlobals->curtime + duration;
+	double flNavIgnoreUntilTime = ( duration == FLT_MAX ) ? FLT_MAX : gpGlobals->curtime + duration;
 	if ( flNavIgnoreUntilTime > m_flNavIgnoreUntilTime )
 		m_flNavIgnoreUntilTime = flNavIgnoreUntilTime;
 }
@@ -2364,7 +2364,7 @@ inline float CBaseEntity::GetShadowCastDistance( void )	const
 	return m_flShadowCastDistance; 
 }
 
-inline float CBaseEntity::GetLocalTime( void ) const
+inline double CBaseEntity::GetLocalTime( void ) const
 { 
 	return m_flLocalTime; 
 }
@@ -2374,7 +2374,7 @@ inline void CBaseEntity::IncrementLocalTime( float flTimeDelta )
 	m_flLocalTime += flTimeDelta; 
 }
 
-inline float CBaseEntity::GetMoveDoneTime( ) const
+inline double CBaseEntity::GetMoveDoneTime( ) const
 {
 	return (m_flMoveDoneTime >= 0) ? m_flMoveDoneTime - GetLocalTime() : -1;
 }

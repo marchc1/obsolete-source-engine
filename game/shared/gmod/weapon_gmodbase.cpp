@@ -106,7 +106,7 @@ bool CWeaponHL2MPBase::IsPredicted() const
 	return true;
 }
 
-void CWeaponHL2MPBase::WeaponSound( WeaponSound_t sound_type, float soundtime /* = 0.0f */ )
+void CWeaponHL2MPBase::WeaponSound( WeaponSound_t sound_type, double soundtime /* = 0.0f */ )
 {
 #ifdef CLIENT_DLL
 

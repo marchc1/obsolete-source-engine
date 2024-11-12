@@ -3088,7 +3088,7 @@ bool CNetChan::HasQueuedPackets() const
 	return m_nQueuedPackets > 0;
 }
 
-void CNetChan::SetInterpolationAmount( float flInterpolationAmount )
+void CNetChan::SetInterpolationAmount( double flInterpolationAmount )
 {
 	m_flInterpolationAmount = flInterpolationAmount;
 }

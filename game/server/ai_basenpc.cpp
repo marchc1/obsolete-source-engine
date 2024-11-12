@@ -280,7 +280,7 @@ CAI_LocalIdSpace			CAI_BaseNPC::gm_SquadSlotIdSpace( true );
 string_t CAI_BaseNPC::gm_iszPlayerSquad;
 
 int		CAI_BaseNPC::gm_iNextThinkRebalanceTick;
-float	CAI_BaseNPC::gm_flTimeLastSpawn;
+double	CAI_BaseNPC::gm_flTimeLastSpawn;
 int		CAI_BaseNPC::gm_nSpawnedThisFrame;
 
 CSimpleSimTimer CAI_BaseNPC::m_AnyUpdateEnemyPosTimer;
@@ -2838,9 +2838,9 @@ void CAI_BaseNPC::PerformMovement()
 	AI_PROFILE_SCOPE(CAI_BaseNPC_PerformMovement);
 	g_AIMoveTimer.Start();
 
-	float flInterval = ( m_flTimeLastMovement != FLT_MAX ) ? gpGlobals->curtime - m_flTimeLastMovement : 0.1;
+	double flInterval = ( m_flTimeLastMovement != FLT_MAX ) ? gpGlobals->curtime - m_flTimeLastMovement : 0.1;
 
-	m_pNavigator->Move( ROUND_TO_TICKS( flInterval ) );
+	m_pNavigator->Move( (float)ROUND_TO_TICKS( flInterval ) );
 	m_flTimeLastMovement = gpGlobals->curtime;
 
 	g_AIMoveTimer.End();
@@ -2890,7 +2890,7 @@ void CAI_BaseNPC::PostMovement()
 
 //-----------------------------------------------------------------------------
 
-float g_AINextDisabledMessageTime;
+double g_AINextDisabledMessageTime;
 extern bool IsInCommentaryMode( void );
 
 bool CAI_BaseNPC::PreThink( void )
@@ -3712,7 +3712,7 @@ bool CAI_BaseNPC::PreNPCThink()
 		{
 			if ( g_NpcTimeThisFrame > NPC_THINK_LIMIT )
 			{
-				float timeSinceLastRealThink = gpGlobals->curtime - m_flLastRealThinkTime;
+				double timeSinceLastRealThink = gpGlobals->curtime - m_flLastRealThinkTime;
 				// Don't bump anyone more that a quarter second
 				if ( timeSinceLastRealThink <= .25 )
 				{
@@ -3969,7 +3969,7 @@ void CAI_BaseNPC::NPCThink( void )
 		{
 			timer.End();
 
-			float thinkTime = g_AIRunTimer.GetDuration().GetMillisecondsF();
+			double thinkTime = g_AIRunTimer.GetDuration().GetMillisecondsF();
 
 			if ( thinkTime > thinkLimit )
 			{
@@ -5487,7 +5487,7 @@ bool CAI_BaseNPC::UpdateEnemyMemory( CBaseEntity *pEnemy, const Vector &position
 		{
 			FoundEnemySound();
 		}
-		float reactionDelay = ( !pInformer || pInformer == this ) ? GetReactionDelay( pEnemy ) : 0.0;
+		float reactionDelay = ( !pInformer || pInformer == this ) ? GetReactionDelay( pEnemy ) : 0.0f;
 		bool result = GetEnemies()->UpdateMemory(GetNavigator()->GetNetwork(), pEnemy, position, reactionDelay, firstHand);
 
 		if ( !firstHand && pEnemy && result && GetState() == NPC_STATE_IDLE ) // if it's a new potential enemy
@@ -6073,7 +6073,7 @@ void CAI_BaseNPC::ResolveActivityToSequence(Activity NewActivity, int &iSequence
 		{
 			static CAI_BaseNPC *pLastWarn;
 			static Activity lastWarnActivity;
-			static float timeLastWarn;
+			static double timeLastWarn;
 
 			if ( ( pLastWarn != this && lastWarnActivity != translatedActivity ) || gpGlobals->curtime - timeLastWarn > 5.0 )
 			{
@@ -6493,7 +6493,7 @@ float CAI_BaseNPC::ThrowLimit(	const Vector &vecStart,
 
 	// Calculate the total time of the jump minus a tiny fraction
 	float jumpTime		= (vecStart - vecEnd).Length2D()/rawJumpVel.Length2D();
-	float timeStep		= jumpTime / 10.0;
+	float timeStep		= jumpTime / 10.0f;
 
 	Vector gravity = Vector(0,0,fGravity);
 
@@ -9544,7 +9544,7 @@ void CAI_BaseNPC::CollectShotStats( const Vector &vecShootOrigin, const Vector &
 			manipulator.SetShootDir( testDir );
 		}
 
-		float flHitPercent = ((float)iHits / (float)iterations) * 100.0;
+		float flHitPercent = ((float)iHits / (float)iterations) * 100.0f;
 		m_LastShootAccuracy = flHitPercent;
 		//DevMsg("Shots:%d   Hits:%d   Percentage:%.1f\n", iterations, iHits, flHitPercent);
 	}
@@ -9609,21 +9609,21 @@ float CAI_BaseNPC::GetSpreadBias( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarg
 		float timeToFocus = ai_spread_pattern_focus_time.GetFloat();
 		if ( timeToFocus > 0.0 )
 		{
-			float timeSinceValidEnemy = gpGlobals->curtime - pEnemyInfo->timeValidEnemy;
+			double timeSinceValidEnemy = gpGlobals->curtime - pEnemyInfo->timeValidEnemy;
 			if ( timeSinceValidEnemy < 0.0f )
 			{
 				timeSinceValidEnemy = 0.0f;
 			}
-			float timeSinceReacquire = gpGlobals->curtime - pEnemyInfo->timeLastReacquired;
+			double timeSinceReacquire = gpGlobals->curtime - pEnemyInfo->timeLastReacquired;
 			if ( timeSinceValidEnemy < timeToFocus )
 			{
-				float scale = timeSinceValidEnemy / timeToFocus;
+				float scale = (float)(timeSinceValidEnemy / timeToFocus);
 				Assert( scale >= 0.0 && scale <= 1.0 );
 				bias *= scale;
 			}
 			else if ( timeSinceReacquire < timeToFocus ) // handled seperately as might be tuning seperately
 			{
-				float scale = timeSinceReacquire / timeToFocus;
+				float scale = (float)(timeSinceReacquire / timeToFocus);
 				Assert( scale >= 0.0 && scale <= 1.0 );
 				bias *= scale;
 			}
@@ -9644,7 +9644,7 @@ Vector CAI_BaseNPC::GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pT
 		float timeToFocus = ai_spread_cone_focus_time.GetFloat();
 		if ( timeToFocus > 0.0 )
 		{
-			float timeSinceValidEnemy = gpGlobals->curtime - pEnemyInfo->timeValidEnemy;
+			double timeSinceValidEnemy = gpGlobals->curtime - pEnemyInfo->timeValidEnemy;
 			if ( timeSinceValidEnemy < 0 )
 				timeSinceValidEnemy = 0;
 			if ( timeSinceValidEnemy < timeToFocus )
@@ -9652,9 +9652,9 @@ Vector CAI_BaseNPC::GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pT
 				float coneMultiplier = ai_spread_defocused_cone_multiplier.GetFloat();
 				if ( coneMultiplier > 1.0 )
 				{
-					float scale = 1.0 - timeSinceValidEnemy / timeToFocus;
+					float scale = (float)(1.0f - timeSinceValidEnemy / timeToFocus);
 					Assert( scale >= 0.0 && scale <= 1.0 );
-					float multiplier = ( (coneMultiplier - 1.0) * scale ) + 1.0;
+					float multiplier = ( (coneMultiplier - 1.0f) * scale ) + 1.0f;
 					baseResult *= multiplier;
 				}
 			}
@@ -10108,7 +10108,7 @@ const Vector &CAI_BaseNPC::GetEnemyLKP() const
 	return (const_cast<CAI_BaseNPC *>(this))->GetEnemies()->LastKnownPosition( GetEnemy() );
 }
 
-float CAI_BaseNPC::GetEnemyLastTimeSeen() const
+double CAI_BaseNPC::GetEnemyLastTimeSeen() const
 {
 	return (const_cast<CAI_BaseNPC *>(this))->GetEnemies()->LastTimeSeen( GetEnemy() );
 }
@@ -12631,7 +12631,7 @@ bool CAI_BaseNPC::IsCoverPosition( const Vector &vecThreat, const Vector &vecPos
 
 //-----------------------------------------------------------------------------
 
-float CAI_BaseNPC::SetWait( float minWait, float maxWait )
+double CAI_BaseNPC::SetWait( float minWait, float maxWait )
 {
 	int minThinks = Ceil2Int( minWait * 10 );
 

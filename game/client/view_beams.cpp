@@ -1559,7 +1559,7 @@ void CViewRenderBeams::UpdateBeam( Beam_t *pbeam, float frametime )
 			{
 				float frac = 1.0f;
 				// Go some portion of the way there based on life
-				float remaining = pbeam->die - gpGlobals->curtime;
+				float remaining = (float)(pbeam->die - gpGlobals->curtime);
 				if ( remaining < pbeam->life && pbeam->life > 0.0f )
 				{
 					frac = remaining / pbeam->life;
@@ -1596,7 +1596,7 @@ void CViewRenderBeams::UpdateBeam( Beam_t *pbeam, float frametime )
 	}
 
 	// update life cycle
-	pbeam->t = pbeam->freq + (pbeam->die - gpGlobals->curtime);
+	pbeam->t = pbeam->freq + (float)(pbeam->die - gpGlobals->curtime);
 	if (pbeam->t != 0)
 	{
 		pbeam->t = pbeam->freq / pbeam->t;
@@ -1894,7 +1894,7 @@ void CViewRenderBeams::DrawLaser( Beam_t *pbeam, int frame, int rendermode, floa
 	else
 	{
 		// Fade the beam if the player's not looking at the source
-		float flFade = pow( flDot, 10 );
+		float flFade = powf( flDot, 10 );
 
 		// Fade the beam based on the player's proximity to the beam
 		Vector localDir = CurrentViewOrigin() - pbeam->attachment[0];

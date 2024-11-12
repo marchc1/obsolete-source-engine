@@ -116,7 +116,7 @@ public:
 	virtual const CViewVectors* GetViewVectors() const;
 	const HL2MPViewVectors* GetHL2MPViewVectors() const;
 
-	float GetMapRemainingTime();
+	double GetMapRemainingTime();
 	void CleanUpMap();
 	void CheckRestartGame();
 	void RestartGame();
@@ -153,8 +153,8 @@ private:
 	CNetworkVar( bool, m_bTeamPlayEnabled );
 	CNetworkVar( float, m_flGameStartTime );
 	CUtlVector<EHANDLE> m_hRespawnableItemsAndWeapons;
-	float m_tmNextPeriodicThink;
-	float m_flRestartGameTime;
+	double m_tmNextPeriodicThink;
+	double m_flRestartGameTime;
 	bool m_bCompleteReset;
 	bool m_bAwaitingReadyRestart;
 	bool m_bHeardAllPlayersReady;

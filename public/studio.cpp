@@ -144,15 +144,15 @@ mstudioanim_t *mstudioanimdesc_t::pAnim( int *piFrame, float &flStall ) const
 	flStall = 0.0f;
 	if (panim == NULL && section <= 0)
 	{
-		zeroframestalltime = Plat_FloatTime();
+		zeroframestalltime = (float)Plat_FloatTime(); // NOTE: Don't change zeroframestalltime to a double. It will break models!
 		flStall = 1.0f;
 	}
 	else if (panim != NULL && zeroframestalltime != 0.0f)
 	{
-		float dt = Plat_FloatTime() - zeroframestalltime;
+		double dt = Plat_FloatTime() - zeroframestalltime;
 		if (dt >= 0.0f)
 		{
-			flStall = SimpleSpline( clamp( (0.200f - dt) * 5.0f, 0.0f, 1.0f ) );
+			flStall = SimpleSpline( clamp( (0.200f - (float)dt) * 5.0f, 0.0f, 1.0f ) );
 		}
 
 		if (flStall == 0.0f)

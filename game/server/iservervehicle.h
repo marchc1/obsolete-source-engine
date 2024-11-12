@@ -100,8 +100,8 @@ public:
 	// Weapon handling
 	virtual void			Weapon_PrimaryRanges( float *flMinRange, float *flMaxRange ) = 0;	
 	virtual void			Weapon_SecondaryRanges( float *flMinRange, float *flMaxRange ) = 0;	
-	virtual float			Weapon_PrimaryCanFireAt( void ) = 0;	// Return the time at which this vehicle's primary weapon can fire again
-	virtual float			Weapon_SecondaryCanFireAt( void ) = 0;	// Return the time at which this vehicle's secondary weapon can fire again
+	virtual double			Weapon_PrimaryCanFireAt( void ) = 0;	// Return the time at which this vehicle's primary weapon can fire again
+	virtual double			Weapon_SecondaryCanFireAt( void ) = 0;	// Return the time at which this vehicle's secondary weapon can fire again
 
 	// debugging, script file flushed
 	virtual void			ReloadScript() = 0;

@@ -28,7 +28,7 @@ struct ViewLockData_t
 
 	bool	bLocked;				// True if this DOF was locked because of the above condition.
 
-	float	flUnlockTime;			// If this DOF is locked, the time when we will unlock it.
+	double	flUnlockTime;			// If this DOF is locked, the time when we will unlock it.
 
 	float	flUnlockBlendInterval;	// If this DOF is locked, how long to spend blending out of the locked view when we unlock.
 };

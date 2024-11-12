@@ -101,7 +101,7 @@ protected:
 
 	COutputVector	m_OnFireAtTarget;
 
-	float			m_flFiringDelay;
+	double			m_flFiringDelay;
 	bool			m_bFireDelayed;
 };
 

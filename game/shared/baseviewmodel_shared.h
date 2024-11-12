@@ -124,7 +124,7 @@ public:
 	virtual void			OnDataChanged( DataUpdateType_t updateType );
 	virtual void			PostDataUpdate( DataUpdateType_t updateType );
 
-	virtual bool			Interpolate( float currentTime );
+	virtual bool			Interpolate( double currentTime );
 
 	bool					ShouldFlipViewModel();
 	void					UpdateAnimationParity( void );

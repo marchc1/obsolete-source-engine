@@ -259,7 +259,7 @@ public:
 	string_t GetScriptName() { return m_iszSoundScriptName; }
 	// UNDONE: Don't call this, use the controller to shut down
 	void	Shutdown( void );
-	bool	Update( float time, float deltaTime );
+	bool	Update( double time, double deltaTime );
 	void	Reset( void );
 	void	StartSound( float flStartTime = 0 );
 	void	ResumeSound( void );
@@ -282,8 +282,8 @@ private:
 	CSoundEnvelope	m_volume;
 
 	soundlevel_t	m_soundlevel;
-	float			m_shutdownTime;
-	float			m_flLastTime;
+	double			m_shutdownTime;
+	double			m_flLastTime;
 	string_t		m_iszSoundName;
 	string_t		m_iszSoundScriptName;
 	EHANDLE			m_hEnt;
@@ -497,7 +497,7 @@ void CSoundPatch::Shutdown( void )
 //			deltaTime - amount of time that has passed
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool CSoundPatch::Update( float time, float deltaTime )
+bool CSoundPatch::Update( double time, double deltaTime )
 {
 	VPROF( "CSoundPatch::Update" );
 	if ( m_shutdownTime && time > m_shutdownTime )

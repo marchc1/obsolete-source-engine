@@ -830,7 +830,7 @@ void C_BasePlayer::PostDataUpdate( DataUpdateType_t updateType )
 		SetSimulatedEveryTick( false );
 
 		// estimate velocity for non local players
-		float flTimeDelta = m_flSimulationTime - m_flOldSimulationTime;
+		double flTimeDelta = m_flSimulationTime - m_flOldSimulationTime;
 		if ( flTimeDelta > 0  &&  !( IsNoInterpolationFrame() || bForceEFNoInterp ) )
 		{
 			Vector newVelo = (GetNetworkOrigin() - GetOldOrigin()  ) / flTimeDelta;
@@ -1641,7 +1641,7 @@ void C_BasePlayer::CalcFreezeCamView( Vector& eyeOrigin, QAngle& eyeAngles, floa
 	}
 
 	// Zoom towards our target
-	float flCurTime = (gpGlobals->curtime - m_flFreezeFrameStartTime);
+	double flCurTime = (gpGlobals->curtime - m_flFreezeFrameStartTime);
 	float flBlendPerc = clamp( flCurTime / spec_freeze_traveltime.GetFloat(), 0.f, 1.f );
 	flBlendPerc = SimpleSpline( flBlendPerc );
 
@@ -1785,7 +1785,7 @@ void C_BasePlayer::CalcDeathCamView(Vector& eyeOrigin, QAngle& eyeAngles, float&
 		eyeAngles = EyeAngles();
 	}
 
-	float interpolation = ( gpGlobals->curtime - m_flDeathTime ) / GetDeathCamInterpolationTime();
+	double interpolation = ( gpGlobals->curtime - m_flDeathTime ) / GetDeathCamInterpolationTime();
 	interpolation = clamp( interpolation, 0.0f, 1.0f );
 
 	m_flObserverChaseDistance += gpGlobals->frametime*48.0f;
@@ -2452,13 +2452,13 @@ float C_BasePlayer::GetFOV( void )
 		// See if we need to lerp the values for local player
 		if ( IsLocalPlayer() && ( fFOV != m_iFOVStart ) && (m_Local.m_flFOVRate > 0.0f ) )
 		{
-			float deltaTime = (float)( gpGlobals->curtime - m_flFOVTime ) / m_Local.m_flFOVRate;
+			double deltaTime = gpGlobals->curtime - m_flFOVTime / m_Local.m_flFOVRate;
 
 #if !defined( NO_ENTITY_PREDICTION )
 			if ( GetPredictable() )
 			{
 				// m_flFOVTime was set to a predicted time in the future, because the FOV change was predicted.
-				deltaTime = (float)( GetFinalPredictedTime() - m_flFOVTime );
+				deltaTime = GetFinalPredictedTime() - m_flFOVTime;
 				deltaTime += ( gpGlobals->interpolation_amount * TICK_INTERVAL );
 				deltaTime /= m_Local.m_flFOVRate;
 			}
@@ -2471,7 +2471,7 @@ float C_BasePlayer::GetFOV( void )
 			}
 			else
 			{
-				fFOV = SimpleSplineRemapValClamped( deltaTime, 0.0f, 1.0f, (float) m_iFOVStart, fFOV );
+				fFOV = SimpleSplineRemapValClamped( (float)deltaTime, 0.0f, 1.0f, (float) m_iFOVStart, fFOV );
 			}
 		}
 	}
@@ -2608,7 +2608,7 @@ float C_BasePlayer::GetMinFOV()	const
 	}
 }
 
-float C_BasePlayer::GetFinalPredictedTime() const
+double C_BasePlayer::GetFinalPredictedTime() const
 {
 	return ( m_nFinalPredictedTick * TICK_INTERVAL );
 }
@@ -2638,7 +2638,7 @@ void C_BasePlayer::NotePredictionError( const Vector &vDelta )
 // offset curtime and setup bones at that time using fake interpolation
 // fake interpolation means we don't have reliable interpolation history (the local player doesn't animate locally)
 // so we just modify cycle and origin directly and use that as a fake guess
-bool C_BasePlayer::ForceSetupBonesAtTimeFakeInterpolation( matrix3x4_t *pBonesOut, float curtimeOffset )
+bool C_BasePlayer::ForceSetupBonesAtTimeFakeInterpolation( matrix3x4_t *pBonesOut, double curtimeOffset )
 {
 	// we don't have any interpolation data, so fake it
 	float cycle = m_flCycle;
@@ -2672,7 +2672,7 @@ bool C_BasePlayer::GetRagdollInitBoneArrays( matrix3x4_t *pDeltaBones0, matrix3x
 	if ( !ForceSetupBonesAtTimeFakeInterpolation( pDeltaBones1, 0 ) )
 		bSuccess = false;
 
-	float ragdollCreateTime = PhysGetSyncCreateTime();
+	double ragdollCreateTime = PhysGetSyncCreateTime();
 	if ( ragdollCreateTime != gpGlobals->curtime )
 	{
 		if ( !ForceSetupBonesAtTimeFakeInterpolation( pCurrentBones, ragdollCreateTime - gpGlobals->curtime ) )
@@ -2818,7 +2818,7 @@ void C_BasePlayer::UpdateFogBlend( void )
 	// Transition.
 	if ( m_Local.m_PlayerFog.m_flTransitionTime != -1 )
 	{
-		float flTimeDelta = gpGlobals->curtime - m_Local.m_PlayerFog.m_flTransitionTime;
+		double flTimeDelta = gpGlobals->curtime - m_Local.m_PlayerFog.m_flTransitionTime;
 		if ( flTimeDelta < m_CurrentFog.duration )
 		{
 			float flScale = flTimeDelta / m_CurrentFog.duration;

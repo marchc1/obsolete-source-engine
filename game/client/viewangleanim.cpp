@@ -276,7 +276,7 @@ void CViewAngleAnimation::ClientThink()
 	if ( IsFinished() )
 		return;
 
-	float flCurrentTime = gpGlobals->curtime - m_flAnimStartTime;
+	double flCurrentTime = gpGlobals->curtime - m_flAnimStartTime;
 
 	if ( flCurrentTime < 0 )
 		flCurrentTime = 0.001;

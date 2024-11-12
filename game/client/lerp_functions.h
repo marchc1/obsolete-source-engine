@@ -83,6 +83,10 @@ inline void Lerp_Clamp( [[maybe_unused]] float val )
 {
 }
 
+inline void Lerp_Clamp( [[maybe_unused]] double val )
+{
+}
+
 inline void Lerp_Clamp( [[maybe_unused]] const Vector &val )
 {
 }

@@ -422,7 +422,7 @@ public:
 	CBaseCombatWeapon		*GetLastWeapon( void ) { return m_hLastWeapon.Get(); }
 
 	virtual void			OnMyWeaponFired( CBaseCombatWeapon *weapon );	// call this when this player fires a weapon to allow other systems to react
-	virtual float			GetTimeSinceWeaponFired( void ) const;			// returns the time, in seconds, since this player fired a weapon
+	virtual double			GetTimeSinceWeaponFired( void ) const;			// returns the time, in seconds, since this player fired a weapon
 	virtual bool			IsFiringWeapon( void ) const;					// return true if this player is currently firing their weapon
 
 	bool					HasAnyAmmoOfType( int nAmmoIndex );
@@ -589,7 +589,7 @@ public:
 	virtual void			PlayerRunCommand(CUserCmd *ucmd, IMoveHelper *moveHelper);
 	void					RunNullCommand();
 	CUserCmd *				GetCurrentCommand( void )	{ return m_pCurrentCommand; }
-	float					GetTimeSinceLastUserCommand( void ) { return ( !IsConnected() || IsFakeClient() || IsBot() ) ? 0.f : gpGlobals->curtime - m_flLastUserCommandTime; }
+	double					GetTimeSinceLastUserCommand( void ) { return ( !IsConnected() || IsFakeClient() || IsBot() ) ? 0.f : gpGlobals->curtime - m_flLastUserCommandTime; }
 
 	// Team Handling
 	virtual void			ChangeTeam( int iTeamNum ) override { ChangeTeam( iTeamNum, false, false ); }
@@ -674,7 +674,7 @@ public:
 	bool	IsPlayerLockedInPlace() const { return m_iPlayerLocked != 0; }
 	bool	IsObserver() const		{ return (m_afPhysicsFlags & PFLAG_OBSERVER) != 0; }
 	bool	IsOnTarget() const		{ return m_fOnTarget; }
-	float	MuzzleFlashTime() const { return m_flFlashTime; }
+	double	MuzzleFlashTime() const { return m_flFlashTime; }
 	float	PlayerDrownTime() const	{ return m_AirFinished; }
 
 	int		GetObserverMode() const	{ return m_iObserverMode; }
@@ -708,7 +708,7 @@ public:
 
 	void	SetAdditionalPVSOrigin( const Vector &vecOrigin );
 	void	SetCameraPVSOrigin( const Vector &vecOrigin );
-	void	SetMuzzleFlashTime( float flTime );
+	void	SetMuzzleFlashTime( double flTime );
 	void	SetUseEntity( CBaseEntity *pUseEntity );
 	CBaseEntity *GetUseEntity();
 
@@ -760,7 +760,7 @@ public:
 
 	// talk control
 	void	NotePlayerTalked() { m_fLastPlayerTalkTime = gpGlobals->curtime; }
-	float	LastTimePlayerTalked() { return m_fLastPlayerTalkTime; }
+	double	LastTimePlayerTalked() { return m_fLastPlayerTalkTime; }
 
 	void	DisableButtons( int nButtons );
 	void	EnableButtons( int nButtons );
@@ -828,8 +828,8 @@ private:
 public:
 	
 	// How long since this player last interacted with something the game considers an objective/target/goal
-	float				GetTimeSinceLastObjective( void ) const { return ( m_flLastObjectiveTime == -1.f ) ? 999.f : gpGlobals->curtime - m_flLastObjectiveTime; }
-	void				SetLastObjectiveTime( float flTime ) { m_flLastObjectiveTime = flTime; }
+	double				GetTimeSinceLastObjective( void ) const { return ( m_flLastObjectiveTime == -1.f ) ? 999.f : gpGlobals->curtime - m_flLastObjectiveTime; }
+	void				SetLastObjectiveTime( double flTime ) { m_flLastObjectiveTime = flTime; }
 
 	// Used by gamemovement to check if the entity is stuck.
 	int m_StuckLast;
@@ -905,7 +905,7 @@ public:
 private:
 
 	Activity				m_Activity;
-	float					m_flLastObjectiveTime;				// Last curtime player touched/killed something the gamemode considers an objective
+	double					m_flLastObjectiveTime;				// Last curtime player touched/killed something the gamemode considers an objective
 
 protected:
 
@@ -980,7 +980,7 @@ protected:
 
 	virtual int SpawnArmorValue( void ) const { return 0; }
 
-	float					m_fNextSuicideTime; // the time after which the player can next use the suicide command
+	double					m_fNextSuicideTime; // the time after which the player can next use the suicide command
 	int						m_iSuicideCustomKillFlags;
 
 	// Replay mode	
@@ -1090,7 +1090,7 @@ private:
 	float					m_flSwimSoundTime;
 	Vector					m_vecLadderNormal;
 
-	float					m_flFlashTime;
+	double					m_flFlashTime;
 	int						m_nDrownDmgRate;		// Drowning damage in points per second without air.
 
 	int						m_nNumCrouches;			// Number of times we've crouched (for hinting)
@@ -1115,7 +1115,7 @@ private:
 	CNetworkVar( int, m_nTickBase );
 
 	bool					m_bGamePaused;
-	float					m_fLastPlayerTalkTime;
+	double					m_fLastPlayerTalkTime;
 	
 	CNetworkVar( CBaseCombatWeaponHandle, m_hLastWeapon );
 
@@ -1271,7 +1271,7 @@ inline void CBasePlayer::SetCameraPVSOrigin( const Vector &vecOrigin )
 	m_vecCameraPVSOrigin = vecOrigin; 
 }
 
-inline void CBasePlayer::SetMuzzleFlashTime( float flTime ) 
+inline void CBasePlayer::SetMuzzleFlashTime( double flTime ) 
 { 
 	m_flFlashTime = flTime; 
 }
@@ -1350,7 +1350,7 @@ inline void CBasePlayer::OnMyWeaponFired( CBaseCombatWeapon * )
 	m_weaponFiredTimer.Start();
 }
 
-inline float CBasePlayer::GetTimeSinceWeaponFired( void ) const
+inline double CBasePlayer::GetTimeSinceWeaponFired( void ) const
 {
 	return m_weaponFiredTimer.GetElapsedTime();
 }

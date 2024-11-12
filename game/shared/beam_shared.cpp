@@ -791,7 +791,7 @@ void CBeam::BeamDamage( trace_t *ptr )
 			}
 #endif
 
-			CTakeDamageInfo info( this, this, m_flDamage * (gpGlobals->curtime - m_flFireTime), nDamageType );
+			CTakeDamageInfo info( this, this, m_flDamage * (float)(gpGlobals->curtime - m_flFireTime), nDamageType );
 			CalculateMeleeDamageForce( &info, dir, ptr->endpos );
 			pHit->DispatchTraceAttack( info, dir, ptr );
 			ApplyMultiDamage();

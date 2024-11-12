@@ -97,7 +97,7 @@ enum clocksync_index_t
 	NUM_CLOCK_SYNCS
 };
 
-extern float S_ComputeDelayForSoundtime( float soundtime, clocksync_index_t syncIndex );
+extern float S_ComputeDelayForSoundtime( double soundtime, clocksync_index_t syncIndex );
 
 void S_StopSoundByGuid( int guid );
 float S_SoundDurationByGuid( int guid );

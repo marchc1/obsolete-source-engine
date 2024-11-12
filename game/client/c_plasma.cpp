@@ -69,7 +69,7 @@ public:
 public:
 	float	m_flStartScale;
 	float	m_flScale;
-	float	m_flScaleTime;
+	double	m_flScaleTime;
 	int		m_nFlags;
 	int		m_nPlasmaModelIndex;
 	int		m_nPlasmaModelIndex2;
@@ -80,8 +80,8 @@ public:
 	float	m_flScaleRegister;
 	float	m_flScaleStart;
 	float	m_flScaleEnd;
-	float	m_flScaleTimeStart;
-	float	m_flScaleTimeEnd;
+	double	m_flScaleTimeStart;
+	double	m_flScaleTimeEnd;
 
 	VPlane	m_planeClip;
 	bool	m_bClipTested;
@@ -212,9 +212,9 @@ float C_Plasma::GetFlickerScale( void )
 {
 	float	result = 0.0f;
 
-	result = sin( gpGlobals->curtime * 10000.0f );
-	result += 0.5f * sin( gpGlobals->curtime * 2000.0f );
-	result -= 0.5f * cos( gpGlobals->curtime * 8000.0f );
+	result = sinf( gpGlobals->curtime * 10000.0f );
+	result += 0.5f * sinf( gpGlobals->curtime * 2000.0f );
+	result -= 0.5f * cosf( gpGlobals->curtime * 8000.0f );
 	
 	return result * 0.1f;
 }
@@ -424,7 +424,7 @@ void C_Plasma::UpdateFlames( void )
 //-----------------------------------------------------------------------------
 void C_Plasma::UpdateScale( void )
 {
-	float	time = gpGlobals->curtime;
+	double	time = gpGlobals->curtime;
 
 	if ( m_flScaleRegister != m_flScaleEnd )
 	{

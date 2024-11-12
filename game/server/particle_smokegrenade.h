@@ -45,11 +45,11 @@ public:
 	// Stage 1          : fill a volume with smoke.
 	CNetworkVar( unsigned char, m_CurrentStage );
 
-	CNetworkVar( float, m_flSpawnTime );
+	CNetworkVar( double, m_flSpawnTime );
 
 	// When to fade in and out.
-	CNetworkVar( float, m_FadeStartTime );
-	CNetworkVar( float, m_FadeEndTime );
+	CNetworkVar( double, m_FadeStartTime );
+	CNetworkVar( double, m_FadeEndTime );
 };
 
 

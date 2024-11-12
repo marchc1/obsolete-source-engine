@@ -87,7 +87,7 @@ public:
 
 	// generic AI events
 	int						m_nType;
-	float					m_flNext;
+	double					m_flNext;
 
 	// is this event only client side?
 	bool					m_bClientSide; 

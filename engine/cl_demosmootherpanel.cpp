@@ -1101,7 +1101,7 @@ bool CDemoSmootherPanel::GetInterpolatedOriginAndAngles( bool readonly, Vector& 
 	int startframe	= m_nPreviewLastFrame;
 	int nextframe	= startframe + 1;
 
-	float time = m_fPreviewCurrentTime;
+	double time = m_fPreviewCurrentTime;
 
 	int c = m_Smoothing.smooth.Count();
 
@@ -1129,7 +1129,7 @@ bool CDemoSmootherPanel::GetInterpolatedOriginAndAngles( bool readonly, Vector& 
 		}
 
 		// If large dt, then jump ahead quickly in time
-		float dt = TICKS_TO_TIME( endsample->frametick - startsample->frametick );
+		double dt = TICKS_TO_TIME( endsample->frametick - startsample->frametick );
 		if ( dt > 1.0f )
 		{
 			startframe++;
@@ -1147,7 +1147,7 @@ bool CDemoSmootherPanel::GetInterpolatedOriginAndAngles( bool readonly, Vector& 
 				return false;
 			}
 
-			float frac = (float)( time - TICKS_TO_TIME(startsample->frametick) ) / dt;
+			float frac = (float)(time - TICKS_TO_TIME(startsample->frametick) / dt);
 
 			frac = clamp( frac, 0.0f, 1.0f );
 

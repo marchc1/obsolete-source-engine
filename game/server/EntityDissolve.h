@@ -21,13 +21,13 @@ public:
 	~CEntityDissolve( void );
 
 	static CEntityDissolve	*Create( CBaseEntity *pTarget, const char *pMaterialName, 
-		float flStartTime, int nDissolveType = 0, bool *pRagdollCreated = NULL );
+		double flStartTime, int nDissolveType = 0, bool *pRagdollCreated = NULL );
 	static CEntityDissolve	*Create( CBaseEntity *pTarget, CBaseEntity *pSource );
 	
 	void	Precache();
 	void	Spawn();
 	void	AttachToEntity( CBaseEntity *pTarget );
-	void	SetStartTime( float flStartTime );
+	void	SetStartTime( double flStartTime );
 	void	SetDissolverOrigin( Vector vOrigin ) { m_vDissolverOrigin = vOrigin; }
 	void	SetMagnitude( int iMagnitude ){ m_nMagnitude = iMagnitude; }
 	void	SetDissolveType( int iType ) { m_nDissolveType = iType;	}
@@ -42,7 +42,7 @@ public:
 
 	DECLARE_DATADESC();
 
-	CNetworkVar( float, m_flStartTime );
+	CNetworkVar( double, m_flStartTime );
 	CNetworkVar( float, m_flFadeInStart );
 	CNetworkVar( float, m_flFadeInLength );
 	CNetworkVar( float, m_flFadeOutModelStart );

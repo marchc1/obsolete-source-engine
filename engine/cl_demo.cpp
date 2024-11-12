@@ -136,7 +136,7 @@ public:
 	void DrawOverlay( float fSetting );
 
 protected:
-	float m_fLastTickTime;
+	double m_fLastTickTime;
 	float m_fLastTickOverlay;
 	enum Overlay { OVR_NONE = 0, OVR_REC = 1 << 1, OVR_PLAY = 1 << 2 };
 	bool m_bTick;
@@ -154,7 +154,7 @@ void DemoOverlay::Tick()
 	{
 		m_bTick = true;
 
-		float const fRealTime = Sys_FloatTime();
+		double const fRealTime = Sys_FloatTime();
 		if ( m_fLastTickTime != fRealTime )
 		{
 			m_fLastTickTime = fRealTime;
@@ -863,7 +863,7 @@ void CDemoPlayer::StopPlayback( void )
 	else
 	{
 		int framecount = host_framecount - m_nTimeDemoStartFrame;
-		float demotime = Sys_FloatTime() - m_flTimeDemoStartTime;
+		double demotime = Sys_FloatTime() - m_flTimeDemoStartTime;
 
 		if ( demotime > 0.0f )
 		{

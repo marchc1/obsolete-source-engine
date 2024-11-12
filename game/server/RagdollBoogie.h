@@ -28,7 +28,7 @@ class CRagdollBoogie : public CBaseEntity
 	DECLARE_CLASS( CRagdollBoogie, CBaseEntity );
 
 public:
-	static CRagdollBoogie	*Create( CBaseEntity *pTarget, float flMagnitude, float flStartTime, float flLengthTime = 0.0f, int nSpawnFlags = 0 );
+	static CRagdollBoogie	*Create( CBaseEntity *pTarget, float flMagnitude, double flStartTime, float flLengthTime = 0.0f, int nSpawnFlags = 0 );
 	static void IncrementSuppressionCount( CBaseEntity *pTarget );
 	static void DecrementSuppressionCount( CBaseEntity *pTarget );
 
@@ -36,12 +36,12 @@ public:
 
 private:
 	void	AttachToEntity( CBaseEntity *pTarget );
-	void	SetBoogieTime( float flStartTime, float flLengthTime );
+	void	SetBoogieTime( double flStartTime, float flLengthTime );
 	void	SetMagnitude( float flMagnitude );
 	void	BoogieThink( void );
 	void	ZapThink();
 	
-	float m_flStartTime;
+	double m_flStartTime;
 	float m_flBoogieLength;
 	float m_flMagnitude;
 	int	m_nSuppressionCount;

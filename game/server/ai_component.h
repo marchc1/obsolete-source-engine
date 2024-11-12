@@ -114,7 +114,7 @@ protected:
 	
 	int					CapabilitiesGet();
 
-	float				GetLastThink( const char *szContext = NULL );
+	double				GetLastThink( const char *szContext = NULL );
 
 public:
 #if defined(new)

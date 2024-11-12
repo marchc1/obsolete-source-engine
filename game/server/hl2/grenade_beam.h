@@ -63,8 +63,8 @@ public:
 	float		m_flBeamWidth;
 	float		m_flBeamSpeed;
 	float		m_flBeamLag;
-	float		m_flLaunchTime;
-	float		m_flLastTouchTime;
+	double		m_flLaunchTime;
+	double		m_flLastTouchTime;
 	EHANDLE		m_hBeamChaser;
 	int			m_nNumHits;
 	Vector		m_pHitLocation[GRENADEBEAM_MAXHITS];

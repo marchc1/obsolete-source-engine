@@ -68,7 +68,7 @@ void ParticleSmokeGrenade::SetFadeTime(float startTime, float endTime)
 // Fade start and end are relative to current time
 void ParticleSmokeGrenade::SetRelativeFadeTime(float startTime, float endTime)
 {
-	float flCurrentTime = gpGlobals->curtime - m_flSpawnTime;
+	double flCurrentTime = gpGlobals->curtime - m_flSpawnTime;
 
 	m_FadeStartTime = flCurrentTime + startTime;
 	m_FadeEndTime = flCurrentTime + endTime;

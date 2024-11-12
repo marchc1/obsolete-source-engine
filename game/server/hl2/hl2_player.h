@@ -347,10 +347,10 @@ private:
 	bool				m_bFlashlightDisabled;
 	bool				m_bUseCappedPhysicsDamageTable;
 	
-	float				m_flArmorReductionTime;
+	double				m_flArmorReductionTime;
 	int					m_iArmorReductionFrom;
 
-	float				m_flTimeUseSuspended;
+	double				m_flTimeUseSuspended;
 
 	CSimpleSimTimer		m_LowerWeaponTimer;
 	CSimpleSimTimer		m_AutoaimTimer;

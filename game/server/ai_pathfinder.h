@@ -185,7 +185,7 @@ private:
 
 	//---------------------------------
 	
-	float m_flLastStaleLinkCheckTime;	// Last time I check for a stale link
+	double m_flLastStaleLinkCheckTime;	// Last time I check for a stale link
 	bool m_bIgnoreStaleLinks;
 
 	//---------------------------------

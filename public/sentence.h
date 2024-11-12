@@ -50,20 +50,20 @@ public:
 
 	CBasePhonemeTag &operator=( const CBasePhonemeTag &from )	{ memcpy( this, &from, sizeof(*this) ); return *this; }
 
-	double GetStartTime() const				{ return m_flStartTime; }
-	void SetStartTime( double startTime )	{ m_flStartTime = startTime; }
-	void AddStartTime( double startTime )	{ m_flStartTime += startTime; }
+	float GetStartTime() const				{ return m_flStartTime; }
+	void SetStartTime( float startTime )	{ m_flStartTime = startTime; }
+	void AddStartTime( float startTime )	{ m_flStartTime += startTime; }
 
-	double GetEndTime() const				{ return m_flEndTime; }
-	void SetEndTime( double endTime )		{ m_flEndTime = endTime; }
-	void AddEndTime( double startTime )		{ m_flEndTime += startTime; }
+	float GetEndTime() const				{ return m_flEndTime; }
+	void SetEndTime( float endTime )		{ m_flEndTime = endTime; }
+	void AddEndTime( float startTime )		{ m_flEndTime += startTime; }
 
 	int GetPhonemeCode() const				{ return m_nPhonemeCode; }
 	void SetPhonemeCode( unsigned short phonemeCode )	{ m_nPhonemeCode = phonemeCode; }
 
 private:
-	double			m_flStartTime;
-	double			m_flEndTime;
+	float			m_flStartTime;
+	float			m_flEndTime;
 	unsigned short	m_nPhonemeCode;
 };
 

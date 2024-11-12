@@ -141,7 +141,7 @@ private:
 
 	CHandle<CBasePlayer>			m_hPhysicsAttacker;
 
-	float							m_flLastPhysicsInfluenceTime;
+	double							m_flLastPhysicsInfluenceTime;
 };
 
 //=============================================================================
@@ -299,8 +299,8 @@ protected:
 	CNetworkVar( bool, m_bExitAnimOn );
 	
 	// Used to turn the keepupright off after a short time
-	float		m_flTurnOffKeepUpright;
-	float		m_flNoImpactDamageTime;
+	double		m_flTurnOffKeepUpright;
+	double		m_flNoImpactDamageTime;
 };
 
 

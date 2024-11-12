@@ -148,7 +148,7 @@ public:
 public:
 	float	m_flStartScale;
 	float	m_flScale;
-	float	m_flScaleTime;
+	double	m_flScaleTime;
 	int		m_nFlags;
 	int		m_nFlameModelIndex;
 	int		m_nFlameFromAboveModelIndex;

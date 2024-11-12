@@ -323,7 +323,7 @@ float AssignRangeMultiplier( int nBits, double range )
 	else
 		iHighValue = ((1 << (unsigned long)nBits) - 1);
 
-	float fHighLowMul = fabs(range) <= DBL_EPSILON ? iHighValue : iHighValue / range;
+	float fHighLowMul = fabs(range) <= DBL_EPSILON ? iHighValue : (float)(iHighValue / range);
 	
 	// If the precision is messing us up, then adjust it so it won't.
 	if ( (unsigned long)(fHighLowMul * range) > iHighValue ||

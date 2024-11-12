@@ -215,19 +215,19 @@ private:
 
 	//---------------------------------
 
-	float					m_flBlinktime;
+	double					m_flBlinktime;
 	EHANDLE					m_hLookTarget;
 	CAI_InterestTarget		m_lookQueue;
 	CAI_InterestTarget		m_syntheticLookQueue;
 
 	CAI_InterestTarget		m_randomLookQueue;
-	float					m_flNextRandomLookTime;	// FIXME: move to scene
+	double					m_flNextRandomLookTime;	// FIXME: move to scene
 
 	//---------------------------------
 
 	string_t				m_iszExpressionScene;
 	EHANDLE					m_hExpressionSceneEnt;
-	float					m_flNextRandomExpressionTime;
+	double					m_flNextRandomExpressionTime;
 
 	string_t				m_iszExpressionOverride;
 

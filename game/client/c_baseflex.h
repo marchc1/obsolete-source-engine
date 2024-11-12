@@ -151,7 +151,7 @@ public:
 	static void		LinkToGlobalFlexControllers( CStudioHdr *hdr );
 	virtual	void	SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights );
 	virtual	bool	SetupGlobalWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights );
-	static void		RunFlexDelay( int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights, float &flFlexDelayTime );
+	static void		RunFlexDelay( int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights, double &flFlexDelayTime );
 	virtual	void	SetupLocalWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights );
 	virtual bool	UsesFlexDelayedWeights();
 
@@ -251,7 +251,7 @@ private:
 private:
 	CUtlRBTree< FS_LocalToGlobal_t, unsigned short > m_LocalToGlobal;
 
-	float			m_blinktime;
+	double			m_blinktime;
 	int				m_prevblinktoggle;
 
 	int				m_iBlink;
@@ -260,7 +260,7 @@ private:
 	bool			m_bSearchedForEyeFlexes;
 	int				m_iMouthAttachment;
 
-	float			m_flFlexDelayTime;
+	double			m_flFlexDelayTime;
 	float			*m_flFlexDelayedWeight;
 	int				m_cFlexDelayedWeight;
 

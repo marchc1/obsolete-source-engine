@@ -486,7 +486,7 @@ void CGibShooter::InitPointGib( CGib *pGib, const Vector &vecShootDir, float flS
 		QAngle angVel( random->RandomFloat ( 100, 200 ), random->RandomFloat ( 100, 300 ), 0 );
 		pGib->SetLocalAngularVelocity( angVel );
 
-		float thinkTime = ( pGib->GetNextThink() - gpGlobals->curtime );
+		double thinkTime = ( pGib->GetNextThink() - gpGlobals->curtime );
 
 		pGib->m_lifeTime = (m_flGibLife * random->RandomFloat( 0.95, 1.05 ));	// +/- 5%
 
@@ -824,8 +824,8 @@ private:
 	float m_flTimeUnderRotorVariance;
 
 	// Last time we were hit with a wash...
-	float m_flLastWashStartTime;
-	float m_flNextGibTime;
+	double m_flLastWashStartTime;
+	double m_flNextGibTime;
 };
 
 
@@ -932,8 +932,8 @@ public:
 	int		m_iLoop;
 	int		m_iBeam;
 	CBeam	*m_pBeam[24];
-	float	m_flBeamTime[24];
-	float	m_flStartTime;
+	double	m_flBeamTime[24];
+	double	m_flStartTime;
 };
 
 
@@ -952,7 +952,7 @@ void CTestEffect::Precache( void )
 void CTestEffect::Think( void )
 {
 	int i;
-	float t = (gpGlobals->curtime - m_flStartTime);
+	double t = (gpGlobals->curtime - m_flStartTime);
 
 	if (m_iBeam < 24)
 	{

@@ -21,7 +21,7 @@ public:
 	C_AI_BaseHumanoid();
 
 	// model specific
-	virtual bool	Interpolate( float currentTime );
+	virtual bool	Interpolate( double currentTime );
 	virtual	void	StandardBlendingRules( CStudioHdr *pStudioHdr, Vector pos[], Quaternion q[], float currentTime, int boneMask );
 
 	float				m_recanimtime[3];

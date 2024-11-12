@@ -170,7 +170,7 @@ public:
 	virtual void		SaveFreeMemory( void *pSaveMem ) = 0;
 	
 	// Emit an ambient sound associated with the specified entity
-	virtual void		EmitAmbientSound( int entindex, const Vector &pos, const char *samp, float vol, soundlevel_t soundlevel, int fFlags, int pitch, float delay = 0.0f ) = 0;
+	virtual void		EmitAmbientSound( int entindex, const Vector &pos, const char *samp, float vol, soundlevel_t soundlevel, int fFlags, int pitch, double delay = 0.0f ) = 0;
 
 	// Fade out the client's volume level toward silence (or fadePercent)
 	virtual void        FadeClientVolume( const edict_t *pEdict, float fadePercent, float fadeOutSeconds, float holdTime, float fadeInSeconds ) = 0;

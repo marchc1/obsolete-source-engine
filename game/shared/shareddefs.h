@@ -777,8 +777,8 @@ struct ModelScale
 {
 	float		m_flModelScaleStart;
 	float		m_flModelScaleGoal;
-	float		m_flModelScaleFinishTime;
-	float		m_flModelScaleStartTime;
+	double		m_flModelScaleFinishTime;
+	double		m_flModelScaleStartTime;
 };
 
 #include "soundflags.h"
@@ -820,7 +820,7 @@ struct EmitSound_t
 	int							m_nPitch;
 	int							m_nSpecialDSP;
 	const Vector				*m_pOrigin;
-	float						m_flSoundTime; ///< NOT DURATION, but rather, some absolute time in the future until which this sound should be delayed
+	double						m_flSoundTime; ///< NOT DURATION, but rather, some absolute time in the future until which this sound should be delayed
 	float						*m_pflSoundDuration;
 	bool						m_bEmitCloseCaption;
 	bool						m_bWarnOnMissingCloseCaption;

@@ -51,11 +51,11 @@ private:
 
 	DECLARE_DATADESC();
 
-	float	m_flNextCharge; 
+	double	m_flNextCharge; 
 	int		m_iReactivate ; // DeathMatch Delay until reactvated
 	int		m_iJuice;
 	int		m_iOn;			// 0 = off, 1 = startup, 2 = going
-	float   m_flSoundTime;
+	double   m_flSoundTime;
 	
 	int		m_nState;
 	
@@ -356,11 +356,11 @@ private:
 
 	DECLARE_DATADESC();
 
-	float	m_flNextCharge; 
+	double	m_flNextCharge; 
 	int		m_iReactivate ; // DeathMatch Delay until reactvated
 	int		m_iJuice;
 	int		m_iOn;			// 0 = off, 1 = startup, 2 = going
-	float   m_flSoundTime;
+	double   m_flSoundTime;
 	
 	int		m_nState;
 	int		m_iCaps;

@@ -141,13 +141,13 @@ protected:
 	int			m_iPool;
 	int			m_iMaxPool;
 	int			m_iPoolRegenAmount;
-	float		m_flPoolRegenTime;
+	double		m_flPoolRegenTime;
 
 	float		m_flVehicleSpawnDistance;
 	
 	int			m_iSkinCount;
 
-	float		m_flBlockedBumpTime;
+	double		m_flBlockedBumpTime;
 
 	bool		m_bBlocked;
 	COutputEvent m_OnAllBlocked;

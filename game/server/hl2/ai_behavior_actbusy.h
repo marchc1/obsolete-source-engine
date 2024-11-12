@@ -175,21 +175,21 @@ private:
 	bool			m_bBusy;
 	bool			m_bMovingToBusy;
 	bool			m_bNeedsToPlayExitAnim;
-	float			m_flNextBusySearchTime;	
-	float			m_flEndBusyAt;
+	double			m_flNextBusySearchTime;	
+	double			m_flEndBusyAt;
 	float			m_flBusySearchRange;
 	bool			m_bInQueue;
 	int				m_iCurrentBusyAnim;
 	CHandle<CAI_ActBusyGoal> m_hActBusyGoal;
 	bool			m_bNeedToSetBounds;
 	EHANDLE			m_hSeeEntity;
-	float			m_fTimeLastSawSeeEntity;
+	double			m_fTimeLastSawSeeEntity;
 	bool			m_bExitedBusyToDueLostSeeEntity;
 	bool			m_bExitedBusyToDueSeeEnemy;
 
 	int				m_iNumConsecutivePathFailures; // Count how many times we failed to find a path to a node, so we can consider teleporting.
 	bool			m_bAutoFireWeapon;
-	float			m_flDeferUntil;
+	double			m_flDeferUntil;
 	int				m_iNumEnemiesInSafeZone;
 
 	CUtlVector<busysafezone_t>m_SafeZones;

@@ -99,8 +99,8 @@ private:
 
 	float	m_flUpOffset;
 
-	float	m_flLerpTime;
-	float	m_flUpLerpTime;
+	double	m_flLerpTime;
+	double	m_flUpLerpTime;
 };
 
 extern CThirdPersonManager g_ThirdPersonManager;

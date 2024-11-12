@@ -183,14 +183,14 @@ private:
 
 	//---------------------------------
 
-	float			m_flNextTurnGesture;	// next time for large turn gesture
+	double			m_flNextTurnGesture;	// next time for large turn gesture
 
 	//---------------------------------
 	float			m_prevYaw;
 	float			m_doTurn;
 	float			m_doLeft;
 	float			m_doRight;
-	float			m_flNextTurnAct;		// next time for small turn gesture
+	double			m_flNextTurnAct;		// next time for small turn gesture
 
 	
 	float	GetMoveScriptDist( float &flNewSpeed );

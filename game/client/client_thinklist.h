@@ -38,7 +38,7 @@ public:
 
 	// Set the next time at which you want to think. You can also use
 	// one of the CLIENT_THINK_ defines.
-	void					SetNextClientThink( ClientEntityHandle_t hEnt, float nextTime );
+	void					SetNextClientThink( ClientEntityHandle_t hEnt, double nextTime );
 	
 	// Remove an entity from the think list.
 	void					RemoveThinkable( ClientEntityHandle_t hEnt );

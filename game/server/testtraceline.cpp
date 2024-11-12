@@ -64,7 +64,7 @@ void	CTestTraceline::Spin( void )
 
 	if (traceline_spin.GetInt())
 	{
-		float s = sin( gpGlobals->curtime );
+		double s = sin( gpGlobals->curtime );
 		QAngle angles = GetLocalAngles();
 
 		angles[0] = 180.0f * 0.5f * (s * s * s + 1.0f) + 90;

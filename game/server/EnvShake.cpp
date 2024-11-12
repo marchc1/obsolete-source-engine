@@ -47,8 +47,8 @@ private:
 	float m_Frequency;
 	float m_Duration;
 	float m_Radius;			// radius of 0 means all players
-	float m_stopTime;
-	float m_nextShake;
+	double m_stopTime;
+	double m_nextShake;
 	float m_currentAmp;
 
 	Vector	m_maxForce;
@@ -325,7 +325,7 @@ void CEnvShake::Think( void )
 		m_maxForce *= m_currentAmp * 400;	// amplitude is the acceleration of a 100kg object
 	}
 
-	float fraction = ( m_stopTime - gpGlobals->curtime ) / Duration();
+	float fraction = (float)( m_stopTime - gpGlobals->curtime ) / Duration();
 
 	if ( fraction < 0 )
 	{
@@ -344,7 +344,7 @@ void CEnvShake::Think( void )
 	fraction *= fraction;
 
 	// Sine wave that slowly settles to zero
-	fraction = fraction * sin( gpGlobals->curtime * freq );
+	fraction = fraction * (float)sin( gpGlobals->curtime * freq );
 
 	// Add to view origin
 	for ( i = 0; i < 3; i++ )

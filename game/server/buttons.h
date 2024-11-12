@@ -72,7 +72,7 @@ protected:
 	byte	m_bUnlockedSentence;
 	bool	m_bLocked;
 	int		m_sounds;
-	float	m_flUseLockedTime;		// Controls how often we fire the OnUseLocked output.
+	double	m_flUseLockedTime;		// Controls how often we fire the OnUseLocked output.
 
 	bool	m_bSolidBsp;
 

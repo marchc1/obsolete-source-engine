@@ -61,7 +61,7 @@ void CSimplePhysics::Simulate(
 	m_iCurTimeStep = newTimeStep;
 
 	// Setup predicted positions.
-	float flInterpolant = (m_flPredictedTime - (GetCurTime() - m_flTimeStep)) / m_flTimeStep;
+	float flInterpolant = (float)((m_flPredictedTime - (GetCurTime() - m_flTimeStep)) / m_flTimeStep);
 	for( int iNode=0; iNode < nNodes; iNode++ )
 	{
 		CSimplePhysics::CNode *pNode = &pNodes[iNode];
