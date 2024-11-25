@@ -32,7 +32,7 @@ void GarrysMod::MaterialProxy::CallBind( C_BaseEntity* ent )
 		Push_Material(m_pMaterial);
 		Push_Entity(ent);
 
-		if(g_Lua->PCall(3, 0, 0) == 0){
+		if(g_Lua->CallFunctionProtected(3, 0, 0) == 0){
 			
 		}
 	}
