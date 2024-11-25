@@ -814,7 +814,7 @@ public:
 	void IncrementInterpolationFrame(); // Call this to cause a discontinuity (teleport)
 
 	CNetworkVar( int, m_ubInterpolationFrame );
-
+	
 	int				m_nLastThinkTick;
 
 #if !defined( NO_ENTITY_PREDICTION )
@@ -1608,6 +1608,7 @@ protected:
 
 	// FIXME: Make this private! Still too many references to do so...
 	CNetworkVar( int, m_spawnflags );
+	CNetworkString(m_OverrideMaterial, 255);
 
 private:
 	int		m_iEFlags;	// entity flags EFL_*
@@ -1831,14 +1832,16 @@ private:
 	CThreadFastMutex m_CalcAbsolutePositionMutex;
 	bool	m_bTruceValidForEnt;
 #else
+	virtual void SetMaterialOverride(const char *);
+	virtual const char *GetMaterialOverride();
+
 	/*virtual bool ShouldForceTransmitsForTeam( int team );
 
 	virtual void *VPhysicsGetElement( int element );
 
 	virtual void OnOwnerChanged();
 	virtual bool IsARagdoll();
-	virtual void SetMaterialOverride( const char * );
-	virtual const char *GetMaterialOverride();
+	
 	virtual bool IsPredicted() const;
 	virtual bool IsWeapon() const;
 	virtual bool IsVehicle() const;
@@ -1882,7 +1885,6 @@ private:
 	virtual INextBot *GetNextBot();*/
 
 protected:
-	char m_OverrideMaterial[255];
 	bool offset4;
 	void* offset1[133];
 	//bool m_GMOD_bool[32];
