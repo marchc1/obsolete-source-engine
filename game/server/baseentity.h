@@ -1833,16 +1833,17 @@ private:
 	CThreadFastMutex m_CalcAbsolutePositionMutex;
 	bool	m_bTruceValidForEnt;
 #else
-	virtual void SetMaterialOverride(const char *);
-	virtual const char *GetMaterialOverride();
-
 	/*virtual bool ShouldForceTransmitsForTeam( int team );
 
 	virtual void *VPhysicsGetElement( int element );
 
 	virtual void OnOwnerChanged();
-	virtual bool IsARagdoll();
+	virtual bool IsARagdoll(); */
 	
+	virtual void SetMaterialOverride(const char *);
+	virtual const char *GetMaterialOverride();
+
+	/*
 	virtual bool IsPredicted() const;
 	virtual bool IsWeapon() const;
 	virtual bool IsVehicle() const;
@@ -2738,6 +2739,13 @@ inline void CBaseEntity::FireBullets( int cShots, const Vector &vecSrc,
 inline bool FClassnameIs(CBaseEntity *pEntity, const char *szClassname)
 { 
 	return pEntity->ClassMatches(szClassname); 
+}
+
+inline const char *CBaseEntity::GetMaterialOverride() {
+	return m_OverrideMaterial.Get();
+}
+inline void CBaseEntity::SetMaterialOverride(const char *strMaterial) {
+	Q_strncpy(m_OverrideMaterial.GetForModify(), strMaterial, 255);
 }
 
 class CPointEntity : public CBaseEntity

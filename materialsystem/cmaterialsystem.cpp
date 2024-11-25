@@ -2567,6 +2567,7 @@ IMaterial *CMaterialSystem::CreateMaterial( const char *pMaterialName, KeyValues
 //-----------------------------------------------------------------------------
 // Finds or creates a procedural material
 //-----------------------------------------------------------------------------
+#ifdef BUILD_GMOD
 IMaterial *CMaterialSystem::FindProceduralMaterial( const char *pMaterialName, const char *pTextureGroupName, KeyValues *pVMTKeyValues = NULL )
 {
 	// We need lower-case symbols for this to work
@@ -2597,7 +2598,19 @@ IMaterial *CMaterialSystem::FindProceduralMaterial( const char *pMaterialName, c
 		return pMaterial->GetQueueFriendlyVersion();
 	}
 }
+#else
+IMaterial *CMaterialSystem::FindProceduralMaterial( const char *pMaterialName, const char *pTextureGroupName, KeyValues *pVMTKeyValues ){
+	IMaterialInternal *pMaterial = m_MaterialDict.FindMaterial(pTemp, true);
+	if (pMaterial) {
+		pVMTKeyValues->deleteThis();
+	} else {
+		pMaterial = IMaterialInternal::CreateMaterial(
+			pMaterialName, pTextureGroupName, pVMTKeyValues);
+		AddMaterialToMaterialList(static_cast<IMaterialInternal*>(pMaterial));
+	}
 
+	return pMaterial->GetQueueFriendlyVersion();
+#endif
 
 //-----------------------------------------------------------------------------
 // Search by name

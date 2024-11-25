@@ -639,13 +639,6 @@ void CBaseEntity::SetClassname( const char *className )
 #endif
 }
 
-#ifdef BUILD_GMOD
-const char *CBaseEntity::GetMaterialOverride() { return m_OverrideMaterial.Get(); }
-void CBaseEntity::SetMaterialOverride(const char *strMaterial) {
-	Q_strncpy(m_OverrideMaterial.GetForModify(), strMaterial, 255);
-}
-#endif
-
 void CBaseEntity::SetModelIndex( int index )
 {
 	if ( IsDynamicModelIndex( index ) && !(GetBaseAnimating() && m_bDynamicModelAllowed) )
