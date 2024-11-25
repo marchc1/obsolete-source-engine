@@ -1,6 +1,7 @@
 #include "ILuaInterface.h"
 #include "ILuaGameCallback.h"
 
+class KeyValues;
 namespace LuaHelper
 {
 	// extern void KeyValuesToTable( KeyValues* kv, ILuaObject* obj, bool idk );

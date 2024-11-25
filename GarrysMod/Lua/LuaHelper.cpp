@@ -45,7 +45,8 @@ void LuaHelper::TableToKeyValues(ILuaObject* obj, KeyValues* root) {
 
 bool LuaHelper::PushFunction(ILuaInterface* LUA, const char* library,
 							 const char* function) {
-	if (!LUA) return false;
+	if ( !LUA )
+		return false;
 
 	CLuaObject obj;
 	obj.Init(LUA);
