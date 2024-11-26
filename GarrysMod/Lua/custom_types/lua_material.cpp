@@ -637,8 +637,7 @@ void Material_Class() {
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_GetTexture, "GetTexture");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_GetVector, "GetVector");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_GetVector4D, "GetVector4D");
-	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_GetVectorLinear,
-								"GetVectorLinear");
+	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_GetVectorLinear, "GetVectorLinear");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_Height, "Height");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_IsError, "IsError");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Material_Recompute, "Recompute");

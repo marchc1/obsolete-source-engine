@@ -105,16 +105,12 @@ void Texture_Class() {
 
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_Download, "Download");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetColor, "GetColor");
-	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetMappingWidth,
-								"GetMappingWidth");
-	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetMappingHeight,
-								"GetMappingHeight");
+	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetMappingWidth, "GetMappingWidth");
+	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetMappingHeight, "GetMappingHeight");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetName, "GetName");
-	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetNumAnimationFrames,
-								"GetNumAnimationFrames");
+	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_GetNumAnimationFrames, "GetNumAnimationFrames");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_IsError, "IsError");
-	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_IsErrorTexture,
-								"IsErrorTexture");
+	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_IsErrorTexture, "IsErrorTexture");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_Width, "Width");
 	LUA_PUSH_METATABLE_FUNCTION(g_Lua, Texture_Height, "Height");
 
