@@ -15,13 +15,12 @@
 #include <Lua/LuaHelper.h>
 
 LUA_FUNCTION_STATIC(Material__CreateMaterial) {
-	LUA->CheckType(1, Type::String);
-	LUA->CheckType(2, Type::String);
+
 	LUA->CheckType(3, Type::Table);
 
-	uint nameLen;
-	const char* name = LUA->GetString(1, &nameLen);
-	const char* shader = LUA->GetString(2);
+	const char* name = LUA->CheckString(1);
+	const char* shader = LUA->CheckString(2);
+	uint nameLen = LUA->ObjLen(1);
 
 	char* matname = new char[nameLen + 1];
 	matname[0] = '!';
@@ -43,7 +42,8 @@ LUA_FUNCTION_STATIC(Material__CreateMaterial) {
 
 LUA_FUNCTION_STATIC(Material__index) {
 	LUA->CheckType(1, Type::Material);
-	if (!LUA->FindOnObjectsMetaTable(1, 2)) LUA->PushNil();
+	if (!LUA->FindOnObjectsMetaTable(1, 2)) 
+		LUA->PushNil();
 	return 1;
 }
 

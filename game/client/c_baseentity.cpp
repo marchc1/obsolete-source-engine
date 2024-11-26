@@ -6495,7 +6495,7 @@ void CBaseEntity::SetMaterialOverride( const char* strMaterial )
 	if (strMaterial == NULL) {
 		Q_memset(m_OverrideMaterial, 0, sizeof(m_OverrideMaterial));
 	} else {
-		Q_strncpy(m_OverrideMaterial, strMaterial, 255);
+		Q_strncpy(m_OverrideMaterial, strMaterial, sizeof(m_OverrideMaterial));
 	}
 }
 
@@ -6509,8 +6509,9 @@ IMaterial* CBaseEntity::GetMaterialOverridePointer()
 	return nullptr;
 }
 
-const char* CBaseEntity::GetMaterialOverride() 
-{ return m_OverrideMaterial; }
+const char* CBaseEntity::GetMaterialOverride() { 
+	return m_OverrideMaterial; 
+}
 
 void CBaseEntity::StartMaterialOverride() 
 {

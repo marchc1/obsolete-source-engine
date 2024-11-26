@@ -62,7 +62,6 @@ bool LuaHelper::PushFunction(ILuaInterface* LUA, const char* library, const char
 	return false;
 }
 
-void LuaHelper::CallOnLuaErrorHook(CLuaError* error, const char* unknown,
-								   unsigned long long wsid) {
+void LuaHelper::CallOnLuaErrorHook(CLuaError* error, const char* unknown, unsigned long long wsid) {
 	// ToDo
 }

@@ -7,7 +7,8 @@
 
 LUA_FUNCTION_STATIC(Texture__index) {
 	LUA->CheckType(1, Type::Texture);
-	if (!LUA->FindOnObjectsMetaTable(-2, -1)) LUA->PushNil();
+	if (!LUA->FindOnObjectsMetaTable(-2, -1)) 
+		LUA->PushNil();
 	return 1;
 }
 
